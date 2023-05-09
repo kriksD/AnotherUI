@@ -63,6 +63,7 @@ data class AChat(
 
         basicInfo = basicInfo.dropLast(1)
         additionalInfo = additionalInfo.dropLast(1)
+        File("data/chats").mkdir()
         File("data/chats/$characterFileName").mkdir()
         updateZip(basicInfo, additionalInfo)
     }
