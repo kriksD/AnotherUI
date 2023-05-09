@@ -1,13 +1,6 @@
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -26,12 +19,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import composableFunctions.AppearDisappearAnimation
+import composableFunctions.Grid
 import properties.Properties
 
 @Composable
 fun CharacterList(
     modifier: Modifier = Modifier,
-    list: MutableList<ACharacter>,
+    list: List<ACharacter>,
     onCharacterClick: (ACharacter) -> Unit,
     onNewCharacter: () -> Unit,
 ) {
@@ -66,13 +60,13 @@ fun CharacterList(
             when (v) {
                 ViewType.List -> {
                     Row {
-                        val scrollState = rememberLazyListState()
-                        LazyColumn(
-                            state = scrollState,
+                        val scrollState = rememberScrollState()
+                        Column(
                             modifier = Modifier
-                                .weight(1F),
+                                .weight(1F)
+                                .verticalScroll(scrollState),
                         ) {
-                            items(list) {
+                            list.forEach {
                                 CharacterCardList(
                                     it,
                                     Modifier.clickable {
@@ -99,22 +93,23 @@ fun CharacterList(
                 }
                 ViewType.Grid -> {
                     Row {
-                        val scrollState = rememberLazyGridState()
-                        LazyVerticalGrid(
-                            GridCells.Fixed(4),
-                            state = scrollState,
-                            modifier = Modifier.weight(1F),
+                        val scrollState = rememberScrollState()
+                        Grid(
+                            columns = 4,
+                            items = list.ifEmpty { listOf(0) },
+                            modifier = Modifier
+                                .weight(1F)
+                                .verticalScroll(scrollState),
                         ) {
                             if (list.isEmpty()) {
-                                item {
-                                    CreateCharacterCardGrid(
-                                        Modifier.clickable {
-                                            onNewCharacter.invoke()
-                                        }
-                                    )
-                                }
+                                CreateCharacterCardGrid(
+                                    Modifier.clickable {
+                                        onNewCharacter.invoke()
+                                    }
+                                )
                             }
-                            items(list) {
+
+                            if (it is ACharacter) {
                                 CharacterCardGrid(
                                     it,
                                     Modifier.clickable {
@@ -196,7 +191,7 @@ private fun CharacterCardList(
     ) {
         Image(
             character.image,
-            contentDescription = "profile image of ${character.jsonData}",
+            contentDescription = "profile image of ${character.jsonData.name}",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(imageWidth, imageHeight)
@@ -230,7 +225,7 @@ private fun CharacterCardGrid(
     ) {
         Image(
             character.image,
-            contentDescription = "profile image of ${character.jsonData}",
+            contentDescription = "profile image of ${character.jsonData.name}",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
