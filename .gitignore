@@ -1,0 +1,5 @@
+# Project exclude paths
+/.git/
+/.gradle/
+/build/
+/wix311/
