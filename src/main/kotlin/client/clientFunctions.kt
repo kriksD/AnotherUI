@@ -4,7 +4,7 @@ import character.ACharacter
 import gpt2Tokenizer.GlobalTokenizer
 import user
 
-fun String.isEnd(charName: String): Boolean = contains("$charName:") || contains("You:") || contains("<START>")
+fun String.isEnd(charName: String): Boolean = contains("$charName:") || contains("You:") || contains("<START>") || contains("_end_of_chat_")
 
 fun String.isEndToken(expectedTokens: Int): Boolean =
     GlobalTokenizer.countTokens(this) < expectedTokens

@@ -15,7 +15,7 @@ data class GeneratedData(
     fun nextData(newMessagePart: String, charName: String, tokensToGenerate: Int): GeneratedData {
         val newMessage = message + newMessagePart
 
-        return if (newMessage.isEnd(charName) || newMessagePart.isEndToken(tokensToGenerate)) {
+        return if (newMessage.isEnd(charName)/* || newMessagePart.isEndToken(tokensToGenerate)*/) { // fix commented somehow
             GeneratedData(
                 message = newMessage.dropRest(charName),
                 tokensLeft = tokensLeft - GlobalTokenizer.countTokens(newMessagePart),

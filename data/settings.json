@@ -6,8 +6,8 @@
     "background": "bg1.png",
     "characters_list_view": "Grid",
     "generating": {
-        "max_context_length": 1600,
-        "max_length": 200,
+        "max_context_length": 792,
+        "max_length": 120,
         "rep_pen": 1.08,
         "rep_pen_range": 1024,
         "rep_pen_slope": 0.9,
@@ -30,8 +30,8 @@
         "save_images": false
     },
     "multi_gen": {
-        "enabled": false,
-        "tokens_per_step": 32,
+        "enabled": true,
+        "tokens_per_step": 16,
         "tries": 1
     }
 }
