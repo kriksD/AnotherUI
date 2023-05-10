@@ -1,7 +1,6 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,20 +13,9 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import character.*
@@ -39,7 +27,6 @@ import client.StableDiffusionWebUIClient
 import composableFunctions.AppearDisappearAnimation
 import composableFunctions.LoadingIcon
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import properties.Properties
@@ -231,7 +218,8 @@ fun main() = application {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 AppearDisappearAnimation(
-                    !firstTime
+                    !firstTime,
+                    normalAnimationDuration,
                 ) {
                     ToolBar(
                         headerText,
@@ -268,6 +256,7 @@ fun main() = application {
 
                 Crossfade(
                     screen,
+                    animationSpec = tween(normalAnimationDuration),
                 ) { screen2 ->
                     when (screen2) {
                         Screen.Characters -> {
@@ -316,7 +305,10 @@ fun main() = application {
                 }
             }
 
-            AppearDisappearAnimation(isSettingsOpen) {
+            AppearDisappearAnimation(
+                isSettingsOpen,
+                normalAnimationDuration,
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -345,7 +337,10 @@ fun main() = application {
                 }
             }
 
-            AppearDisappearAnimation(isChatManagementOpen) {
+            AppearDisappearAnimation(
+                isChatManagementOpen,
+                normalAnimationDuration,
+            ) {
                 currentCharacter?.let {
                     Box(
                         modifier = Modifier
@@ -382,7 +377,10 @@ fun main() = application {
                 }
             }
 
-            AppearDisappearAnimation(isCreateCharacterOpen) {
+            AppearDisappearAnimation(
+                isCreateCharacterOpen,
+                normalAnimationDuration,
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -511,25 +509,25 @@ private fun SavingIndicator(
         visible = visible,
         enter = fadeIn(
             animationSpec = tween(
-                durationMillis = 150,
+                durationMillis = shortAnimationDuration,
                 easing = FastOutLinearInEasing
             )
         ) + slideInHorizontally(
             initialOffsetX = { -it },
             animationSpec = tween(
-                durationMillis = 150,
+                durationMillis = shortAnimationDuration,
                 easing = LinearEasing
             )
         ),
         exit = fadeOut(
             animationSpec = tween(
-                durationMillis = 150,
+                durationMillis = shortAnimationDuration,
                 easing = FastOutLinearInEasing
             )
         ) + slideOutHorizontally(
             targetOffsetX = { it },
             animationSpec = tween(
-                durationMillis = 150,
+                durationMillis = shortAnimationDuration,
                 easing = LinearEasing
             )
         )

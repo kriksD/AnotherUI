@@ -339,7 +339,10 @@ fun ChatThread(
             }
 
             val scrollbarState = rememberScrollbarAdapter(messagesState)
-            AppearDisappearAnimation(messagesState.canScrollBackward || messagesState.canScrollForward) {
+            AppearDisappearAnimation(
+                messagesState.canScrollBackward || messagesState.canScrollForward,
+                normalAnimationDuration,
+            ) {
                 VerticalScrollbar(
                     scrollbarState,
                     modifier = Modifier
@@ -710,7 +713,10 @@ private fun LoadedImage(
     onRemoveImage: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-    AppearDisappearAnimation(image != null) {
+    AppearDisappearAnimation(
+        image != null,
+        normalAnimationDuration,
+    ) {
         Box(
             modifier = modifier
                 .clip(RoundedCornerShape(corners))
@@ -750,7 +756,7 @@ private fun SendIcons(
 ) {
     Crossfade(
         targetState = generatingStatus.status,
-        animationSpec = tween(100),
+        animationSpec = tween(shortAnimationDuration),
     ) { status ->
         if (!status) {
             Column(
@@ -822,7 +828,7 @@ private fun MessageView(
             Crossfade(
                 targetState = if (message.is_user) Properties.getProfileImage()
                     ?: emptyImageBitmap else character.image,
-                animationSpec = tween(500),
+                animationSpec = tween(longAnimationDuration),
             ) { newImage ->
                 Image(
                     newImage,
@@ -843,7 +849,10 @@ private fun MessageView(
                 ) {
                     Text(if (message.is_user) user.name else message.name, fontSize = bigText, color = colorText)
 
-                    Crossfade(isEdit && isEditAvailable) { ie ->
+                    Crossfade(
+                        isEdit && isEditAvailable,
+                        animationSpec = tween(shortAnimationDuration),
+                    ) { ie ->
                         if (ie) {
                             BasicTextField(
                                 modifier = Modifier
@@ -901,6 +910,7 @@ private fun MessageView(
 
         Crossfade(
             isEdit,
+            animationSpec = tween(shortAnimationDuration),
             modifier = Modifier.align(Alignment.TopEnd),
         ) { ie ->
             if (ie) {
@@ -936,7 +946,10 @@ private fun MessageView(
 
             } else {
                 Row {
-                    AppearDisappearAnimation(isRegenerateAvailable) {
+                    AppearDisappearAnimation(
+                        isRegenerateAvailable,
+                        shortAnimationDuration,
+                    ) {
                         Icon(
                             Icons.Default.Refresh,
                             "regenerate this message",
@@ -949,7 +962,10 @@ private fun MessageView(
                         )
                     }
 
-                    AppearDisappearAnimation(isEditAvailable) {
+                    AppearDisappearAnimation(
+                        isEditAvailable,
+                        shortAnimationDuration,
+                    ) {
                         Icon(
                             Icons.Default.Edit,
                             "edit this message",
@@ -1044,25 +1060,25 @@ private fun Swipes(
                 visible = index == currentIndex,
                 enter = fadeIn(
                     animationSpec = tween(
-                        durationMillis = 200,
+                        durationMillis = normalAnimationDuration,
                         easing = FastOutLinearInEasing,
                     )
                 ) + slideInHorizontally(
                     initialOffsetX = { if (previousIndex < currentIndex) it else -it },
                     animationSpec = tween(
-                        durationMillis = 200,
+                        durationMillis = normalAnimationDuration,
                         easing = FastOutSlowInEasing,
                     ),
                 ),
                 exit = fadeOut(
                     animationSpec = tween(
-                        durationMillis = 200,
+                        durationMillis = normalAnimationDuration,
                         easing = FastOutLinearInEasing,
                     )
                 ) + slideOutHorizontally(
                     targetOffsetX = { if (previousIndex < currentIndex) -it else it },
                     animationSpec = tween(
-                        durationMillis = 200,
+                        durationMillis = normalAnimationDuration,
                         easing = FastOutSlowInEasing,
                     )
                 )

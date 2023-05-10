@@ -28,3 +28,7 @@ val smallText get() = style.small_text.sp
 val normalText get() = style.normal_text.sp
 val bigText get() = style.big_text.sp
 val hugeText get() = style.huge_text.sp
+
+var shortAnimationDuration: Int = style.shortAnimationDuration
+var normalAnimationDuration: Int = style.normalAnimationDuration
+var longAnimationDuration: Int = style.longAnimationDuration

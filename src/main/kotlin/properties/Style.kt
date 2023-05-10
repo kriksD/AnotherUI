@@ -34,6 +34,10 @@ data class Style(
     var big_text: Int = 26,
     var huge_text: Int = 32,
 
+    var shortAnimationDuration: Int = 200,
+    var normalAnimationDuration: Int = 300,
+    var longAnimationDuration: Int = 500,
+
     var color_border: AColor = Color.Black.toAColor(),
 
     var color_background: AColor = Color(20, 20, 20).toAColor(),

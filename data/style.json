@@ -23,6 +23,9 @@
     "normal_text": 20,
     "big_text": 26,
     "huge_text": 32,
+    "shortAnimationDuration": 200,
+    "normalAnimationDuration": 300,
+    "longAnimationDuration": 500,
     "color_border": {
         "r": 0,
         "g": 0,

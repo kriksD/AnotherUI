@@ -90,6 +90,7 @@ fun SettingsWindow(
         UsualDivider()
         Crossfade(
             screen,
+            animationSpec = tween(normalAnimationDuration),
         ) { screen2 ->
             when (screen2) {
                 SettingsScreen.AI -> AIScreen(
@@ -998,7 +999,10 @@ private fun User(
     Row {
         var toolTip by remember { mutableStateOf(false) }
 
-        Crossfade(targetState = image, animationSpec = tween(500)) { newImage ->
+        Crossfade(
+            targetState = image,
+            animationSpec = tween(longAnimationDuration),
+        ) { newImage ->
             Image(
                 newImage,
                 contentDescription = "your profile image",

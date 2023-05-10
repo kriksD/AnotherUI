@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import character.ACharacter
-import character.chat.legacyChat.LegacyChat
 import androidx.compose.ui.graphics.SolidColor
 import character.chat.Chat
 import character.chat.aChat.AChat

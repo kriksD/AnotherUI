@@ -8,8 +8,7 @@ import androidx.compose.ui.Modifier
 @Composable
 fun AppearDisappearAnimation(
     visible: Boolean,
-    timeIn: Int = 300,
-    timeOut: Int = 300,
+    duration: Int = 300,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -18,12 +17,12 @@ fun AppearDisappearAnimation(
         visible = visible,
         enter = fadeIn(
             animationSpec = tween(
-                durationMillis = timeIn,
+                durationMillis = duration,
             ),
         ),
         exit = fadeOut(
             animationSpec = tween(
-                durationMillis = timeOut,
+                durationMillis = duration,
             ),
         ),
     ) {

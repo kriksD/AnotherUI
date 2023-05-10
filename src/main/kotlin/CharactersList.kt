@@ -1,4 +1,5 @@
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,7 +57,10 @@ fun CharacterList(
             )
         }
 
-        Crossfade(view) { v ->
+        Crossfade(
+            view,
+            animationSpec = tween(normalAnimationDuration),
+        ) { v ->
             when (v) {
                 ViewType.List -> {
                     Row {
@@ -76,7 +80,10 @@ fun CharacterList(
                             }
                         }
 
-                        AppearDisappearAnimation(scrollState.canScrollBackward || scrollState.canScrollForward) {
+                        AppearDisappearAnimation(
+                            scrollState.canScrollBackward || scrollState.canScrollForward,
+                            normalAnimationDuration,
+                        ) {
                             VerticalScrollbar(
                                 ScrollbarAdapter(scrollState),
                                 modifier = Modifier
@@ -119,7 +126,10 @@ fun CharacterList(
                             }
                         }
 
-                        AppearDisappearAnimation(scrollState.canScrollBackward || scrollState.canScrollForward) {
+                        AppearDisappearAnimation(
+                            scrollState.canScrollBackward || scrollState.canScrollForward,
+                            normalAnimationDuration,
+                        ) {
                             VerticalScrollbar(
                                 rememberScrollbarAdapter(scrollState),
                                 modifier = Modifier
