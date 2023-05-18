@@ -7,7 +7,7 @@ import colorNoConnection
 import gpt2Tokenizer.GlobalTokenizer
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.engine.cio.*
+import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -18,7 +18,7 @@ import kotlinx.serialization.json.Json
 import settings
 
 object KoboldAIClient {
-    private val client = HttpClient(CIO) {
+    private val client = HttpClient(OkHttp) {
         install(HttpTimeout)
     }
 
@@ -120,13 +120,19 @@ object KoboldAIClient {
             val result = client.post("${createLink()}/generate") {
                 contentType(ContentType.Application.Json)
                 setBody(Json.encodeToString(prompt))
-                timeout { requestTimeoutMillis = null }
+                timeout {
+                    requestTimeoutMillis = 600_000
+                    socketTimeoutMillis = 600_000
+                }
             }
             connectionStatus = result.status.value != 404
 
             Json.decodeFromString<PromptResult>(result.body()).results.firstOrNull()?.text
 
-        } catch (e: Exception) { null }
+        } catch (e: Exception) {
+            println(e)
+            null
+        }
     }
 
     private fun createLink(): String {
