@@ -96,9 +96,11 @@ fun SettingsWindow(
                 SettingsScreen.AI -> AIScreen(
                     modifier = Modifier.weight(1F),
                 )
+
                 SettingsScreen.StableDiffusion -> StableDiffusionScreen(
                     modifier = Modifier.weight(1F),
                 )
+
                 SettingsScreen.Character -> CharacterScreen(
                     window = window,
                     character = character,
@@ -106,15 +108,18 @@ fun SettingsWindow(
                     onCharacterRedacted = onCharacterRedacted,
                     modifier = Modifier.weight(1F),
                 )
+
                 SettingsScreen.Appearance -> AppearanceSettings(
                     window = window,
                     onBackgroundChange = onBackgroundChange,
                     modifier = Modifier.weight(1F),
                 )
+
                 SettingsScreen.User -> UserSettings(
                     window = window,
                     modifier = Modifier.weight(1F),
                 )
+
                 SettingsScreen.Experimental -> ExperimentalSettings(
                     modifier = Modifier.weight(1F),
                 )
@@ -751,10 +756,12 @@ enum class ImageShape {
                 style.image_width = 160
                 style.image_height = 160
             }
+
             Tall -> {
                 style.image_width = 120
                 style.image_height = 160
             }
+
             None -> {}
         }
     }
@@ -800,15 +807,17 @@ private fun AppearanceSettings(
                     }
                 },
                 onLoad = {
-                    val file = openFileDialog(window, "", listOf(""), false).first()
-                    try {
-                        copyAndGetImage(file, backgroundsFolder)?.let { img ->
-                            list[img.first] = img.second
-                            onBackgroundChange.invoke(img.second)
-                            selected = img.first
-                            settings.background = img.first
-                        }
-                    } catch (e: Exception) {
+                    val file = openFileDialog(window, "", listOf(""), false).firstOrNull()
+                    file?.let {
+                        try {
+                            copyAndGetImage(it, backgroundsFolder)?.let { img ->
+                                list[img.first] = img.second
+                                onBackgroundChange.invoke(img.second)
+                                selected = img.first
+                                settings.background = img.first
+                            }
+
+                        } catch (e: Exception) {}
                     }
                 },
             )
@@ -959,11 +968,13 @@ private fun UserSettings(
             User(
                 image = image,
                 onLoadProfileImage = {
-                    val file = openFileDialog(window, "", listOf(""), false).first()
-                    copyAndGetImage(file, profileImagesFolder)?.let { img ->
-                        list[img.first] = img.second
-                        selected = img.first
-                        user.profile_image_file = img.first
+                    val file = openFileDialog(window, "", listOf(""), false).firstOrNull()
+                    file?.let {
+                        copyAndGetImage(it, profileImagesFolder)?.let { img ->
+                            list[img.first] = img.second
+                            selected = img.first
+                            user.profile_image_file = img.first
+                        }
                     }
                 }
             )

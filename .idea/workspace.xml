@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Animation duration changes.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Changed HTTP engine from CIO to OkHttp due to lack of support of HTTP/2 in CIO. It needed for Koboldcpp.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/KoboldAIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/KoboldAIClient.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,8 +129,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.AnotherUI [createDistributable]" />
+        <item itemvalue="Kotlin.MainKt" />
       </list>
     </recent_temporary>
   </component>
@@ -180,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683742532309</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Changed HTTP engine from CIO to OkHttp due to lack of support of HTTP/2 in CIO. It needed for Koboldcpp.">
+      <created>1684446803858</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1684446803858</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -214,7 +215,8 @@
     <MESSAGE value="Chat saving fix. It couldn't save when the folder &quot;data/chats&quot; doesn't exist." />
     <MESSAGE value="Fix of fix (added Grid.kt that supposed to be there). Removed check for end of text by tokenizer since there is no universal tokenizer, and it could work wrong with different models." />
     <MESSAGE value="Animation duration changes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Animation duration changes." />
+    <MESSAGE value="Changed HTTP engine from CIO to OkHttp due to lack of support of HTTP/2 in CIO. It needed for Koboldcpp." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed HTTP engine from CIO to OkHttp due to lack of support of HTTP/2 in CIO. It needed for Koboldcpp." />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

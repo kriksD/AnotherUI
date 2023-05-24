@@ -463,11 +463,11 @@ fun ChatThread(
             onDeleteMessages = { deletingStatus = deletingStatus.enabled() },
             onDeleteCancel = { deletingStatus = deletingStatus.disabled() },
             onLoadImage = {
-                val file = openFileDialog(window, "", listOf(""), false).first()
+                val file = openFileDialog(window, "", listOf(""), false).firstOrNull()
                 try {
-                    getImageBitmap(file)?.let {
-                        image = it
-                    }
+                    file?.let { getImageBitmap(it)?.let { img ->
+                        image = img
+                    }}
 
                 } catch (e: Exception) {
                     coroutineScope.launch {
