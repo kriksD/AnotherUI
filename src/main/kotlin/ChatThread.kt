@@ -457,9 +457,7 @@ fun ChatThread(
                 messages.addAll(newChat.messages)
                 onNewChat.invoke(newChat)
             },
-            onMenageChats = {
-                onChatManage.invoke()
-            },
+            onMenageChats = { onChatManage.invoke() },
             onDeleteMessages = { deletingStatus = deletingStatus.enabled() },
             onDeleteCancel = { deletingStatus = deletingStatus.disabled() },
             onLoadImage = {
@@ -476,9 +474,7 @@ fun ChatThread(
                     }
                 }
             },
-            onRemoveImage = {
-                image = null
-            },
+            onRemoveImage = { image = null },
         )
     }
 }

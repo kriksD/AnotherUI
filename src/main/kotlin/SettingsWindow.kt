@@ -185,21 +185,12 @@ private fun AIScreen(
         state = scrollState,
         modifier = modifier
     ) {
-        item {
-            ConnectionCheck()
-        }
-
-        item {
-            UsualDivider()
-        }
-
-        item {
-            Generating()
-        }
-
-        item {
-            UsualDivider()
-        }
+        item { ConnectionCheck() }
+        item { UsualDivider() }
+        item { Generating() }
+        item { UsualDivider() }
+        item { GeneratingOptions() }
+        item { UsualDivider() }
     }
 }
 
@@ -490,6 +481,19 @@ private fun Generating() {
 }
 
 @Composable
+private fun GeneratingOptions() {
+    var useUsername by remember { mutableStateOf(settings.use_username) }
+    CheckboxText(
+        "use username instead of \"You\"",
+        useUsername,
+        onChange = {
+            useUsername = it
+            settings.use_username = it
+        }
+    )
+}
+
+@Composable
 private fun StableDiffusionScreen(
     modifier: Modifier = Modifier,
 ) {
@@ -498,21 +502,10 @@ private fun StableDiffusionScreen(
         state = scrollState,
         modifier = modifier
     ) {
-        item {
-            SDConnectionCheck()
-        }
-
-        item {
-            UsualDivider()
-        }
-
-        item {
-            SDGenerating()
-        }
-
-        item {
-            UsualDivider()
-        }
+        item { SDConnectionCheck() }
+        item { UsualDivider() }
+        item { SDGenerating() }
+        item { UsualDivider() }
     }
 }
 
@@ -1117,13 +1110,8 @@ private fun ExperimentalSettings(
     LazyColumn(
         modifier = modifier
     ) {
-        item {
-            MultiGen()
-        }
-
-        item {
-            UsualDivider()
-        }
+        item { MultiGen() }
+        item { UsualDivider() }
     }
 }
 

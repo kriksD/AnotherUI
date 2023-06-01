@@ -11,6 +11,7 @@ data class Settings(
     var stable_diffusion_api_enabled: Boolean = false,
     var background: String = "bg1.png",
     var characters_list_view: ViewType = ViewType.Grid,
+    var use_username: Boolean = false,
     val generating: GeneratingSettings = GeneratingSettings(),
     val image_generating: ImageGeneratingSettings = ImageGeneratingSettings(),
     val multi_gen: MultiGenSettings = MultiGenSettings()

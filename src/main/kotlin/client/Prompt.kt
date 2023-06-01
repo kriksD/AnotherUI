@@ -2,10 +2,12 @@ package client
 
 import character.ACharacter
 import character.chat.Chat
+import character.chat.Message
 import character.chat.legacyChat.LegacyChat
 import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.serialization.Serializable
 import settings
+import user
 
 @Serializable
 data class PromptResult(
@@ -68,7 +70,7 @@ data class Prompt(
 
                 if (tokensLeft - messageTokenCount < 0) break
 
-                messagesPrompt = mes.toString().formatAnything(character) + "\n" + messagesPrompt
+                messagesPrompt = mes.string().formatAnything(character) + "\n" + messagesPrompt
                 tokensLeft = maxContextLength - GlobalTokenizer.countTokens(prompt + messagesPrompt)
                 messageIndex--
             }
@@ -77,7 +79,7 @@ data class Prompt(
                 prompt += messagesPrompt
             }
 
-            if (message.isNotEmpty()) prompt += "You: $message\n"
+            if (message.isNotEmpty()) prompt += "${if (settings.use_username) user.name else "You"}: $message\n"
             prompt += "${character.jsonData.name}:"
 
             return Prompt(
@@ -100,5 +102,7 @@ data class Prompt(
                 sampler_order = listOf(6, 0, 1, 2, 3, 4, 5),
             )
         }
+
+        private fun Message.string(): String = "${if (settings.use_username && is_user) user.name else name}: $mes"
     }
 }
