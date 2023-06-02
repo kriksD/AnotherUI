@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fixed bug when none image is chose.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/user/user.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/user/user.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/Prompt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/Prompt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" afterDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Oops...">
+      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.webp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,8 +129,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.AnotherUI [createDistributable]" />
+        <item itemvalue="Kotlin.MainKt" />
       </list>
     </recent_temporary>
   </component>
@@ -194,7 +188,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684927800122</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added a new settings for using username instead of &quot;You&quot;.">
+      <created>1685632969687</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685632969687</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Oops...">
+      <created>1685632993143</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1685632993143</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -230,7 +238,9 @@
     <MESSAGE value="Animation duration changes." />
     <MESSAGE value="Changed HTTP engine from CIO to OkHttp due to lack of support of HTTP/2 in CIO. It needed for Koboldcpp." />
     <MESSAGE value="Fixed bug when none image is chose." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug when none image is chose." />
+    <MESSAGE value="Added a new settings for using username instead of &quot;You&quot;." />
+    <MESSAGE value="Oops..." />
+    <option name="LAST_COMMIT_MESSAGE" value="Oops..." />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

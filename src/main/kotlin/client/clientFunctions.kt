@@ -11,7 +11,7 @@ fun String.isEndToken(expectedTokens: Int): Boolean =
 
 fun String.dropRest(charName: String): String = this
     .replace("$charName:", "")
-    .substring(0, Regex("\\n.*:").find(this)?.range?.start ?: this.length)
+    .substringBefore("${user.name}:")
     .substringBefore("You:")
     .substringBefore("<START>")
     .trim()
