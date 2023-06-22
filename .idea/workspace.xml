@@ -4,9 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Oops...">
-      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.webp" beforeDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Small fix. Now it won't cut off the things it shouldn't cut off.">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/client/PromptByproduct.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/client/PromptManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/ChangeableContextSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/Prompt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/Prompt.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/GeneratingSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/GeneratingSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/ImageGeneratingSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/ImageGeneratingSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/MultiGenSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/MultiGenSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsContainer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsContainer.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +56,9 @@
         <option value="Class" />
         <option value="Kotlin Interface" />
         <option value="Kotlin Object" />
-        <option value="Kotlin Data Class" />
         <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
@@ -92,7 +104,7 @@
       <recent name="properties" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.MainKt">
+  <component name="RunManager" selected="Gradle.AnotherUI [createDistributable]">
     <configuration name="AnotherUI [createDistributable]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -202,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685632993143</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Small fix. Now it won't cut off the things it shouldn't cut off.">
+      <created>1685709862182</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1685709862182</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,7 +259,8 @@
     <MESSAGE value="Fixed bug when none image is chose." />
     <MESSAGE value="Added a new settings for using username instead of &quot;You&quot;." />
     <MESSAGE value="Oops..." />
-    <option name="LAST_COMMIT_MESSAGE" value="Oops..." />
+    <MESSAGE value="Small fix. Now it won't cut off the things it shouldn't cut off." />
+    <option name="LAST_COMMIT_MESSAGE" value="Small fix. Now it won't cut off the things it shouldn't cut off." />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -15,7 +15,7 @@ class SettingsContainer {
     fun load() {
         settings = if (file.exists()) {
             try {
-                json.decodeFromString(file.readText())
+                Settings.createFromJson(Json.parseToJsonElement(file.readText()).jsonObject) ?: Settings()
 
             } catch (e: Exception) { Settings() }
         } else { Settings() }

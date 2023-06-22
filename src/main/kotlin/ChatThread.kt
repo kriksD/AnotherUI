@@ -44,6 +44,7 @@ import character.chat.Message
 import character.createNewChat
 import client.*
 import composableFunctions.*
+import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.commonmark.node.Document
@@ -97,13 +98,16 @@ fun ChatThread(
             ))
         }
 
+        val promptManager by remember { mutableStateOf(PromptManager(character, chat)) }
+
         suspend fun generateCurrentSwipe(): String? {
             generatingStatus = generatingStatus.new(true)
 
             val newChat = createNewChat(character)
             newChat.messages.addAll(messages.subList(0, messages.lastIndex))
-            val prompt = Prompt.createPrompt(character, newChat, "")
-            val result = KoboldAIClient.generate(prompt, character)
+            promptManager.update()
+            //val prompt = Prompt.createPrompt(character, newChat)
+            val result = KoboldAIClient.generate(promptManager.prompt, character)
 
             generatingStatus = generatingStatus.new(false)
 

@@ -1112,6 +1112,8 @@ private fun ExperimentalSettings(
     ) {
         item { MultiGen() }
         item { UsualDivider() }
+        item { ChangeableContext() }
+        item { UsualDivider() }
     }
 }
 
@@ -1121,7 +1123,7 @@ private fun MultiGen() {
         verticalArrangement = Arrangement.spacedBy(padding)
     ) {
         Text(
-            "Multigen (experemental):",
+            "Multigen (experimental):",
             modifier = Modifier.fillMaxWidth(),
             color = colorText,
             fontSize = bigText,
@@ -1170,6 +1172,51 @@ private fun MultiGen() {
                 },
                 valueRange = 1F..5F,
                 intStep = 1,
+                enabled = checked,
+                modifier = Modifier.weight(1F),
+            )
+        }
+    }
+}
+
+@Composable
+private fun ChangeableContext() {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(padding)
+    ) {
+        Text(
+            "Changeable Context (experimental):",
+            modifier = Modifier.fillMaxWidth(),
+            color = colorText,
+            fontSize = bigText,
+        )
+
+        var checked by remember { mutableStateOf(settings.changeable_context.enabled) }
+        CheckboxText(
+            "enable",
+            checked,
+            onChange = {
+                checked = it
+                settings.changeable_context.enabled = it
+            }
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
+            var tokensPerStep by remember { mutableStateOf(settings.changeable_context.buffer.toFloat()) }
+            DescriptionSlider(
+                tokensPerStep,
+                name = "Buffer",
+                onValueChange = {
+                    tokensPerStep = it
+                },
+                onValueChangeFinished = {
+                    tokensPerStep = it
+                    settings.changeable_context.buffer = tokensPerStep.toInt()
+                },
+                valueRange = 256F..1024F,
+                intStep = 8,
                 enabled = checked,
                 modifier = Modifier.weight(1F),
             )

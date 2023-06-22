@@ -4,6 +4,7 @@ import character.ACharacter
 import character.chat.Chat
 import character.chat.Message
 import character.chat.legacyChat.LegacyChat
+import client.Prompt.Companion.string
 import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.serialization.Serializable
 import settings
@@ -40,7 +41,11 @@ data class Prompt(
     val sampler_order: List<Int>,
 ) {
     companion object {
-        fun createPrompt(character: ACharacter, chat: Chat, message: String): Prompt {
+        fun createPrompt(character: ACharacter, chat: Chat, lastMessageIndex: Int = 0): Prompt {
+            return createPromptWithByproduct(character, chat, lastMessageIndex).first
+        }
+
+        fun createPromptWithByproduct(character: ACharacter, chat: Chat, lastMessageIndex: Int = 0): Pair<Prompt, PromptByproduct> {
             var prompt = ""
 
             if (character.jsonData.description.isNotEmpty()) {
@@ -60,46 +65,54 @@ data class Prompt(
             }
 
             val maxContextLength = settings.generating.max_context_length
-            var tokensLeft = maxContextLength - GlobalTokenizer.countTokens(prompt)
-            var messageIndex = chat.messages.lastIndex
+            var tokensLeft = maxContextLength - GlobalTokenizer.countTokens(prompt) - 32
+            println("tokensLeft: $tokensLeft")
             var messagesPrompt = ""
+            val messageTokens = mutableMapOf<Int, Int>()
 
-            while (messageIndex >= 0) {
-                val mes = chat.messages.elementAt(messageIndex)
+            for (messageIndex in chat.messages.lastIndex downTo lastMessageIndex) {
+                val mes = chat.messages[messageIndex]
+                if (!mes.is_user && mes.swipes != null && mes.swipe_id != null) continue
                 val messageTokenCount = GlobalTokenizer.countTokens(mes.mes)
 
-                if (tokensLeft - messageTokenCount < 0) break
+                tokensLeft -= messageTokenCount
+                if (tokensLeft < 0) break
+
+                messageTokens[messageIndex] = messageTokenCount
 
                 messagesPrompt = mes.string().formatAnything(character) + "\n" + messagesPrompt
-                tokensLeft = maxContextLength - GlobalTokenizer.countTokens(prompt + messagesPrompt)
-                messageIndex--
             }
 
             if (messagesPrompt.isNotEmpty()) {
                 prompt += messagesPrompt
             }
 
-            if (message.isNotEmpty()) prompt += "${if (settings.use_username) user.name else "You"}: $message\n"
             prompt += "${character.jsonData.name}:"
 
-            return Prompt(
-                prompt,
-                use_story = false,
-                use_memory = false,
-                use_authors_note = false,
-                use_world_info = false,
-                max_context_length = settings.generating.max_context_length,
-                max_length = settings.generating.max_length,
-                rep_pen = settings.generating.rep_pen,
-                rep_pen_range = settings.generating.rep_pen_range,
-                rep_pen_slope = settings.generating.rep_pen_slope,
-                temperature = settings.generating.temperature,
-                tfs = settings.generating.tfs,
-                top_a = settings.generating.top_a,
-                top_k = settings.generating.top_k,
-                top_p = settings.generating.top_p,
-                typical = settings.generating.typical,
-                sampler_order = listOf(6, 0, 1, 2, 3, 4, 5),
+            return Pair(
+                Prompt(
+                    prompt,
+                    use_story = false,
+                    use_memory = false,
+                    use_authors_note = false,
+                    use_world_info = false,
+                    max_context_length = settings.generating.max_context_length,
+                    max_length = settings.generating.max_length,
+                    rep_pen = settings.generating.rep_pen,
+                    rep_pen_range = settings.generating.rep_pen_range,
+                    rep_pen_slope = settings.generating.rep_pen_slope,
+                    temperature = settings.generating.temperature,
+                    tfs = settings.generating.tfs,
+                    top_a = settings.generating.top_a,
+                    top_k = settings.generating.top_k,
+                    top_p = settings.generating.top_p,
+                    typical = settings.generating.typical,
+                    sampler_order = listOf(6, 0, 1, 2, 3, 4, 5),
+                ),
+                PromptByproduct(
+                    messageTokens.keys.minOrNull() ?: 0,
+                    messageTokens,
+                ),
             )
         }
 
