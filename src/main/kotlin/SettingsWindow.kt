@@ -19,12 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposeWindow
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.onExternalDrag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.DpOffset
@@ -37,6 +39,7 @@ import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.coroutines.launch
 import properties.Properties
 import java.io.File
+import java.net.URI
 
 private enum class SettingsScreen {
     AI, StableDiffusion, Appearance, User, Experimental, Character;
@@ -1263,6 +1266,7 @@ private fun CharacterScreen(
 
                 Row {
                     var toolTip by remember { mutableStateOf(false) }
+                    var isDroppable by remember { mutableStateOf(false) }
 
                     Crossfade(targetState = char.image, animationSpec = tween(500)) { newImage ->
                         Image(
@@ -1273,6 +1277,7 @@ private fun CharacterScreen(
                                 .size(imageWidth, imageHeight)
                                 .padding(padding)
                                 .background(colorBackground, RoundedCornerShape(corners))
+                                .alpha(if (isDroppable) transparencyLight else 1F)
                                 .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                                 .clip(RoundedCornerShape(corners))
                                 .clickable {
@@ -1292,7 +1297,29 @@ private fun CharacterScreen(
                                 }
                                 .onPointerEvent(PointerEventType.Exit) {
                                     toolTip = false
-                                },
+                                }
+                                .onExternalDrag(
+                                    onDragStart = { externalDragValue ->
+                                        isDroppable = externalDragValue.dragData is androidx.compose.ui.DragData.FilesList
+                                    },
+                                    onDragExit = {
+                                        isDroppable = false
+                                    },
+                                    onDrop = { externalDragValue ->
+                                        isDroppable = false
+                                        val dragData = externalDragValue.dragData
+                                        if (dragData is androidx.compose.ui.DragData.FilesList) {
+                                            val paths = dragData.readFiles()
+                                            val image = getImageBitmap(URI(paths.first()).path)
+                                            image?.let { img ->
+                                                //val newImg = img.cropImageWithRatio(2.0, 3.0)
+                                                char.image = img
+                                                char.saveWithImage()
+                                                onForceSaving.invoke()
+                                            }
+                                        }
+                                    },
+                                ),
                         )
                     }
 
