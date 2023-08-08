@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added experimental feature Changeable Context (temporary name). It has a lot of bugs.">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added possibility to load the character avatar with drag-n-drop.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/CheckboxText.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/CheckboxText.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +94,7 @@
       <recent name="properties" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.AnotherUI [createDistributable]">
+  <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="AnotherUI [createDistributable]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -130,8 +131,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
       </list>
     </recent_temporary>
   </component>
@@ -217,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687461986473</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Added possibility to load the character avatar with drag-n-drop.">
+      <created>1687462614284</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1687462614284</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -257,7 +265,8 @@
     <MESSAGE value="Oops..." />
     <MESSAGE value="Small fix. Now it won't cut off the things it shouldn't cut off." />
     <MESSAGE value="Added experimental feature Changeable Context (temporary name). It has a lot of bugs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added experimental feature Changeable Context (temporary name). It has a lot of bugs." />
+    <MESSAGE value="Added possibility to load the character avatar with drag-n-drop." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added possibility to load the character avatar with drag-n-drop." />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

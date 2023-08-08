@@ -7,11 +7,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import client.StableDiffusionWebUIClient
 import colorBackgroundSecond
 import colorBackgroundSecondLighter
 import colorText
-import kotlinx.coroutines.launch
 import normalText
 
 @Composable

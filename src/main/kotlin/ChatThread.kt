@@ -97,6 +97,7 @@ fun ChatThread(
                 }
             ))
         }
+        var swipeOccurred by remember { mutableStateOf(false) }
 
         val promptManager by remember { mutableStateOf(PromptManager(character, chat)) }
 
@@ -148,6 +149,15 @@ fun ChatThread(
             }
 
             return imageResult
+        }
+
+        LaunchedEffect(swipeOccurred) {
+            if (!swipeOccurred) {
+                delay(1000)
+                chat.save()
+            }
+
+            swipeOccurred = false
         }
 
         Row(
@@ -222,8 +232,6 @@ fun ChatThread(
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.End,
                         ) {
-                            var swipeOccurred by remember { mutableStateOf(false) }
-
                             SwipeControls(
                                 state = swipeIndexState,
                                 onSwipeLeft = {
@@ -272,15 +280,6 @@ fun ChatThread(
                                     }
                                 },
                             )
-
-                            LaunchedEffect(swipeOccurred) {
-                                if (!swipeOccurred) {
-                                    delay(1000)
-                                    chat.save()
-                                }
-
-                                swipeOccurred = false
-                            }
 
                             Swipes(
                                 swipes,
@@ -479,6 +478,51 @@ fun ChatThread(
                 }
             },
             onRemoveImage = { image = null },
+            onEmptyLeft = {
+                coroutineScope.launch {
+                    swipeIndexState = swipeIndexState.left()
+                    chat.swipeLeft()
+                    swipeOccurred = true
+                }
+            },
+            onEmptyRight = {
+                coroutineScope.launch {
+                    swipeIndexState = swipeIndexState.right()
+
+                    if (!generatingStatus.status && swipeIndexState.generatingIndex != null) {
+                        swipes.add(generatingText)
+
+                        val result = generateCurrentSwipe()
+
+                        if (result == null) {
+                            swipes.removeLast()
+                            swipeIndexState = swipeIndexState.failedNewSwipeGenerating()
+                        } else {
+                            swipeIndexState.generatingIndex?.let {
+                                swipes[it] = result
+                                chat.updateSwipe(it, result)
+                            }
+
+                            if (settings.stable_diffusion_api_enabled) {
+                                val imageResult = generateImageForCurrentSwipe()
+                                imageResult?.let { img ->
+                                    chat.updateImage(
+                                        img,
+                                        chat.messages.lastIndex,
+                                        swipeIndexState.generatingIndex ?: 0
+                                    )
+                                }
+                            }
+                            chat.save()
+
+                            swipeIndexState = swipeIndexState.stoppedGenerating()
+                        }
+                    }
+
+                    chat.swipeRight()
+                    swipeOccurred = true
+                }
+            },
         )
     }
 }
@@ -500,6 +544,8 @@ private fun ChatControls(
     onMenageChats: () -> Unit = {},
     onDeleteMessages: () -> Unit = {},
     onDeleteCancel: () -> Unit = {},
+    onEmptyLeft: () -> Unit = {},
+    onEmptyRight: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val coroutineContext = rememberCoroutineScope()
@@ -647,6 +693,16 @@ private fun ChatControls(
                 .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                 .padding(padding)
                 .onKeyEvent { keyEvent ->
+                    if (message.text.isEmpty()) {
+                        if (keyEvent.key == Key.DirectionLeft) {
+                            onEmptyLeft()
+                        }
+
+                        if (keyEvent.key == Key.DirectionRight) {
+                            onEmptyRight()
+                        }
+                    }
+
                     if (keyEvent.type == KeyEventType.KeyUp && keyEvent.isShiftPressed && keyEvent.key == Key.Enter) {
                         message = message.copy(
                             message.text.substring(
