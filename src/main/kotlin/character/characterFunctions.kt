@@ -47,6 +47,8 @@ fun loadAllCharacters(): List<ACharacter>? {
 }
 
 fun loadCharacterFromWebP(file: File): JsonCharacter? {
+    if (file.extension != "webp") return null
+
     return try {
         val exifToolRegex = Regex("^User Comment *: ?")
         val text = "exiftool -UserComment \"${file.path}\""
@@ -59,7 +61,7 @@ fun loadCharacterFromWebP(file: File): JsonCharacter? {
 }
 
 fun loadCharacterFromJson(file: File): JsonCharacter? {
-    if (!file.exists()) return null
+    if (!file.exists() || file.extension != "json") return null
     return readJsonCharacter(file.readText())
 }
 
@@ -68,7 +70,6 @@ private fun readJsonCharacter(text: String): JsonCharacter? {
         val map = Json.parseToJsonElement(text).jsonObject.toMap()
 
         JsonCharacter(
-            map["public_id"]?.jsonPrimitive?.content,
             map["name"]?.jsonPrimitive?.content ?: return null,
             map["description"]?.jsonPrimitive?.content ?: "",
             map["personality"]?.jsonPrimitive?.content ?: "",
@@ -259,17 +260,18 @@ fun createNewCharacter(name: String) = ACharacter(
 
 
 fun loadNewCharacter(file: File): ACharacter? {
-    val jsonCharacter = loadCharacterFromWebP(file)
+    val loadedCharacterJson = loadCharacterFromWebP(file)
         ?: loadCharacterFromJson(file)
         ?: return null
 
-    val image = getImageBitmap(file)
-        ?: getImageBitmap("data/DummyCharacter.webp")
-        ?: return null
+    val characterImage = when {
+        file.extension == "webp" -> getImageBitmap(file)
+        else -> getImageBitmap("data/DummyCharacter.webp")
+    } ?: return null
 
     return ACharacter(
-        uniqueName(file.nameWithoutExtension, "webp", File("data/characters")),
-        jsonCharacter,
-        image,
+        uniqueName(loadedCharacterJson.name, "webp", File("data/characters")),
+        loadedCharacterJson,
+        characterImage,
     ).also { it.save() }
 }

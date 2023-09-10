@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added possibility to load the character avatar with drag-n-drop.">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added possibility to swipe messages using arrow keys.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.webp" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.webp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/CheckboxText.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/CheckboxText.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/JsonCharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/JsonCharacter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +73,10 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2NyT7yc6IBZ6LPFfEabrtOlqGOP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -114,7 +122,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>false</ForceTestExec>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
@@ -225,7 +233,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added possibility to swipe messages using arrow keys.">
+      <option name="closed" value="true" />
+      <created>1691513751912</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1691513751912</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,9 +282,19 @@
     <MESSAGE value="Small fix. Now it won't cut off the things it shouldn't cut off." />
     <MESSAGE value="Added experimental feature Changeable Context (temporary name). It has a lot of bugs." />
     <MESSAGE value="Added possibility to load the character avatar with drag-n-drop." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added possibility to load the character avatar with drag-n-drop." />
+    <MESSAGE value="Added possibility to swipe messages using arrow keys." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added possibility to swipe messages using arrow keys." />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt</url>
+          <line>266</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="io.ktor.http.HeadersImpl" memberName="values" />

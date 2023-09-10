@@ -5,7 +5,6 @@ import java.util.*
 
 @Serializable
 data class JsonCharacter(
-    val public_id: String? = null,
     var name: String,
     var description: String = "",
     var personality: String = "",

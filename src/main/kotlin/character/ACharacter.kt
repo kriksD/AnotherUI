@@ -25,20 +25,20 @@ data class ACharacter(
 
         jsonData.edit_date = Calendar.getInstance().timeInMillis
         val json = Json { explicitNulls = false }
-        val jsonToSave = json
-            .encodeToString(jsonData)
+        val jsonNormal = json.encodeToString(jsonData)
+        val jsonForWebP = jsonNormal
             .replace("\"", "\\\"")
             .replace("\\\\\"", "\\\\\\\"")
 
         if (file.exists()) {
-            "exiftool -UserComment=\"$jsonToSave\" \"${file.path}\"".runCommand(File("."))
-            File("data/characters/$fileName.webp_original").delete()
+            //"exiftool -UserComment=\"$jsonForWebP\" \"${file.path}\"".runCommand(File("."))
+            //File("data/characters/$fileName.webp_original").delete()
 
         } else {
             saveWithImage()
         }
 
-        jsonFile.writeText(jsonToSave)
+        jsonFile.writeText(jsonNormal)
     }
 
     fun saveWithImage() {
