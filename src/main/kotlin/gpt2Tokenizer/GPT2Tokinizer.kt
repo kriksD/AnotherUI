@@ -16,8 +16,9 @@ class GPT2Tokenizer(
         val tokens = encodeRegex.findAll(text).map { result ->
             result.value.codePoints()
                 .boxed()
-                .map { byteEncoder[it]!! }
+                .map { byteEncoder[it] }
                 .toArray()
+                .filterNotNull()
                 .joinToString("")
         }
 
@@ -33,8 +34,9 @@ class GPT2Tokenizer(
     fun countTokens(text: String): Int = encodeRegex.findAll(text).map { result ->
         result.value.codePoints()
             .boxed()
-            .map { byteEncoder[it]!! }
+            .map { byteEncoder[it] }
             .toArray()
+            .filterNotNull()
             .joinToString("")
     }.map { bpe(it) }.flatten().count()
 
