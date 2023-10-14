@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import java.util.*
 
 @Serializable
-data class JsonCharacter(
+data class CharacterInfo(
     var name: String,
     var description: String = "",
     var personality: String = "",

@@ -279,7 +279,7 @@ fun main() = application {
                                 ChatThread(
                                     modifier = Modifier.fillMaxWidth(0.5F).weight(1F),
                                     window = window,
-                                    character = currentCharacter ?: ACharacter("", JsonCharacter(name = "")),
+                                    character = currentCharacter ?: ACharacter("", CharacterInfo(name = "")),
                                     chat = currentChat
                                         ?: LegacyChat("", "", ChatInfo("", "", 0), mutableListOf()),
                                     snackbarHostState = snackbarHostState,
@@ -357,6 +357,7 @@ fun main() = application {
                             onChatSelected = { chat ->
                                 coroutineScope.launch { closeWindow() }
                                 currentCharacter?.jsonData?.chat = chat.fileName
+                                currentCharacter?.save()
                                 currentChat = chat
                                 reloadChatThread = true
                             },
@@ -397,8 +398,6 @@ fun main() = application {
                         },
                         onDone = { newCharacter ->
                             characters.add(0, newCharacter)
-                            headerText = newCharacter.jsonData.name
-                            currentCharacter = newCharacter
 
                             saveSettings()
                             closeWindow()

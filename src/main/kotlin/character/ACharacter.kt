@@ -9,13 +9,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.skia.EncodedImageFormat
 import org.jetbrains.skiko.toImage
-import runCommand
 import java.io.File
 import java.util.*
 
 data class ACharacter(
     val fileName: String,
-    val jsonData: JsonCharacter,
+    val jsonData: CharacterInfo,
     var image: ImageBitmap = getImageBitmap("data/DummyCharacter.webp") ?: emptyImageBitmap,
 ) {
     @OptIn(ExperimentalSerializationApi::class)

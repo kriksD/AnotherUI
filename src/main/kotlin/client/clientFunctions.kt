@@ -2,6 +2,7 @@ package client
 
 import character.ACharacter
 import gpt2Tokenizer.GlobalTokenizer
+import settings
 import user
 
 fun String.isEnd(charName: String): Boolean = contains("$charName:") || contains("You:") || contains("<START>") || contains("_end_of_chat_")
@@ -14,14 +15,16 @@ fun String.dropRest(charName: String): String = this
     .substringBefore("${user.name}:")
     .substringBefore("You:")
     .substringBefore("<START>")
-    .trim()
+    .substringBefore("<|user|>")
+    .substringBefore("<|model|>")
+    .trimIndent()
 
 fun String.formatExamples(character: ACharacter): String {
     return this
         .replace("{{char}}", character.jsonData.name)
         .replace("<char>", character.jsonData.name)
-        .replace(Regex("\\{\\{user}}:?"), "You:")
-        .replace(Regex("<user>:?"), "You:")
+        .replace(Regex("\\{\\{user}}:?"), if (settings.use_username) "${user.name}:" else "You:")
+        .replace(Regex("<user>:?"), if (settings.use_username) "${user.name}:" else "You:")
         .replace("{{user_name}}", user.name)
         .replace("<user_name>", user.name)
 }

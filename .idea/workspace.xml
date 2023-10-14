@@ -4,15 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added possibility to swipe messages using arrow keys.">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="A small fix of tokenizer (however, I plan to remove this tokenizer)">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfoJson.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterLoader.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/ChatLoaderOld.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AChat2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AChat2Serializer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AMessage2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AMessage2Serializer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AdditionalMessageInfo2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/ChatLoader.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/ChatConverter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/LegacyChat2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/LegacyChatInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/LegacyMessage2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptType.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.webp" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.webp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/user/user.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/user/user.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/JsonCharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/JsonCharacter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/JsonCharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfo.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/Message.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/Message.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/KoboldAIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/KoboldAIClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/Prompt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/Prompt.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/PromptManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/PromptManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/clientFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/clientFunctions.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +74,7 @@
         <option value="Kotlin Interface" />
         <option value="Kotlin Object" />
         <option value="Kotlin File" />
+        <option value="Kotlin Enum" />
         <option value="Kotlin Class" />
         <option value="Kotlin Data Class" />
       </list>
@@ -85,21 +109,29 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/myProgs/IntellijIDEAprogs/AnotherUI/src/main/kotlin/prompt&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\prompt" />
       <recent name="D:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\ExifInterface" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="prompt" />
       <recent name="character.chat" />
       <recent name="character.chat.legacyChat" />
       <recent name="properties.settings" />
       <recent name="properties" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="character.chat.newChat.converter" />
+      <recent name="character.chat.newChat" />
+      <recent name="character" />
     </key>
   </component>
   <component name="RunManager" selected="Kotlin.MainKt">
@@ -241,7 +273,23 @@
       <option name="project" value="LOCAL" />
       <updated>1691513751912</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="A small 'fix' of character loading">
+      <option name="closed" value="true" />
+      <created>1694380835569</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1694380835569</updated>
+    </task>
+    <task id="LOCAL-00014" summary="A small fix of tokenizer (however, I plan to remove this tokenizer)">
+      <option name="closed" value="true" />
+      <created>1694382464655</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1694382464655</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -283,18 +331,11 @@
     <MESSAGE value="Added experimental feature Changeable Context (temporary name). It has a lot of bugs." />
     <MESSAGE value="Added possibility to load the character avatar with drag-n-drop." />
     <MESSAGE value="Added possibility to swipe messages using arrow keys." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added possibility to swipe messages using arrow keys." />
+    <MESSAGE value="A small 'fix' of character loading" />
+    <MESSAGE value="A small fix of tokenizer (however, I plan to remove this tokenizer)" />
+    <option name="LAST_COMMIT_MESSAGE" value="A small fix of tokenizer (however, I plan to remove this tokenizer)" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt</url>
-          <line>266</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="io.ktor.http.HeadersImpl" memberName="values" />

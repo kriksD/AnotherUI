@@ -4,7 +4,6 @@ import character.ACharacter
 import character.chat.Chat
 import gpt2Tokenizer.GlobalTokenizer
 import settings
-import kotlin.math.max
 
 class PromptManager(
     val character: ACharacter,

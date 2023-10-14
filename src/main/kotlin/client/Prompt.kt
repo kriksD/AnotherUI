@@ -3,8 +3,6 @@ package client
 import character.ACharacter
 import character.chat.Chat
 import character.chat.Message
-import character.chat.legacyChat.LegacyChat
-import client.Prompt.Companion.string
 import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.serialization.Serializable
 import settings

@@ -1,6 +1,8 @@
 package character.chat
 
 import androidx.compose.ui.graphics.ImageBitmap
+import settings
+import user
 
 interface Message {
     var name: String
@@ -11,6 +13,10 @@ interface Message {
     val chid: Int?
     var swipe_id: Int?
     var swipes: MutableList<String>?
+
+    val string: String get() = "${if (settings.use_username && is_user) user.name else name}: $mes"
+
+    val stringInstruct: String get() = "${if (is_user) "<|user|>" else "<|model|>"}$mes"
 
     fun toJSON(): String
 

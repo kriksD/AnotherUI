@@ -47,9 +47,13 @@ import composableFunctions.*
 import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import org.commonmark.node.Document
 import properties.Properties
 import org.commonmark.parser.Parser
+import prompt.PromptBuilder
+import prompt.PromptType
+import java.io.File
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -101,14 +105,23 @@ fun ChatThread(
 
         val promptManager by remember { mutableStateOf(PromptManager(character, chat)) }
 
-        suspend fun generateCurrentSwipe(): String? {
+        suspend fun generateCurrentSwipe(complete: Boolean = false, forUser: Boolean = false): String? {
             generatingStatus = generatingStatus.new(true)
 
             val newChat = createNewChat(character)
-            newChat.messages.addAll(messages.subList(0, messages.lastIndex))
+            newChat.messages.clear()
+            if (!complete && !forUser) newChat.messages.addAll(messages.subList(0, messages.lastIndex)) else newChat.messages.addAll(messages)
             promptManager.update()
             //val prompt = Prompt.createPrompt(character, newChat)
-            val result = KoboldAIClient.generate(promptManager.prompt, character)
+            val prompt = PromptBuilder()
+                .systemPrompt("Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.")
+                .character(character)
+                .chat(newChat)
+                .type(PromptType.Instruct)
+                .forUser(forUser)
+                .complete(complete)
+                .build()
+            val result = prompt?.let { KoboldAIClient.generate(it, character) }
 
             generatingStatus = generatingStatus.new(false)
 
@@ -333,7 +346,41 @@ fun ChatThread(
                                                 swipeIndexState = swipeIndexState.stoppedGenerating()
                                             }
                                         }
-                                    }
+                                    },
+                                    onComplete = {
+                                        swipeIndexState = swipeIndexState.generating()
+                                        val genIndex = swipeIndexState.generatingIndex!!
+                                        if (generatingStatus.status) return@MessageView
+
+                                        coroutineScope.launch {
+                                            val previousMessage = swipes[genIndex]
+                                            swipes[genIndex] = generatingText
+                                            val result = generateCurrentSwipe(complete = true)
+
+                                            if (result == null) {
+                                                swipes[genIndex] = chat.messages.last().swipes?.get(genIndex)
+                                                    ?: "`***Error: Sorry... :(***`"
+                                                swipeIndexState = swipeIndexState.stoppedGenerating()
+                                            } else {
+                                                swipes[genIndex] = "${previousMessage}${result}"
+                                                chat.updateSwipe(genIndex, "${previousMessage}${result}")
+
+                                                if (settings.stable_diffusion_api_enabled) {
+                                                    val imageResult = generateImageForCurrentSwipe()
+                                                    imageResult?.let { img ->
+                                                        chat.updateImage(
+                                                            img,
+                                                            chat.messages.lastIndex,
+                                                            swipeIndexState.generatingIndex ?: 0
+                                                        )
+                                                    }
+                                                }
+
+                                                chat.save()
+                                                swipeIndexState = swipeIndexState.stoppedGenerating()
+                                            }
+                                        }
+                                    },
                                 )
                             }
                         }
@@ -367,6 +414,7 @@ fun ChatThread(
             }
         }
 
+        val message = remember { mutableStateOf(TextFieldValue(text = "")) }
         var image by remember { mutableStateOf<ImageBitmap?>(null) }
         ChatControls(
             modifier = Modifier
@@ -374,14 +422,15 @@ fun ChatThread(
                 .height(140.dp)
                 .background(SolidColor(colorBackgroundSecond), alpha = transparency)
                 .border(smallBorder, colorBorder),
+            message = message,
             image = image,
             deletingStatus = deletingStatus,
             generatingStatus = generatingStatus,
-            onSendMessage = { message ->
+            onSendMessage = { mes ->
                 var toClear = false
-                val createUserMessage = (!messages.last().is_user && message.isNotEmpty()) || image != null
+                val createUserMessage = (!messages.last().is_user && mes.isNotEmpty()) || image != null
                 if (createUserMessage) {
-                    messages.add(chat.addMessage(message, is_user = true))
+                    messages.add(chat.addMessage(mes, is_user = true))
                     image?.let { chat.updateImage(it, chat.messages.lastIndex, swipeIndexState.index) }
                     chat.save()
                     toClear = true
@@ -456,12 +505,22 @@ fun ChatThread(
                 val newChat = createNewChat(character)
                 newChat.save()
                 character.jsonData.chat = newChat.fileName
+                character.save()
                 messages.clear()
                 messages.addAll(newChat.messages)
                 onNewChat.invoke(newChat)
             },
             onMenageChats = { onChatManage.invoke() },
             onDeleteMessages = { deletingStatus = deletingStatus.enabled() },
+            onGenerateUserMessage = {
+                swipeIndexState = swipeIndexState.generating()
+                if (generatingStatus.status) return@ChatControls
+
+                coroutineScope.launch {
+                    generateCurrentSwipe(forUser = true)?.let { message.value = TextFieldValue(it) }
+                    swipeIndexState = swipeIndexState.stoppedGenerating()
+                }
+            },
             onDeleteCancel = { deletingStatus = deletingStatus.disabled() },
             onLoadImage = {
                 val file = openFileDialog(window, "", listOf(""), false).firstOrNull()
@@ -530,6 +589,7 @@ fun ChatThread(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ChatControls(
+    message: MutableState<TextFieldValue>,
     image: ImageBitmap? = null,
     deletingStatus: DeletingStatus = DeletingStatus(),
     generatingStatus: GeneratingStatus = GeneratingStatus(),
@@ -543,6 +603,7 @@ private fun ChatControls(
     onNewChat: () -> Unit = {},
     onMenageChats: () -> Unit = {},
     onDeleteMessages: () -> Unit = {},
+    onGenerateUserMessage: () -> Unit = {},
     onDeleteCancel: () -> Unit = {},
     onEmptyLeft: () -> Unit = {},
     onEmptyRight: () -> Unit = {},
@@ -555,7 +616,6 @@ private fun ChatControls(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
-        var message by remember { mutableStateOf(TextFieldValue(text = "")) }
         var showOptions by remember { mutableStateOf(false) }
 
         Column {
@@ -593,6 +653,13 @@ private fun ChatControls(
                     onClick = {
                         showOptions = false
                         onDeleteMessages.invoke()
+                    }
+                )
+                ADropDownMenuItem(
+                    "generate user message",
+                    onClick = {
+                        showOptions = false
+                        onGenerateUserMessage()
                     }
                 )
             }
@@ -693,7 +760,7 @@ private fun ChatControls(
                 .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                 .padding(padding)
                 .onKeyEvent { keyEvent ->
-                    if (message.text.isEmpty()) {
+                    if (message.value.text.isEmpty()) {
                         if (keyEvent.key == Key.DirectionLeft) {
                             onEmptyLeft()
                         }
@@ -704,32 +771,32 @@ private fun ChatControls(
                     }
 
                     if (keyEvent.type == KeyEventType.KeyUp && keyEvent.isShiftPressed && keyEvent.key == Key.Enter) {
-                        message = message.copy(
-                            message.text.substring(
+                        message.value = message.value.copy(
+                            message.value.text.substring(
                                 0,
-                                message.selection.start
-                            ) + "\n" + message.text.substring(message.selection.end),
-                            selection = TextRange(message.selection.start + 1)
+                                message.value.selection.start
+                            ) + "\n" + message.value.text.substring(message.value.selection.end),
+                            selection = TextRange(message.value.selection.start + 1)
                         )
 
                     } else if (keyEvent.type == KeyEventType.KeyUp && keyEvent.key == Key.Enter) {
-                        message = message.copy(
-                            message.text.substring(0, message.selection.start - 1)
-                                    + message.text.substring(message.selection.start, message.selection.end)
-                                    + message.text.substring(message.selection.end),
-                            selection = TextRange(message.selection.start + 1)
+                        message.value = message.value.copy(
+                            message.value.text.substring(0, message.value.selection.start - 1)
+                                    + message.value.text.substring(message.value.selection.start, message.value.selection.end)
+                                    + message.value.text.substring(message.value.selection.end),
+                            selection = TextRange(message.value.selection.start + 1)
                         )
 
                         if (generatingStatus.status) return@onKeyEvent false
 
-                        val toClear = onSendMessage.invoke(message.text)
+                        val toClear = onSendMessage.invoke(message.value.text)
                         if (toClear) {
-                            message = message.copy("")
+                            message.value = message.value.copy("")
                         }
                     }
                     true
                 },
-            value = message,
+            value = message.value,
             keyboardOptions = KeyboardOptions.Default.copy(autoCorrect = true),
             textStyle = TextStyle(
                 color = colorText,
@@ -737,7 +804,7 @@ private fun ChatControls(
             ),
             cursorBrush = SolidColor(colorText),
             onValueChange = {
-                message = it
+                message.value = it
             },
         )
 
@@ -753,9 +820,9 @@ private fun ChatControls(
             deletingStatus,
             generatingStatus,
             onSendMessage = {
-                val toClear = onSendMessage.invoke(message.text)
+                val toClear = onSendMessage.invoke(message.value.text)
                 if (toClear) {
-                    message = message.copy("")
+                    message.value = message.value.copy("")
                 }
             },
             onLoadImage = onLoadImage,
@@ -863,6 +930,7 @@ private fun MessageView(
     onEditStart: () -> Unit = {},
     onEditEnd: (String?) -> Unit = {},
     onRegenerate: () -> Unit = {},
+    onComplete: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     var isEdit by remember { mutableStateOf(false) }
@@ -1002,6 +1070,22 @@ private fun MessageView(
 
             } else {
                 Row {
+                    AppearDisappearAnimation(
+                        isRegenerateAvailable,
+                        shortAnimationDuration,
+                    ) {
+                        Icon(
+                            Icons.Default.ArrowForward,
+                            "complete this message",
+                            tint = colorText,
+                            modifier = Modifier
+                                .padding(padding)
+                                .width(tinyIconSize)
+                                .aspectRatio(1F)
+                                .clickable(onClick = onComplete)
+                        )
+                    }
+
                     AppearDisappearAnimation(
                         isRegenerateAvailable,
                         shortAnimationDuration,

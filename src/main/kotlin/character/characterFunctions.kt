@@ -46,7 +46,7 @@ fun loadAllCharacters(): List<ACharacter>? {
     }
 }
 
-fun loadCharacterFromWebP(file: File): JsonCharacter? {
+fun loadCharacterFromWebP(file: File): CharacterInfo? {
     if (file.extension != "webp") return null
 
     return try {
@@ -60,16 +60,16 @@ fun loadCharacterFromWebP(file: File): JsonCharacter? {
     } catch (e: Exception) { null }
 }
 
-fun loadCharacterFromJson(file: File): JsonCharacter? {
+fun loadCharacterFromJson(file: File): CharacterInfo? {
     if (!file.exists() || file.extension != "json") return null
     return readJsonCharacter(file.readText())
 }
 
-private fun readJsonCharacter(text: String): JsonCharacter? {
+private fun readJsonCharacter(text: String): CharacterInfo? {
     return try {
         val map = Json.parseToJsonElement(text).jsonObject.toMap()
 
-        JsonCharacter(
+        CharacterInfo(
             map["name"]?.jsonPrimitive?.content ?: return null,
             map["description"]?.jsonPrimitive?.content ?: "",
             map["personality"]?.jsonPrimitive?.content ?: "",
@@ -255,7 +255,7 @@ fun createNewChat(character: ACharacter): AChat {
 
 fun createNewCharacter(name: String) = ACharacter(
     uniqueName(name, "webp", File("data/characters")),
-    JsonCharacter(name = name),
+    CharacterInfo(name = name),
 ).also { it.save() }
 
 

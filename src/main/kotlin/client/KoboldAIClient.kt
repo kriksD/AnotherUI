@@ -64,6 +64,28 @@ object KoboldAIClient {
         }
     }
 
+    suspend fun countTokens(text: String): Int {
+        @Serializable data class Body(val prompt: String)
+        @Serializable data class Result(val value: Int)
+
+        try {
+            val result = client.post("${createLink().replace("/v1", "/extra")}/tokencount") {
+                contentType(ContentType.Application.Json)
+                setBody(Json.encodeToString(Body(text)))
+            }
+            connectionStatus = result.status.value in 200..299
+
+            val count = Json.decodeFromString<Result>(result.body())
+            return count.value
+
+        } catch (e: Exception) {
+            connectionStatus = false
+            modelName = null
+            println("[ERROR] Couldn't count tokens: ${e.message}\n")
+            return -1
+        }
+    }
+
     suspend fun generate(prompt: Prompt, character: ACharacter): String? {
         return try {
             val printJson = Json { prettyPrint = true }
