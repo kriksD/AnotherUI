@@ -1,7 +1,8 @@
-package client
+package client.kobold
 
 import androidx.compose.ui.graphics.Color
 import character.ACharacter
+import client.dropRest
 import colorConnection
 import colorNoConnection
 import gpt2Tokenizer.GlobalTokenizer
@@ -51,9 +52,9 @@ object KoboldAIClient {
 
             @Serializable data class Result(val result: String)
             val modelName = Json.decodeFromString<Result>(result.body())
-            this.modelName = modelName.result
+            KoboldAIClient.modelName = modelName.result
 
-            if (this.modelName == "ReadOnly") {
+            if (KoboldAIClient.modelName == "ReadOnly") {
                 connectionStatus = false
             }
 
@@ -95,7 +96,7 @@ object KoboldAIClient {
             println("${printJson.encodeToString(prompt)}\n\n")
 
             val message = if (settings.multi_gen.enabled) {
-                generateNext(prompt, GeneratedData("", prompt.max_length), character)?.message
+                ""
             } else {
                 generateAll(prompt)
             }
@@ -111,30 +112,6 @@ object KoboldAIClient {
 
             null
         }
-    }
-
-    private suspend fun generateNext(prompt: Prompt, data: GeneratedData, character: ACharacter): GeneratedData? {
-        try {
-            val tokensToGenerate = data.tokensToGenerate()
-            println("Generating next $tokensToGenerate tokens... (${data.tokensLeft} left)")
-
-            val message = generateAll(prompt.copy(prompt = prompt.prompt + data.message, max_length = tokensToGenerate))
-            val newData = message?.let { data.nextData(it, character.jsonData.name, tokensToGenerate) } ?: return data
-            printData(data, message)
-
-            if (newData.end) return newData
-            return generateNext(prompt, newData, character) ?: return newData
-
-        } catch (e: Exception) {
-            println("[ERROR] Couldn't generate: ${e.message}\n\n")
-            return null
-        }
-    }
-
-    private fun printData(data: GeneratedData, message: String) {
-        println("Message generated (${GlobalTokenizer.countTokens(message)} tokens, step ${data.tries}): "
-                + message.replace("\n", "\\n").replace("\r", "\\r")
-        )
     }
 
     private suspend fun generateAll(prompt: Prompt): String? {

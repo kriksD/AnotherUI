@@ -1,7 +1,5 @@
 package character.chat.newChat.converter
 
-import character.chat.ChatInfo
-
 data class LegacyChat2 (
     val fileName: String,
     val characterFileName: String,

@@ -3,20 +3,57 @@ package character.chat.newChat.converter
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
+import character.chat.Chat
+import character.chat.Message
 import character.chat.newChat.AChat2
 import character.chat.newChat.AMessage2
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.io.File
+import java.io.FileInputStream
+import java.util.zip.ZipInputStream
 
 class ChatConverter {
     fun loadChatFromOtherFormats(file: File): AChat2? {
         if (!file.exists()) return null
 
-        return when (file.extension) {
-            "jsonl" -> loadJson(file)?.convertToNew()
-            else -> null
+        return try {
+            when (file.extension) {
+                "jsonl" -> loadJson(file)?.let { convertToNew(it) }?.also {
+                    file.delete()
+                    it.save()
+                }
+                "zip" -> loadZip(file)?.let { convertToNew(it) }?.also {
+                    file.delete()
+                    it.save()
+                }
+                else -> null
+            }
+        } catch (e: Exception) {
+            null
         }
+    }
+
+    private fun loadZip(file: File): LegacyChat2? {
+        ZipInputStream(FileInputStream(file)).use { zip ->
+            var entry = zip.nextEntry
+            while (entry != null) {
+                if (entry.name == "chat.jsonl") {
+                    val jsonLines = zip.readBytes().decodeToString().split("\n")
+                    val chatInfo = Json.decodeFromString<LegacyChatInfo>(jsonLines.first())
+
+                    val messages: MutableList<LegacyMessage2> = jsonLines.mapNotNull {
+                        parseJsonMessage(it)
+                    }.toMutableList()
+
+                    return LegacyChat2(file.nameWithoutExtension, file.parentFile.nameWithoutExtension, chatInfo, messages)
+                }
+
+                entry = zip.nextEntry
+            }
+        }
+
+        return null
     }
 
     private fun loadJson(file: File): LegacyChat2? {
@@ -58,12 +95,12 @@ class ChatConverter {
         }
     }
 
-    private fun LegacyChat2.convertToNew(): AChat2 {
+    fun convertToNew(legacyChat: LegacyChat2): AChat2 {
         return AChat2(
-            this.fileName,
-            this.characterFileName,
-            this.chatInfo.create_date,
-            this.messages.map { it.convertToNew() }.toMutableStateList()
+            legacyChat.fileName,
+            legacyChat.characterFileName,
+            legacyChat.chatInfo.create_date,
+            legacyChat.messages.map { it.convertToNew() }.toMutableStateList()
         )
     }
 
@@ -72,9 +109,29 @@ class ChatConverter {
             this.name,
             this.is_user,
             this.send_date ?: 0,
-            mutableStateOf(this.mes),
             mutableStateOf(this.swipe_id ?: 0),
-            this.swipes?.toMutableStateList() ?: mutableStateListOf()
+            this.swipes?.ifEmpty { mutableListOf(this.mes) }?.toMutableStateList() ?: mutableStateListOf(this.mes)
+        )
+    }
+
+    // ===========================================================
+
+    fun convertToNew(legacyChat: Chat): AChat2 {
+        return AChat2(
+            legacyChat.fileName,
+            legacyChat.characterFileName,
+            legacyChat.chatInfo.create_date,
+            legacyChat.messages.map { it.convertToNew() }.toMutableStateList()
+        )
+    }
+
+    private fun Message.convertToNew(): AMessage2 {
+        return AMessage2(
+            this.name,
+            this.is_user,
+            this.send_date ?: 0,
+            mutableStateOf(this.swipe_id ?: 0),
+            this.swipes?.ifEmpty { mutableListOf(this.mes) }?.toMutableStateList() ?: mutableStateListOf(this.mes)
         )
     }
 }

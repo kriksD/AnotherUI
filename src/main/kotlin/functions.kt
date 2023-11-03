@@ -8,11 +8,9 @@ import properties.Properties
 import properties.settings.Settings
 import java.awt.image.BufferedImage
 import java.io.File
-import java.io.FileInputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.zip.ZipInputStream
 
 
 /* -= shortcuts =- */
@@ -160,20 +158,33 @@ fun String.runCommand(workingDir: File): String? {
  */
 fun uniqueName(baseName: String, extension: String, folder: File): String {
     var i = 0
-    while (File("${folder.absolutePath}/$baseName${if (i > 0) i else ""}.$extension").exists()) {
-        i++
-    }
-
+    while (File("${folder.absolutePath}/$baseName${if (i > 0) i else ""}.$extension").exists()) { i++ }
     return "$baseName${if (i > 0) i else ""}"
 }
 
 fun uniqueName(name: String, list: List<String>): String {
     var i = 0
-    while ("$name${if (i > 0) i else ""}" in list) {
-        i++
-    }
-
+    while ("$name${if (i > 0) i else ""}" in list) { i++ }
     return "$name${if (i > 0) i else ""}"
+}
+
+/**
+ * @param baseName base name of the file (Example: "name")
+ * @param extension extension of the file (Example: "webp")
+ * @param folder what folder create unique name for
+ *
+ * @return unique name without extension
+ */
+fun uniqueNameIncludingZero(baseName: String, extension: String, folder: File): String {
+    var i = 0
+    while (File("${folder.absolutePath}/$baseName$i.$extension").exists()) { i++ }
+    return "$baseName$i"
+}
+
+fun uniqueNameIncludingZero(name: String, list: List<String>): String {
+    var i = 0
+    while ("$name$i" in list) { i++ }
+    return "$name$i"
 }
 
 fun <K, V> Map<K, V>.toState(): SnapshotStateMap<K, V> {

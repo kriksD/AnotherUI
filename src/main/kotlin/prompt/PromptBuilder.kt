@@ -1,9 +1,9 @@
 package prompt
 
 import character.ACharacter
-import character.chat.Chat
-import client.KoboldAIClient
-import client.Prompt
+import character.chat.newChat.AChat2
+import client.kobold.KoboldAIClient
+import client.kobold.Prompt
 import client.formatAnything
 import client.formatExamples
 import settings
@@ -12,9 +12,10 @@ import user
 class PromptBuilder {
     private var type: PromptType? = null
     private var complete: Boolean = false
+    private var regenerate: Boolean = false
     private var forUser: Boolean = false
     private var character: ACharacter? = null
-    private var chat: Chat? = null
+    private var chat: AChat2? = null
     private var systemPrompt: String? = null
     private var pattern: String = """
         {{systemPrompt}}
@@ -30,12 +31,17 @@ class PromptBuilder {
         return this
     }
 
-    fun complete(complete: Boolean = false): PromptBuilder {
+    fun complete(complete: Boolean = true): PromptBuilder {
         this.complete = complete
         return this
     }
 
-    fun forUser(forUser: Boolean = false): PromptBuilder {
+    fun regenerate(regenerate: Boolean = true): PromptBuilder {
+        this.regenerate = regenerate
+        return this
+    }
+
+    fun forUser(forUser: Boolean = true): PromptBuilder {
         this.forUser = forUser
         return this
     }
@@ -45,7 +51,7 @@ class PromptBuilder {
         return this
     }
 
-    fun chat(chat: Chat): PromptBuilder {
+    fun chat(chat: AChat2): PromptBuilder {
         this.chat = chat
         return this
     }
@@ -88,7 +94,7 @@ class PromptBuilder {
         )
     }
 
-    private suspend fun makeInstructPrompt(character: ACharacter?, chat: Chat?): String? {
+    private suspend fun makeInstructPrompt(character: ACharacter?, chat: AChat2?): String? {
         character ?: return null
         chat ?: return null
 
@@ -135,11 +141,12 @@ class PromptBuilder {
         var tokensLeft = maxContextLength - currentTokenCount - 32
         println("tokensLeft: $tokensLeft")
         var messagesPrompt = ""
+        val lastIndex = if (regenerate) chat.messages.lastIndex - 1 else chat.messages.lastIndex
 
-        for (messageIndex in chat.messages.lastIndex downTo 0) {
+        for (messageIndex in lastIndex downTo 0) {
             val message = chat.messages[messageIndex]
             //if (!message.is_user && message.swipes != null && message.swipe_id != null) continue
-            val messageTokenCount = 100//KoboldAIClient.countTokens(message.mes)
+            val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null
 
             tokensLeft -= messageTokenCount
@@ -162,7 +169,7 @@ class PromptBuilder {
         return prompt
     }
 
-    private suspend fun makeChatPrompt(character: ACharacter?, chat: Chat?): String? {
+    private suspend fun makeChatPrompt(character: ACharacter?, chat: AChat2?): String? {
         character ?: return null
         chat ?: return null
 
@@ -202,11 +209,12 @@ class PromptBuilder {
         var tokensLeft = maxContextLength - currentTokenCount - 32
         println("tokensLeft: $tokensLeft")
         var messagesPrompt = ""
+        val lastIndex = if (regenerate) chat.messages.lastIndex - 1 else chat.messages.lastIndex
 
-        for (messageIndex in chat.messages.lastIndex downTo 0) {
+        for (messageIndex in lastIndex downTo 0) {
             val message = chat.messages[messageIndex]
             //if (!message.is_user && message.swipes != null && message.swipe_id != null) continue
-            val messageTokenCount = KoboldAIClient.countTokens(message.mes)
+            val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null
 
             tokensLeft -= messageTokenCount

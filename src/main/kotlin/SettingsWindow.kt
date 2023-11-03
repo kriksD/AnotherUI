@@ -32,8 +32,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import character.ACharacter
-import client.KoboldAIClient
-import client.StableDiffusionWebUIClient
+import client.kobold.KoboldAIClient
+import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.*
 import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.coroutines.launch

@@ -13,17 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import character.ACharacter
 import androidx.compose.ui.graphics.SolidColor
-import character.chat.Chat
-import character.chat.aChat.AChat
+import character.chat.newChat.AChat2
 import composableFunctions.CloseLine
 import composableFunctions.UsualDivider
 
 @Composable
 fun ChatManagementWindow(
     character: ACharacter,
-    chats: List<Chat>,
-    onChatSelected: (Chat) -> Unit = {},
-    onDelete: (Chat) -> Unit = {},
+    chats: List<AChat2>,
+    onChatSelected: (AChat2) -> Unit = {},
+    onDelete: (AChat2) -> Unit = {},
     onClose: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -65,7 +64,7 @@ fun ChatManagementWindow(
 
 @Composable
 fun ChatView(
-    chat: Chat,
+    chat: AChat2,
     selected: Boolean = false,
     onDelete: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -85,13 +84,13 @@ fun ChatView(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(biggerPadding)
             ) {
-                Text("${chat.fileName} ${if (chat is AChat) "(AChat)" else "(legacy)"}", color = colorText, fontSize = bigText)
-                Text(chat.chatInfo.create_date.toTimeString(), color = colorTextSecond, fontSize = normalText)
+                Text(chat.fileName, color = colorText, fontSize = bigText)
+                Text(chat.createDate.toTimeString(), color = colorTextSecond, fontSize = normalText)
             }
 
             if (chat.messages.size >= 1) {
                 Text(
-                    chat.messages.last().toString(),
+                    chat.messages.last().string,
                     color = colorText,
                     fontSize = normalText,
                     maxLines = 1,

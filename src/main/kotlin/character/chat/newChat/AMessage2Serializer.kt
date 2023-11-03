@@ -20,9 +20,9 @@ class AMessage2Serializer : KSerializer<AMessage2> {
         element<String>("name")
         element<Boolean>("is_user")
         element<Long>("send_date")
-        element<String>("content")
         element<Int>("swipe_id")
-        element<Map<Int, String>>("swipes")
+        element<List<String>>("swipes")
+        element<Map<Int, String>>("images")
     }
     private val swipeListSerializer = ListSerializer(String.serializer())
     private val imageListSerializer = MapSerializer(Int.serializer(), String.serializer())
@@ -31,7 +31,6 @@ class AMessage2Serializer : KSerializer<AMessage2> {
         var name: String? = null
         var isUser: Boolean? = null
         var sendDate: Long? = null
-        var content: String? = null
         var swipeId: Int? = null
         var swipes: List<String>? = null
         var images: Map<Int, String>? = null
@@ -42,10 +41,9 @@ class AMessage2Serializer : KSerializer<AMessage2> {
                 0 -> name = decodeStringElement(descriptor, 0)
                 1 -> isUser = decodeBooleanElement(descriptor, 1)
                 2 -> sendDate = decodeLongElement(descriptor, 2)
-                3 -> content = decodeStringElement(descriptor, 3)
-                4 -> swipeId = decodeIntElement(descriptor, 4)
-                5 -> swipes = decodeSerializableElement(descriptor, 5, swipeListSerializer)
-                6 -> images = decodeSerializableElement(descriptor, 6, imageListSerializer)
+                3 -> swipeId = decodeIntElement(descriptor, 3)
+                4 -> swipes = decodeSerializableElement(descriptor, 4, swipeListSerializer)
+                5 -> images = decodeSerializableElement(descriptor, 5, imageListSerializer)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -54,7 +52,6 @@ class AMessage2Serializer : KSerializer<AMessage2> {
             name ?: throw SerializationException("Missing field \"name\""),
             isUser ?: throw SerializationException("Missing field \"is_user\""),
             sendDate ?: throw SerializationException("Missing field \"send_date\""),
-            mutableStateOf(content ?: throw SerializationException("Missing field \"content\"")),
             mutableStateOf(swipeId ?: throw SerializationException("Missing field \"swipe_id\"")),
             swipes?.toMutableStateList() ?: throw SerializationException("Missing field \"swipes\""),
             images?.toMutableMap() ?: throw SerializationException("Missing field \"images\""),
@@ -65,9 +62,8 @@ class AMessage2Serializer : KSerializer<AMessage2> {
         encodeStringElement(descriptor, 0, value.name)
         encodeBooleanElement(descriptor, 1, value.isUser)
         encodeLongElement(descriptor, 2, value.sendDate)
-        encodeStringElement(descriptor, 3, value.content.value)
-        encodeIntElement(descriptor, 4, value.swipeId.value)
-        encodeSerializableElement(descriptor, 5, swipeListSerializer, value.swipes)
-        encodeSerializableElement(descriptor, 6, imageListSerializer, value.images)
+        encodeIntElement(descriptor, 3, value.swipeId.value)
+        encodeSerializableElement(descriptor, 4, swipeListSerializer, value.swipes)
+        encodeSerializableElement(descriptor, 5, imageListSerializer, value.images)
     }
 }

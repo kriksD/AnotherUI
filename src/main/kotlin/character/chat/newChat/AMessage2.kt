@@ -2,33 +2,23 @@ package character.chat.newChat
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import androidx.compose.ui.graphics.ImageBitmap
+import getImageBitmap
+import kotlinx.serialization.Serializable
 import settings
 import user
+import java.io.File
 
+@Serializable(AMessage2Serializer::class)
 class AMessage2(
     var name: String,
     var isUser: Boolean,
     val sendDate: Long,
-    var content: MutableState<String>,
     var swipeId: MutableState<Int>,
     var swipes: SnapshotStateList<String>,
     var images: MutableMap<Int, String> = mutableMapOf(),
 ) {
-    @OptIn(ExperimentalSerializationApi::class)
-    fun toJSON(): String {
-        val json = Json { explicitNulls = false }
-        return json.encodeToString(this)
-    }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    fun additionalInfoToJson(): String {
-        val info = AdditionalMessageInfo2(images)
-        val json = Json { explicitNulls = false }
-        return json.encodeToString(info)
-    }
+    val content get() = swipes[swipeId.value]
 
     val string: String get() = "${if (settings.use_username && isUser) user.name else name}: $content"
 
@@ -38,14 +28,12 @@ class AMessage2(
         if (swipeId.value == 0) return
 
         swipeId.value = swipeId.value.dec()
-        content.value = swipes[swipeId.value]
     }
 
     fun swipeRight() {
-        if (swipeId.value >= swipes.size - 1) return
+        if (swipeId.value >= swipes.lastIndex) return
 
         swipeId.value = swipeId.value.inc()
-        content.value = swipes[swipeId.value]
     }
 
     fun updateSwipe(index: Int, new: String) {
@@ -53,46 +41,23 @@ class AMessage2(
             swipes.add(new)
             if (swipeId.value == swipes.lastIndex - 1) {
                 swipeId.value = swipes.lastIndex
-                content.value = swipes.last()
             }
 
         } else {
             swipes[index] = new
-            if (swipeId.value == index) {
-                content.value = swipes[index]
-            }
         }
     }
 
-    fun imageName(index: Int): String? = images[index]
-
-    fun updateImage(imageName: String, swipeIndex: Int) {
-        images[swipeIndex] = imageName
-    }
-
-    fun imageNames(): List<String> {
-        val list = mutableListOf<String>()
-        images.forEach { (_, name) -> list.add(name) }
-        return list
-    }
-
-    /**
-     * @return removed image names.
-     */
-    fun removeRestImages(): List<String> {
-        var leave: String? = null
-        val removed = mutableListOf<String>()
-
-        images.forEach { (index, name) ->
-            if (index != swipeId.value) {
-                removed.add(name)
-            } else {
-                leave = name
-            }
+    fun updateImage(swipeIndex: Int, path: String) {
+        images[swipeIndex]?.let {
+            val oldFile = File(it)
+            if (oldFile.exists()) oldFile.delete()
         }
 
-        images.clear()
-        leave?.let { images[0] = it }
-        return removed
+        images[swipeIndex] = path
+    }
+
+    fun getImage(index: Int): ImageBitmap? {
+        return getImageBitmap(images[index] ?: return null)
     }
 }

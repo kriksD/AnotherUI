@@ -1,4 +1,4 @@
-package client
+package client.stablediffusion
 
 import kotlinx.serialization.Serializable
 import settings
@@ -74,9 +74,9 @@ data class ImagePrompt(
     val save_images: Boolean = false,
 ) {
     companion object {
-        fun createPrompt(userText: String = "", text: String = ""): ImagePrompt {
+        fun createPrompt(prompt: String = ""): ImagePrompt {
             return ImagePrompt(
-                prompt = "${settings.image_generating.style}. $userText. $text.",
+                prompt = "${settings.image_generating.style}. $prompt.",
                 seed = settings.image_generating.seed,
                 steps = settings.image_generating.steps,
                 cfg_scale = settings.image_generating.cfg_scale,

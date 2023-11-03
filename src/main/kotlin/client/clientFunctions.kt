@@ -1,14 +1,8 @@
 package client
 
 import character.ACharacter
-import gpt2Tokenizer.GlobalTokenizer
 import settings
 import user
-
-fun String.isEnd(charName: String): Boolean = contains("$charName:") || contains("You:") || contains("<START>") || contains("_end_of_chat_")
-
-fun String.isEndToken(expectedTokens: Int): Boolean =
-    GlobalTokenizer.countTokens(this) < expectedTokens
 
 fun String.dropRest(charName: String): String = this
     .replace("$charName:", "")
@@ -17,7 +11,6 @@ fun String.dropRest(charName: String): String = this
     .substringBefore("<START>")
     .substringBefore("<|user|>")
     .substringBefore("<|model|>")
-    .trimIndent()
 
 fun String.formatExamples(character: ACharacter): String {
     return this

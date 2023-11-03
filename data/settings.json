@@ -1,14 +1,14 @@
 {
     "language": "en",
-    "link": "http://localhost:5000",
+    "link": "http://localhost:5001",
     "stable_diffusion_link": "http://127.0.0.1:7860",
-    "stable_diffusion_api_enabled": false,
+    "stable_diffusion_api_enabled": true,
     "background": "bg1.png",
     "characters_list_view": "Grid",
-    "use_username": false,
+    "use_username": true,
     "generating": {
-        "max_context_length": 1600,
-        "max_length": 200,
+        "max_context_length": 1400,
+        "max_length": 16,
         "rep_pen": 1.08,
         "rep_pen_range": 1024,
         "rep_pen_slope": 0.9,
@@ -34,5 +34,9 @@
         "enabled": false,
         "tokens_per_step": 32,
         "tries": 1
+    },
+    "changeable_context": {
+        "enabled": false,
+        "buffer": 512
     }
 }

@@ -1,16 +1,12 @@
 package character.chat.newChat
 
 import androidx.compose.runtime.*
-import androidx.compose.ui.graphics.ImageBitmap
 import character.ACharacter
 import character.chat.newChat.converter.ChatConverter
-import getImageBitmap
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.io.File
-import java.io.FileInputStream
 import java.util.*
-import java.util.zip.ZipInputStream
 
 class ChatLoader {
     private val converter: ChatConverter = ChatConverter()
@@ -28,56 +24,21 @@ class ChatLoader {
         if (!folder.exists()) return
 
         folder.listFiles()?.forEach { file ->
-            chatList.add(loadZip(file) ?: converter.loadChatFromOtherFormats(file) ?: return@forEach)
+            chatList.add(loadJson(file) ?: converter.loadChatFromOtherFormats(file) ?: return@forEach)
         }
 
         selected = chatList.find { it.fileName == character.jsonData.chat } ?: chatList.lastOrNull()
     }
 
-    private fun loadZip(file: File): AChat2? {
+    private fun loadJson(file: File): AChat2? {
         return try {
-            var jsonText = ""
-            var images: MutableMap<String, ImageBitmap> = mutableMapOf()
-
-            loadFilesFromZip(
-                file,
-                whenChat = { jsonText = it },
-                whenImages = { images = it.toMutableMap() },
-            )
-
-            return Json.decodeFromString<AChat2>(jsonText).also { it.updateImages(images) }
+            if (!file.exists()) return null
+            val jsonText = file.readText()
+            return Json.decodeFromString<AChat2>(jsonText)
 
         } catch (e: Exception) {
             null
         }
-    }
-
-    private fun loadFilesFromZip(
-        file: File,
-        whenChat: (String) -> Unit = {},
-        whenImages: (Map<String, ImageBitmap>) -> Unit = {},
-    ) {
-        val images = mutableMapOf<String, ImageBitmap>()
-        ZipInputStream(FileInputStream(file)).use { zip ->
-            var entry = zip.nextEntry
-            while (entry != null) {
-                when (entry.name) {
-                    "chat.jsonl" -> whenChat(zip.readBytes().decodeToString())
-                    else -> {
-                        if (entry.name.endsWith(".webp")) {
-                            images[entry.name.removeSuffix(".webp")] = getImageBitmap(zip.readBytes())
-                        }
-                    }
-                }
-
-                entry = zip.nextEntry
-            }
-        }
-        whenImages.invoke(images)
-    }
-
-    fun saveSelected() {
-        selected?.save()
     }
 
     fun createChat(character: ACharacter): AChat2 {
@@ -91,7 +52,6 @@ class ChatLoader {
                     character.jsonData.name,
                     false,
                     dateCreate,
-                    mutableStateOf(character.jsonData.first_mes),
                     mutableStateOf(0),
                     mutableStateListOf(character.jsonData.first_mes),
                 )
@@ -102,10 +62,14 @@ class ChatLoader {
         selected = newChat
         character.jsonData.chat = newChat.fileName
         character.save()
+        newChat.save()
         return newChat
     }
 
     fun removeChat(chat: AChat2) {
+        if (selected == chat) {
+            selected = null
+        }
         chatList.remove(chat)
     }
 
@@ -113,5 +77,20 @@ class ChatLoader {
         selected = chat
         character.jsonData.chat = chat.fileName
         character.save()
+    }
+
+    fun selectIfNotSelected(character: ACharacter) {
+        if (selected == null) {
+            selected = chatList.lastOrNull()
+        }
+
+        if (selected == null) {
+            createChat(character)
+        }
+
+        selected?.let {
+            character.jsonData.chat = it.fileName
+            character.save()
+        }
     }
 }

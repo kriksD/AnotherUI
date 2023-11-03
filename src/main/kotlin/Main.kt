@@ -19,11 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import character.*
-import character.chat.Chat
-import character.chat.ChatInfo
-import character.chat.legacyChat.LegacyChat
-import client.KoboldAIClient
-import client.StableDiffusionWebUIClient
+import character.chat.newChat.ChatLoader
+import client.kobold.KoboldAIClient
+import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.AppearDisappearAnimation
 import composableFunctions.LoadingIcon
 import kotlinx.coroutines.Dispatchers
@@ -62,11 +60,14 @@ fun main() = application {
     val characters = remember { mutableStateListOf<ACharacter>() }
     var currentCharacter by remember { mutableStateOf<ACharacter?>(null) }
     var isCharacterRedacted by remember { mutableStateOf(false) }
-    val chats = remember { mutableStateListOf<Chat>() }
-    var currentChat by remember { mutableStateOf<Chat?>(null) }
+
+    //val chats = remember { mutableStateListOf<Chat>() }
+    //var currentChat by remember { mutableStateOf<Chat?>(null) }
+
+    val chats = remember { ChatLoader() }
     var reloadChatThread by remember { mutableStateOf(false) }
 
-    fun loadChats() {
+    /*fun loadChats() {
         if (currentCharacter == null) return
 
         loadAllChats(File("data/chats/${currentCharacter?.fileName}"))?.let {
@@ -95,7 +96,7 @@ fun main() = application {
     fun addChat(chat: Chat) {
         chats.add(chat)
         currentChat = chat
-    }
+    }*/
 
     var background by remember {
         mutableStateOf(
@@ -123,6 +124,11 @@ fun main() = application {
                 loadAllCharacters()
             }?.let { characters.addAll(it) }
 
+            val chatLoaderTemp = ChatLoader()
+            characters.forEach { character ->
+                chatLoaderTemp.load(character)
+            }
+
             firstTime = false
             screen = Screen.Characters
         }
@@ -142,12 +148,12 @@ fun main() = application {
                         isCharacterRedacted = false
                     }
 
-                    chats.find { it.fileName == char.jsonData.chat }?.let { chat ->
+                    /*chats.find { it.fileName == char.jsonData.chat }?.let { chat ->
                         if (chat.messages.size == 1) {
                             chat.messages.first().mes = char.jsonData.first_mes
                             chat.save()
                         }
-                    }
+                    }*/
                 }
 
                 saving = false
@@ -231,8 +237,8 @@ fun main() = application {
                             } else {
                                 headerText = "Characters"
                                 currentCharacter = null
-                                chats.clear()
-                                currentChat = null
+                                //chats.clear()
+                                //currentChat = null
                                 KoboldAIClient.removeConnectionChangeCheck("chatThread")
                                 StableDiffusionWebUIClient.removeConnectionChangeCheck("chatThread")
                                 screen = Screen.Characters
@@ -266,7 +272,8 @@ fun main() = application {
                                 onCharacterClick = {
                                     headerText = it.jsonData.name
                                     currentCharacter = it
-                                    loadChats()
+                                    chats.load(it)
+                                    chats.selectIfNotSelected(it)
                                     screen = Screen.Chat
                                 },
                                 onNewCharacter = {
@@ -275,13 +282,12 @@ fun main() = application {
                             )
                         }
                         Screen.Chat -> {
-                            if (!reloadChatThread && currentChat != null && currentCharacter != null) {
+                            if (!reloadChatThread && chats.selected != null && currentCharacter != null) {
                                 ChatThread(
                                     modifier = Modifier.fillMaxWidth(0.5F).weight(1F),
                                     window = window,
                                     character = currentCharacter ?: ACharacter("", CharacterInfo(name = "")),
-                                    chat = currentChat
-                                        ?: LegacyChat("", "", ChatInfo("", "", 0), mutableListOf()),
+                                    chat = chats.selected ?: throw Exception("Chat not found"),
                                     snackbarHostState = snackbarHostState,
                                     onChatManage = {
                                         openWindow(OpenWindow.ChatsManaging)
@@ -292,7 +298,10 @@ fun main() = application {
                                             isChatManagementOpen = false
                                         }
                                     },
-                                    onNewChat = { addChat(it) },
+                                    onNewChat = {
+                                        currentCharacter?.let { chats.createChat(it) }
+                                        reloadChatThread = true
+                                    },
                                 )
                             } else {
                                 reloadChatThread = false
@@ -353,21 +362,19 @@ fun main() = application {
                                 .fillMaxHeight(0.7F)
                                 .align(Alignment.Center),
                             character = it,
-                            chats = chats,
+                            chats = chats.chats,
                             onChatSelected = { chat ->
                                 coroutineScope.launch { closeWindow() }
                                 currentCharacter?.jsonData?.chat = chat.fileName
                                 currentCharacter?.save()
-                                currentChat = chat
+                                currentCharacter?.let { chats.selectChat(chat, it) }
                                 reloadChatThread = true
                             },
                             onDelete = { chat ->
-                                if (chat == currentChat) {
-                                    currentChat = null
-                                }
                                 chat.delete()
-                                chats.remove(chat)
-                                loadChats()
+                                chats.removeChat(chat)
+                                currentCharacter?.let { chats.selectIfNotSelected(it) }
+                                reloadChatThread = true
                             },
                             onClose = {
                                 coroutineScope.launch { closeWindow() }

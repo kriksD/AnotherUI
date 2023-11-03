@@ -1,4 +1,4 @@
-package client
+package client.stablediffusion
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -63,7 +63,7 @@ object StableDiffusionWebUIClient {
 
             val map = Json.parseToJsonElement(result.bodyAsText()).jsonObject.toMap()
             modelName = map["sd_model_checkpoint"]?.jsonPrimitive?.content
-            if (this.modelName == null) { connectionStatus = false }
+            if (modelName == null) { connectionStatus = false }
 
         } catch (e: Exception) {
             connectionStatus = false
