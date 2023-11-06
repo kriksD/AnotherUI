@@ -100,7 +100,7 @@ fun ChatView(
 
             if (chat.messages.size >= 2) {
                 Text(
-                    chat.messages[chat.messages.lastIndex - 1].toString(),
+                    chat.messages[chat.messages.lastIndex - 1].string,
                     color = colorText,
                     fontSize = normalText,
                     maxLines = 1,

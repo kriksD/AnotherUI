@@ -60,6 +60,7 @@ fun ChatThread(
     onChatManage: () -> Unit = {},
     onNewChat: () -> Unit = {},
     onGeneratingStatusChange: (Boolean) -> Unit = {},
+    onSplit: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -86,13 +87,13 @@ fun ChatThread(
                 modifier = Modifier.weight(1F),
                 state = scrollState
             ) {
-                itemsIndexed(chat.messages) { i, message ->
+                itemsIndexed(chat.messages) { index, message ->
                     val messageModifier =
-                        if (isDeleting && i >= deletingIndex && i != 0) {
+                        if (isDeleting && index >= deletingIndex && index != 0) {
                             Modifier
                                 .background(colorBackgroundDelete)
                                 .onPointerEvent(PointerEventType.Enter) {
-                                    deletingIndex = i
+                                    deletingIndex = index
                                 }
                                 .onPointerEvent(PointerEventType.Release) {  // deleting clicks managing
                                     when (it.button) {
@@ -111,8 +112,8 @@ fun ChatThread(
                         } else {
                             Modifier
                                 .onPointerEvent(PointerEventType.Enter) {
-                                    if (isDeleting && i != 0) {
-                                        deletingIndex = i
+                                    if (isDeleting && index != 0) {
+                                        deletingIndex = index
                                     }
                                 }
                         }
@@ -120,10 +121,10 @@ fun ChatThread(
                     MessageView(
                         character = character,
                         message = message,
-                        isRegenerateAvailable = !generator.isGenerating.value && i == chat.messages.lastIndex,
-                        isCompleteAvailable = !generator.isGenerating.value && i == chat.messages.lastIndex,
-                        isGenerativeSwipeAvailable = !generator.isGenerating.value && i == chat.messages.lastIndex,
-                        isSwipesAvailable = message.swipes.size > 1 || (i == chat.messages.lastIndex && !message.isUser),
+                        isRegenerateAvailable = !generator.isGenerating.value && index == chat.messages.lastIndex,
+                        isCompleteAvailable = !generator.isGenerating.value && index == chat.messages.lastIndex,
+                        isGenerativeSwipeAvailable = !generator.isGenerating.value && index == chat.messages.lastIndex,
+                        isSwipesAvailable = message.swipes.size > 1 || (index == chat.messages.lastIndex && !message.isUser),
                         onRegenerate = { coroutineScope.launch { generator.regenerateMessage(
                             StableDiffusionWebUIClient.connectionStatus
                         ) } },
@@ -135,6 +136,7 @@ fun ChatThread(
                         ) } },
                         onSwipe = { chat.save() },
                         onEditEnd = { chat.save() },
+                        onSplit = { onSplit(index) },
                         modifier = messageModifier.fillMaxWidth(),
                     )
                 }
@@ -603,6 +605,7 @@ private fun MessageView(
     onComplete: () -> Unit,
     onSwipe: (Int) -> Unit,
     onEditEnd: () -> Unit,
+    onSplit: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -685,6 +688,8 @@ private fun MessageView(
             isEditAvailable = true,
             isRegenerateAvailable = isRegenerateAvailable,
             isCompleteAvailable = isCompleteAvailable,
+            isSplitAvailable = true,
+            isAdditionalSwipeAvailable = true,
             isEdit = editMessage != null,
             onEditStart = { editMessage = TextFieldValue(message.content) },
             onEditEnd = { accept ->
@@ -701,6 +706,8 @@ private fun MessageView(
             },
             onRegenerate = onRegenerate,
             onComplete = onComplete,
+            onSplit = onSplit,
+            onCreateEmptySwipe = { message.swipes.add("") },
             modifier = Modifier.align(Alignment.TopEnd),
         )
     }
@@ -895,11 +902,15 @@ private fun ActionButtons(
     isEditAvailable: Boolean,
     isRegenerateAvailable: Boolean,
     isCompleteAvailable: Boolean,
+    isSplitAvailable: Boolean,
+    isAdditionalSwipeAvailable: Boolean,
     isEdit: Boolean,
     onEditStart: () -> Unit,
     onEditEnd: (Boolean) -> Unit,
     onRegenerate: () -> Unit,
     onComplete: () -> Unit,
+    onSplit: () -> Unit,
+    onCreateEmptySwipe: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Crossfade(
@@ -963,6 +974,38 @@ private fun ActionButtons(
                             .width(tinyIconSize)
                             .aspectRatio(1F)
                             .clickable(onClick = onRegenerate)
+                    )
+                }
+
+                AppearDisappearAnimation(
+                    isSplitAvailable,
+                    shortAnimationDuration,
+                ) {
+                    Icon(
+                        painterResource("alt_route.svg"),
+                        "split the chat at this message",
+                        tint = colorText,
+                        modifier = Modifier
+                            .padding(padding)
+                            .width(tinyIconSize)
+                            .aspectRatio(1F)
+                            .clickable(onClick = onSplit)
+                    )
+                }
+
+                AppearDisappearAnimation(
+                    isAdditionalSwipeAvailable,
+                    shortAnimationDuration,
+                ) {
+                    Icon(
+                        Icons.Default.Add,
+                        "create new empty swipe for this message",
+                        tint = colorText,
+                        modifier = Modifier
+                            .padding(padding)
+                            .width(tinyIconSize)
+                            .aspectRatio(1F)
+                            .clickable(onClick = onCreateEmptySwipe)
                     )
                 }
 

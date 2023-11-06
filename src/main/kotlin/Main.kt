@@ -270,6 +270,20 @@ fun main() = application {
                                         currentCharacter?.let { chats.createChat(it) }
                                         reloadChatThread = true
                                     },
+                                    onSplit = { messageIndex ->
+                                        currentCharacter?.let { char ->
+                                            chats.selected?.let { selectedChat ->
+                                                val newChat = chats.createChat(char)
+                                                newChat.messages.clear()
+                                                newChat.messages.addAll(
+                                                    selectedChat.messages.subList(0, messageIndex + 1)
+                                                )
+                                                newChat.save()
+
+                                                chats.selectChat(newChat, char)
+                                            }
+                                        }
+                                    }
                                 )
                             } else {
                                 reloadChatThread = false
