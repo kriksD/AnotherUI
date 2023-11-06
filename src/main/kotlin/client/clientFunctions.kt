@@ -1,33 +1,27 @@
 package client
 
 import character.ACharacter
-import settings
 import user
 
-fun String.dropRest(charName: String): String = this
-    .replace("$charName:", "")
-    .substringBefore("${user.name}:")
-    .substringBefore("You:")
-    .substringBefore("<START>")
-    .substringBefore("<|user|>")
-    .substringBefore("<|model|>")
-
-fun String.formatExamples(character: ACharacter): String {
-    return this
-        .replace("{{char}}", character.jsonData.name)
-        .replace("<char>", character.jsonData.name)
-        .replace(Regex("\\{\\{user}}:?"), if (settings.use_username) "${user.name}:" else "You:")
-        .replace(Regex("<user>:?"), if (settings.use_username) "${user.name}:" else "You:")
-        .replace("{{user_name}}", user.name)
-        .replace("<user_name>", user.name)
+fun String.dropRest(charName: String): String {
+    return if ("chat" == "chat") {
+        replace("$charName:", "")
+            .substringBefore("${user.name}:")
+            .substringBefore("You:")
+            .substringBefore("<START>")
+    } else {
+        substringBefore("<START>")
+            .substringBefore("<|user|>")
+            .substringBefore("<|model|>")
+    }
 }
 
-fun String.formatAnything(character: ACharacter): String {
+fun String.format(character: ACharacter): String {
     return this
-        .replace("{{char}}", character.jsonData.name)
-        .replace("<char>", character.jsonData.name)
-        .replace("{{user}}", user.name)
-        .replace("<user>", user.name)
-        .replace("{{user_name}}", user.name)
-        .replace("<user_name>", user.name)
+        .replace("{{char}}", character.jsonData.name, true)
+        .replace("<char>", character.jsonData.name, true)
+        .replace("{{user}}", user.name, true)
+        .replace("<user>", user.name, true)
+        .replace("{{user_name}}", user.name, true)
+        .replace("<user_name>", user.name, true)
 }

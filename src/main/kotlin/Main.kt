@@ -61,42 +61,8 @@ fun main() = application {
     var currentCharacter by remember { mutableStateOf<ACharacter?>(null) }
     var isCharacterRedacted by remember { mutableStateOf(false) }
 
-    //val chats = remember { mutableStateListOf<Chat>() }
-    //var currentChat by remember { mutableStateOf<Chat?>(null) }
-
     val chats = remember { ChatLoader() }
     var reloadChatThread by remember { mutableStateOf(false) }
-
-    /*fun loadChats() {
-        if (currentCharacter == null) return
-
-        loadAllChats(File("data/chats/${currentCharacter?.fileName}"))?.let {
-            chats.clear()
-            chats.addAll(it)
-
-            val chat = chats.find { c -> c.fileName == currentCharacter!!.jsonData.chat }
-            currentChat = chat ?: chats.lastOrNull() ?: run {
-                val newChat = createNewChat(currentCharacter!!)
-                newChat.save()
-                chats.add(newChat)
-                newChat
-            }
-
-            currentChat?.fileName?.let { fn -> currentCharacter!!.jsonData.chat = fn }
-
-        } ?: run {
-            currentCharacter?.let {
-                val newChat = createNewChat(it)
-                newChat.save()
-                chats.add(newChat)
-            }
-        }
-    }
-
-    fun addChat(chat: Chat) {
-        chats.add(chat)
-        currentChat = chat
-    }*/
 
     var background by remember {
         mutableStateOf(
@@ -148,12 +114,15 @@ fun main() = application {
                         isCharacterRedacted = false
                     }
 
-                    /*chats.find { it.fileName == char.jsonData.chat }?.let { chat ->
-                        if (chat.messages.size == 1) {
-                            chat.messages.first().mes = char.jsonData.first_mes
-                            chat.save()
+                    chats.selected?.let { selected ->
+                        if (selected.messages.size == 1) {
+                            val firstMessage = selected.messages.first()
+
+                            if (!firstMessage.isUser) {
+                                firstMessage.updateSwipe(0, char.jsonData.first_mes)
+                            }
                         }
-                    }*/
+                    }
                 }
 
                 saving = false
@@ -237,8 +206,7 @@ fun main() = application {
                             } else {
                                 headerText = "Characters"
                                 currentCharacter = null
-                                //chats.clear()
-                                //currentChat = null
+
                                 KoboldAIClient.removeConnectionChangeCheck("chatThread")
                                 StableDiffusionWebUIClient.removeConnectionChangeCheck("chatThread")
                                 screen = Screen.Characters
@@ -330,18 +298,10 @@ fun main() = application {
                             .align(Alignment.Center),
                         character = currentCharacter,
                         window = this@Window.window,
-                        onBackgroundChange = { bg ->
-                            background = bg
-                        },
-                        onClose = {
-                            closeWindow()
-                        },
-                        onForceSaving = {
-                            saveSettings()
-                        },
-                        onCharacterRedacted = {
-                            isCharacterRedacted = true
-                        }
+                        onBackgroundChange = { bg -> background = bg },
+                        onClose = { closeWindow() },
+                        onForceSaving = { saveSettings() },
+                        onCharacterRedacted = { isCharacterRedacted = true }
                     )
                 }
             }
@@ -400,9 +360,7 @@ fun main() = application {
                             .fillMaxHeight(0.4F)
                             .align(Alignment.Center),
                         window = window,
-                        onClose = {
-                            closeWindow()
-                        },
+                        onClose = { closeWindow() },
                         onDone = { newCharacter ->
                             characters.add(0, newCharacter)
 

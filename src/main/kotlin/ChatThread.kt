@@ -134,6 +134,7 @@ fun ChatThread(
                             StableDiffusionWebUIClient.connectionStatus
                         ) } },
                         onSwipe = { chat.save() },
+                        onEditEnd = { chat.save() },
                         modifier = messageModifier.fillMaxWidth(),
                     )
                 }
@@ -316,10 +317,7 @@ private fun ChatControls(
 
                         if (isGenerating) return@onKeyEvent false
 
-                        /*val toClear = */onSendMessage.invoke(message.value.text)
-                        /*if (toClear) {
-                            message.value = message.value.copy("")
-                        }*/
+                        onSendMessage.invoke(message.value.text)
                     }
                     true
                 },
@@ -330,9 +328,7 @@ private fun ChatControls(
                 fontSize = normalText,
             ),
             cursorBrush = SolidColor(colorText),
-            onValueChange = {
-                message.value = it
-            },
+            onValueChange = { message.value = it },
         )
 
         LoadedImage(
@@ -346,12 +342,7 @@ private fun ChatControls(
         SendIcons(
             isDeleting,
             isGenerating,
-            onSendMessage = {
-                /*val toClear = */onSendMessage.invoke(message.value.text)
-                /*if (toClear) {
-                    message.value = message.value.copy("")
-                }*/
-            },
+            onSendMessage = { onSendMessage.invoke(message.value.text) },
             onLoadImage = onLoadImage,
         )
     }
@@ -611,6 +602,7 @@ private fun MessageView(
     onRegenerate: () -> Unit,
     onComplete: () -> Unit,
     onSwipe: (Int) -> Unit,
+    onEditEnd: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -678,13 +670,12 @@ private fun MessageView(
                     previousIndex
                 ) { index, text ->
                     MessageContent(
-                        text.formatAnything(character),
-                        message.getImage(index),
-                        true,
-                        editMessage,
-                        { editMessage = it },
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        text = text.format(character),
+                        image = message.getImage(index),
+                        isEditAvailable = true,
+                        editMessage = editMessage,
+                        onChange = { editMessage = it },
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }
@@ -700,6 +691,7 @@ private fun MessageView(
                 if (accept) {
                     editMessage?.text?.let {
                         message.swipes[message.swipeId.value] = it
+                        onEditEnd()
                     }
 
                     editMessage = null

@@ -4,8 +4,7 @@ import character.ACharacter
 import character.chat.newChat.AChat2
 import client.kobold.KoboldAIClient
 import client.kobold.Prompt
-import client.formatAnything
-import client.formatExamples
+import client.format
 import settings
 import user
 
@@ -103,35 +102,35 @@ class PromptBuilder {
         systemPrompt?.let { spr ->
             prompt = prompt.replace(
                 "{{systemPrompt}}",
-                if (spr.isNotEmpty()) "<|system|>${spr.formatAnything(character)}" else ""
+                if (spr.isNotEmpty()) "<|system|>${spr.format(character)}" else ""
             )
         } ?: run { prompt.replace("{{systemPrompt}}", "") }
 
         character.jsonData.description.let { des ->
             prompt = prompt.replace(
                 "{{persona}}",
-                if (des.isNotEmpty()) "${character.jsonData.name}'s Persona: ${des.formatAnything(character)}" else ""
+                if (des.isNotEmpty()) "${character.jsonData.name}'s Persona: ${des.format(character)}" else ""
             )
         }
 
         character.jsonData.personality.let { per ->
             prompt = prompt.replace(
                 "{{personality}}",
-                if (per.isNotEmpty()) "Personality: ${per.formatAnything(character)}" else ""
+                if (per.isNotEmpty()) "Personality: ${per.format(character)}" else ""
             )
         }
 
         character.jsonData.scenario.let { sce ->
             prompt = prompt.replace(
                 "{{scenario}}",
-                if (sce.isNotEmpty()) "Scenario: ${sce.formatAnything(character)}" else ""
+                if (sce.isNotEmpty()) "Scenario: ${sce.format(character)}" else ""
             )
         }
 
         character.jsonData.mes_example.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
-                if (mex.isNotEmpty()) mex.formatExamples(character) else ""
+                if (mex.isNotEmpty()) mex.format(character) else ""
             )
         }
 
@@ -152,13 +151,13 @@ class PromptBuilder {
             tokensLeft -= messageTokenCount
             if (tokensLeft < 0) break
 
-            messagesPrompt = "${message.stringInstruct.formatAnything(character)}\n$messagesPrompt"
+            messagesPrompt = "${message.stringInstruct.format(character)}\n$messagesPrompt"
         }
 
         messagesPrompt.let { mpr ->
             prompt = prompt.replace(
                 "{{chat}}",
-                if (mpr.isNotEmpty()) mpr.dropLast(1).formatExamples(character) else ""
+                if (mpr.isNotEmpty()) mpr.dropLast(1).format(character) else ""
             )
         }
 
@@ -178,28 +177,28 @@ class PromptBuilder {
         character.jsonData.description.let { des ->
             prompt = prompt.replace(
                 "{{persona}}",
-                if (des.isNotEmpty()) "${character.jsonData.name}'s Persona: ${des.formatAnything(character)}" else ""
+                if (des.isNotEmpty()) "${character.jsonData.name}'s Persona: ${des.format(character)}" else ""
             )
         }
 
         character.jsonData.personality.let { per ->
             prompt = prompt.replace(
                 "{{personality}}",
-                if (per.isNotEmpty()) "Personality: ${per.formatAnything(character)}" else ""
+                if (per.isNotEmpty()) "Personality: ${per.format(character)}" else ""
             )
         }
 
         character.jsonData.scenario.let { sce ->
             prompt = prompt.replace(
                 "{{scenario}}",
-                if (sce.isNotEmpty()) "Scenario: ${sce.formatAnything(character)}" else ""
+                if (sce.isNotEmpty()) "Scenario: ${sce.format(character)}" else ""
             )
         }
 
         character.jsonData.mes_example.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
-                if (mex.isNotEmpty()) mex.formatExamples(character) else ""
+                if (mex.isNotEmpty()) mex.format(character) else ""
             )
         }
 
@@ -220,13 +219,13 @@ class PromptBuilder {
             tokensLeft -= messageTokenCount
             if (tokensLeft < 0) break
 
-            messagesPrompt = "${message.string.formatAnything(character)}\n$messagesPrompt"
+            messagesPrompt = "${message.string.format(character)}\n$messagesPrompt"
         }
 
         messagesPrompt.let { mpr ->
             prompt = prompt.replace(
                 "{{chat}}",
-                if (mpr.isNotEmpty()) mpr.formatExamples(character) else ""
+                if (mpr.isNotEmpty()) mpr.format(character) else ""
             )
         }
 
