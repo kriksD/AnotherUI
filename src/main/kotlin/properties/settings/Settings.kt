@@ -12,8 +12,8 @@ data class Settings(
     var stable_diffusion_api_enabled: Boolean = false,
     var background: String = "bg1.png",
     var characters_list_view: ViewType = ViewType.Grid,
-    var use_username: Boolean = false,
     var generating: GeneratingSettings = GeneratingSettings(),
+    var prompt_settings: PromptSettings = PromptSettings(),
     var image_generating: ImageGeneratingSettings = ImageGeneratingSettings(),
     var multi_gen: MultiGenSettings = MultiGenSettings(),
     var changeable_context: ChangeableContextSettings = ChangeableContextSettings(),
@@ -32,10 +32,13 @@ data class Settings(
                         newSettings.characters_list_view = ViewType.valueOf(it)
                     } catch (e: Exception) {}
                 }
-                map["use_username"]?.jsonPrimitive?.booleanOrNull?.let { newSettings.use_username = it }
 
                 map["generating"]?.jsonObject?.let { jsonStr ->
                     GeneratingSettings.createFromJson(jsonStr)?.let { newSettings.generating = it }
+                }
+
+                map["prompt_settings"]?.jsonObject?.let { jsonStr ->
+                    PromptSettings.createFromJson(jsonStr)?.let { newSettings.prompt_settings = it }
                 }
 
                 map["image_generating"]?.jsonObject?.let { jsonStr ->

@@ -5,9 +5,8 @@
     "stable_diffusion_api_enabled": false,
     "background": "bg1.png",
     "characters_list_view": "Grid",
-    "use_username": true,
     "generating": {
-        "max_context_length": 1400,
+        "max_context_length": 8128,
         "max_length": 16,
         "rep_pen": 1.08,
         "rep_pen_range": 1024,
@@ -18,6 +17,14 @@
         "top_k": 0,
         "top_p": 0.9,
         "typical": 1.0
+    },
+    "prompt_settings": {
+        "type": "Instruct",
+        "pattern": "{{systemPrompt}}\n{{persona}}\n{{personality}}\n{{scenario}}\n{{messageExample}}\n{{chat}}",
+        "system_prompt": "Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.",
+        "user_instruct_prefix": "<|user|>",
+        "model_instruct_prefix": "<|model|>",
+        "end_tokens": "<|user|>,<|model|>"
     },
     "image_generating": {
         "seed": -1,

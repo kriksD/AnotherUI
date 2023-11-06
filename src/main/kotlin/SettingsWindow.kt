@@ -37,6 +37,7 @@ import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.*
 import gpt2Tokenizer.GlobalTokenizer
 import kotlinx.coroutines.launch
+import prompt.PromptType
 import properties.Properties
 import java.io.File
 import java.net.URI
@@ -192,7 +193,7 @@ private fun AIScreen(
         item { UsualDivider() }
         item { Generating() }
         item { UsualDivider() }
-        item { GeneratingOptions() }
+        item { Prompt() }
         item { UsualDivider() }
     }
 }
@@ -475,8 +476,8 @@ private fun Generating() {
                     maxContextLength = it
                     settings.generating.max_context_length = maxContextLength.toInt()
                 },
-                valueRange = 512F..2048F,
-                intStep = 8,
+                valueRange = 512F..16384F,
+                intStep = 64,
                 modifier = Modifier.weight(1F),
             )
         }
@@ -484,15 +485,76 @@ private fun Generating() {
 }
 
 @Composable
-private fun GeneratingOptions() {
-    var useUsername by remember { mutableStateOf(settings.use_username) }
+private fun Prompt() {
+    var promptType by remember { mutableStateOf(settings.prompt_settings.type) }
+    var pattern by remember { mutableStateOf(settings.prompt_settings.pattern) }
+    var systemPrompt by remember { mutableStateOf(settings.prompt_settings.system_prompt) }
+    var userInstructPrefix by remember { mutableStateOf(settings.prompt_settings.user_instruct_prefix) }
+    var modelInstructPrefix by remember { mutableStateOf(settings.prompt_settings.model_instruct_prefix) }
+    var endTokens by remember { mutableStateOf(settings.prompt_settings.end_tokens) }
+
     CheckboxText(
-        "use username instead of \"You\"",
-        useUsername,
+        "instruct",
+        promptType == PromptType.Instruct,
         onChange = {
-            useUsername = it
-            settings.use_username = it
+            promptType = if (it) PromptType.Instruct else PromptType.Chat
+            settings.prompt_settings.type = promptType
         }
+    )
+
+    TextFieldWithTokens(
+        pattern,
+        "Pattern",
+        onValueChange = {
+            pattern = it
+            settings.prompt_settings.pattern = it
+        },
+        showTokens = false,
+        modifier = Modifier
+            .height(140.dp),
+    )
+
+    TextFieldWithTokens(
+        systemPrompt,
+        "System Prompt",
+        onValueChange = {
+            systemPrompt = it
+            settings.prompt_settings.system_prompt = it
+        },
+        singleLine = true,
+    )
+
+    TextFieldWithTokens(
+        userInstructPrefix,
+        "User Instruction Prefix",
+        onValueChange = {
+            userInstructPrefix = it
+            settings.prompt_settings.user_instruct_prefix = it
+        },
+        showTokens = false,
+        singleLine = true,
+    )
+
+    TextFieldWithTokens(
+        modelInstructPrefix,
+        "Model Instruction Prefix",
+        onValueChange = {
+            modelInstructPrefix = it
+            settings.prompt_settings.model_instruct_prefix = it
+        },
+        showTokens = false,
+        singleLine = true,
+    )
+
+    TextFieldWithTokens(
+        endTokens,
+        "End Tokens",
+        onValueChange = {
+            endTokens = it
+            settings.prompt_settings.end_tokens = it
+        },
+        showTokens = false,
+        singleLine = true,
     )
 }
 

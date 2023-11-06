@@ -144,7 +144,7 @@ class PromptBuilder {
 
         for (messageIndex in lastIndex downTo 0) {
             val message = chat.messages[messageIndex]
-            //if (!message.is_user && message.swipes != null && message.swipe_id != null) continue
+
             val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null
 
@@ -162,7 +162,12 @@ class PromptBuilder {
         }
 
         if (!complete) {
-            prompt += "\n${if (forUser) "<|user|>" else "<|model|>"}"
+            prompt += "\n${
+                if (forUser) 
+                    settings.prompt_settings.user_instruct_prefix
+                else 
+                    settings.prompt_settings.model_instruct_prefix
+            }"
         }
 
         return prompt
@@ -212,7 +217,7 @@ class PromptBuilder {
 
         for (messageIndex in lastIndex downTo 0) {
             val message = chat.messages[messageIndex]
-            //if (!message.is_user && message.swipes != null && message.swipe_id != null) continue
+
             val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null
 
@@ -230,7 +235,7 @@ class PromptBuilder {
         }
 
         if (!complete) {
-            prompt += "\n${if (forUser) { if (settings.use_username) user.name else "You" } else character.jsonData.name}:"
+            prompt += "\n${if (forUser) user.name else character.jsonData.name}:"
         }
 
         return prompt

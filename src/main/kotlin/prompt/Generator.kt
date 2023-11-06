@@ -9,6 +9,7 @@ import character.chat.newChat.AMessage2
 import client.kobold.KoboldAIClient
 import client.stablediffusion.ImagePrompt
 import client.stablediffusion.StableDiffusionWebUIClient
+import settings
 import showsImageString
 import user
 
@@ -33,10 +34,11 @@ class Generator(
         }
 
         val prompt = PromptBuilder()
-            .systemPrompt("Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.")
+            .pattern(settings.prompt_settings.pattern)
+            .systemPrompt(settings.prompt_settings.system_prompt)
             .character(character)
             .chat(chat)
-            .type(PromptType.Instruct)
+            .type(settings.prompt_settings.type)
             .build()
 
         val message = chat.addMessage(generatingText, character.jsonData.name, false)
@@ -48,7 +50,7 @@ class Generator(
             return
         }
 
-        message.updateSwipe(0, result)
+        message.updateSwipe(0, result.trimIndent())
 
         if (withImage) {
             val image = generateImage(result)
@@ -67,10 +69,11 @@ class Generator(
         isGenerating.value = true
 
         val prompt = PromptBuilder()
-            .systemPrompt("Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.")
+            .pattern(settings.prompt_settings.pattern)
+            .systemPrompt(settings.prompt_settings.system_prompt)
             .character(character)
             .chat(chat)
-            .type(PromptType.Instruct)
+            .type(settings.prompt_settings.type)
             .forUser()
             .build()
 
@@ -82,7 +85,7 @@ class Generator(
 
         isGenerating.value = false
 
-        return result
+        return result.trimIndent()
     }
 
     suspend fun completeMessage(
@@ -95,10 +98,11 @@ class Generator(
         val oldContent = message.content
 
         val prompt = PromptBuilder()
-            .systemPrompt("Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.")
+            .pattern(settings.prompt_settings.pattern)
+            .systemPrompt(settings.prompt_settings.system_prompt)
             .character(character)
             .chat(chat)
-            .type(PromptType.Instruct)
+            .type(settings.prompt_settings.type)
             .complete()
             .build()
 
@@ -113,7 +117,7 @@ class Generator(
         }
 
         val newContent = "$oldContent$result"
-        message.updateSwipe(swipeID, newContent)
+        message.updateSwipe(swipeID, newContent.trimIndent())
 
         if (withImage) {
             val image = generateImage(result)
@@ -137,10 +141,11 @@ class Generator(
         message.updateSwipe(swipeID, generatingText)
 
         val prompt = PromptBuilder()
-            .systemPrompt("Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.")
+            .pattern(settings.prompt_settings.pattern)
+            .systemPrompt(settings.prompt_settings.system_prompt)
             .character(character)
             .chat(chat)
-            .type(PromptType.Instruct)
+            .type(settings.prompt_settings.type)
             .regenerate()
             .build()
 
@@ -151,7 +156,7 @@ class Generator(
             return
         }
 
-        message.updateSwipe(swipeID, result)
+        message.updateSwipe(swipeID, result.trimIndent())
 
         if (withImage) {
             val image = generateImage(result)
@@ -174,10 +179,11 @@ class Generator(
         val swipeID = message.swipeId.value
 
         val prompt = PromptBuilder()
-            .systemPrompt("Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.")
+            .pattern(settings.prompt_settings.pattern)
+            .systemPrompt(settings.prompt_settings.system_prompt)
             .character(character)
             .chat(chat)
-            .type(PromptType.Instruct)
+            .type(settings.prompt_settings.type)
             .regenerate()
             .build()
 
@@ -189,7 +195,7 @@ class Generator(
             return
         }
 
-        message.updateSwipe(swipeID, result)
+        message.updateSwipe(swipeID, result.trimIndent())
 
         if (withImage) {
             val image = generateImage(result)

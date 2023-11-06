@@ -20,9 +20,14 @@ class AMessage2(
 ) {
     val content get() = swipes[swipeId.value]
 
-    val string: String get() = "${if (settings.use_username && isUser) user.name else name}: $content"
+    val string: String get() = "${if (isUser) user.name else name}: $content"
 
-    val stringInstruct: String get() = "${if (isUser) "<|user|>" else "<|model|>"}$content"
+    val stringInstruct: String get() = "${
+        if (isUser)
+            settings.prompt_settings.user_instruct_prefix
+        else
+            settings.prompt_settings.model_instruct_prefix
+    }$content"
 
     fun swipeLeft() {
         if (swipeId.value == 0) return

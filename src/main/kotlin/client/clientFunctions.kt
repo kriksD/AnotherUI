@@ -1,10 +1,12 @@
 package client
 
 import character.ACharacter
+import prompt.PromptType
+import settings
 import user
 
 fun String.dropRest(charName: String): String {
-    return if ("chat" == "chat") {
+    return if (settings.prompt_settings.type == PromptType.Chat) {
         replace("$charName:", "")
             .substringBefore("${user.name}:")
             .substringBefore("You:")
