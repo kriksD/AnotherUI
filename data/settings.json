@@ -7,7 +7,7 @@
     "characters_list_view": "Grid",
     "generating": {
         "max_context_length": 8128,
-        "max_length": 16,
+        "max_length": 200,
         "rep_pen": 1.08,
         "rep_pen_range": 1024,
         "rep_pen_slope": 0.9,
@@ -24,7 +24,7 @@
         "system_prompt": "Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.",
         "user_instruct_prefix": "<|user|>",
         "model_instruct_prefix": "<|model|>",
-        "end_tokens": "<|user|>,<|model|>"
+        "stop_sequence": "<|user|>,<|model|>"
     },
     "image_generating": {
         "seed": -1,

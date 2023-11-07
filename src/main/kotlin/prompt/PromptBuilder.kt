@@ -3,7 +3,6 @@ package prompt
 import character.ACharacter
 import character.chat.newChat.AChat2
 import client.kobold.KoboldAIClient
-import client.kobold.Prompt
 import client.format
 import settings
 import user
@@ -72,8 +71,17 @@ class PromptBuilder {
             null -> null
         } ?: return null
 
+        val stopSequence = if (settings.prompt_settings.stop_sequence.isNotEmpty()) {
+            if (settings.prompt_settings.stop_sequence.contains(",")) {
+                settings.prompt_settings.stop_sequence.split(",")
+            } else {
+                listOf(settings.prompt_settings.stop_sequence)
+            }
+        } else emptyList()
+
         return Prompt(
             prompt = prompt,
+            stop_sequence = stopSequence,
             use_story = false,
             use_memory = false,
             use_authors_note = false,
@@ -90,6 +98,7 @@ class PromptBuilder {
             top_p = settings.generating.top_p,
             typical = settings.generating.typical,
             sampler_order = listOf(6, 0, 1, 2, 3, 4, 5),
+            use_default_badwordsids = false,
         )
     }
 

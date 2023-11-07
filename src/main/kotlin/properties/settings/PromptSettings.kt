@@ -18,7 +18,7 @@ data class PromptSettings(
     var system_prompt: String = "Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.",
     var user_instruct_prefix: String = "<|user|>",
     var model_instruct_prefix: String = "<|model|>",
-    var end_tokens: String = "<|user|>,<|model|>",
+    var stop_sequence: String = "<|user|>,<|model|>",
 ) {
     companion object {
         fun createFromJson(jsonObject: JsonObject): PromptSettings? {
@@ -35,7 +35,7 @@ data class PromptSettings(
                 map["system_prompt"]?.jsonPrimitive?.contentOrNull?.let { newSettings.system_prompt = it }
                 map["user_instruct_prefix"]?.jsonPrimitive?.contentOrNull?.let { newSettings.user_instruct_prefix = it }
                 map["model_instruct_prefix"]?.jsonPrimitive?.contentOrNull?.let { newSettings.model_instruct_prefix = it }
-                map["end_tokens"]?.jsonPrimitive?.contentOrNull?.let { newSettings.end_tokens = it }
+                map["stop_sequence"]?.jsonPrimitive?.contentOrNull?.let { newSettings.stop_sequence = it }
 
                 newSettings
             } catch (e: Exception) { null }

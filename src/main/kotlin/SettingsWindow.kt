@@ -491,7 +491,7 @@ private fun Prompt() {
     var systemPrompt by remember { mutableStateOf(settings.prompt_settings.system_prompt) }
     var userInstructPrefix by remember { mutableStateOf(settings.prompt_settings.user_instruct_prefix) }
     var modelInstructPrefix by remember { mutableStateOf(settings.prompt_settings.model_instruct_prefix) }
-    var endTokens by remember { mutableStateOf(settings.prompt_settings.end_tokens) }
+    var endTokens by remember { mutableStateOf(settings.prompt_settings.stop_sequence) }
 
     CheckboxText(
         "instruct",
@@ -551,7 +551,7 @@ private fun Prompt() {
         "End Tokens",
         onValueChange = {
             endTokens = it
-            settings.prompt_settings.end_tokens = it
+            settings.prompt_settings.stop_sequence = it
         },
         showTokens = false,
         singleLine = true,

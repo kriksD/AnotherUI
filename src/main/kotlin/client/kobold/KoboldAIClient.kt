@@ -16,6 +16,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import prompt.Prompt
+import prompt.PromptResult
 import settings
 
 object KoboldAIClient {

@@ -1,4 +1,4 @@
-package client.kobold
+package prompt
 
 import kotlinx.serialization.Serializable
 
@@ -15,6 +15,7 @@ data class LineResult(
 @Serializable
 data class Prompt(
     val prompt: String,
+    val stop_sequence: List<String>,
     val use_story: Boolean,
     val use_memory: Boolean,
     val use_authors_note: Boolean,
@@ -31,4 +32,5 @@ data class Prompt(
     val top_p: Float,
     val typical: Float,
     val sampler_order: List<Int>,
+    val use_default_badwordsids: Boolean,
 )
