@@ -1,7 +1,9 @@
 package prompt
 
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import character.ACharacter
 import character.chat.newChat.AChat2
@@ -19,14 +21,22 @@ class Generator(
     private val snackbarHostState: SnackbarHostState,
 ) {
     private val generatingText = "***`Generating...`***"
-    var isGenerating = mutableStateOf(false)
+    private var _isGenerating by mutableStateOf(false)
+    var isGenerating
+        get() = _isGenerating
+        set(value) {
+            _isGenerating = value
+            generatingSwipeIndex = -1
+        }
+    var generatingSwipeIndex by mutableStateOf(-1 )
+        private set
 
     suspend fun generateNewMessage(
         userMessage: String? = null,
         userImage: ImageBitmap? = null,
         withImage: Boolean = false
     ) {
-        isGenerating.value = true
+        isGenerating = true
 
         userMessage?.let { um ->
             val message = chat.addMessage(um, user.name, true)
@@ -45,7 +55,7 @@ class Generator(
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             chat.removeLast()
-            isGenerating.value = false
+            isGenerating = false
             showErrorKobold()
             return
         }
@@ -59,14 +69,14 @@ class Generator(
 
         chat.save()
 
-        isGenerating.value = false
+        isGenerating = false
     }
 
     /**
      * @throws CouldNotGenerateException if the message could not be generated
      */
     suspend fun generateUserMessage(): String {
-        isGenerating.value = true
+        isGenerating = true
 
         val prompt = PromptBuilder()
             .pattern(settings.prompt_settings.pattern)
@@ -78,12 +88,12 @@ class Generator(
             .build()
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
-            isGenerating.value = false
+            isGenerating = false
             showErrorKobold()
             throw CouldNotGenerateException()
         }
 
-        isGenerating.value = false
+        isGenerating = false
 
         return result.trimIndent()
     }
@@ -91,10 +101,10 @@ class Generator(
     suspend fun completeMessage(
         withImage: Boolean = false
     ) {
-        isGenerating.value = true
+        isGenerating = true
 
         val message = chat.messages.lastOrNull() ?: return
-        val swipeID = message.swipeId.value
+        generatingSwipeIndex = message.swipeId.value
         val oldContent = message.content
 
         val prompt = PromptBuilder()
@@ -107,17 +117,17 @@ class Generator(
             .build()
 
         val generatingContent = "${message.content} $generatingText"
-        message.updateSwipe(swipeID, generatingContent)
+        message.updateSwipe(generatingSwipeIndex, generatingContent)
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
-            message.updateSwipe(swipeID, oldContent)
-            isGenerating.value = false
+            message.updateSwipe(generatingSwipeIndex, oldContent)
+            isGenerating = false
             showErrorKobold()
             return
         }
 
         val newContent = "$oldContent$result"
-        message.updateSwipe(swipeID, newContent.trimIndent())
+        message.updateSwipe(generatingSwipeIndex, newContent.trimIndent())
 
         if (withImage) {
             val image = generateImage(result)
@@ -126,19 +136,19 @@ class Generator(
 
         chat.save()
 
-        isGenerating.value = false
+        isGenerating = false
     }
 
     suspend fun regenerateMessage(
         withImage: Boolean = false
     ) {
-        isGenerating.value = true
+        isGenerating = true
 
         val message = chat.messages.lastOrNull()?: return
-        val swipeID = message.swipeId.value
+        generatingSwipeIndex = message.swipeId.value
         val oldContent = message.content
 
-        message.updateSwipe(swipeID, generatingText)
+        message.updateSwipe(generatingSwipeIndex, generatingText)
 
         val prompt = PromptBuilder()
             .pattern(settings.prompt_settings.pattern)
@@ -150,13 +160,13 @@ class Generator(
             .build()
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
-            message.updateSwipe(swipeID, oldContent)
-            isGenerating.value = false
+            message.updateSwipe(generatingSwipeIndex, oldContent)
+            isGenerating = false
             showErrorKobold()
             return
         }
 
-        message.updateSwipe(swipeID, result.trimIndent())
+        message.updateSwipe(generatingSwipeIndex, result.trimIndent())
 
         if (withImage) {
             val image = generateImage(result)
@@ -165,18 +175,18 @@ class Generator(
 
         chat.save()
 
-        isGenerating.value = false
+        isGenerating = false
     }
 
     suspend fun generateNextSwipe(
         withImage: Boolean = false
     ) {
-        isGenerating.value = true
+        isGenerating = true
 
         val message = chat.messages.lastOrNull() ?: return
         message.swipes.add(generatingText)
         message.swipeId.value = message.swipes.lastIndex
-        val swipeID = message.swipeId.value
+        generatingSwipeIndex = message.swipeId.value
 
         val prompt = PromptBuilder()
             .pattern(settings.prompt_settings.pattern)
@@ -190,12 +200,12 @@ class Generator(
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             message.swipes.removeLast()
             message.swipeId.value = message.swipes.lastIndex
-            isGenerating.value = false
+            isGenerating = false
             showErrorKobold()
             return
         }
 
-        message.updateSwipe(swipeID, result.trimIndent())
+        message.updateSwipe(generatingSwipeIndex, result.trimIndent())
 
         if (withImage) {
             val image = generateImage(result)
@@ -204,7 +214,7 @@ class Generator(
 
         chat.save()
 
-        isGenerating.value = false
+        isGenerating = false
     }
 
     private suspend fun addImage(message: AMessage2, image: ImageBitmap?) {

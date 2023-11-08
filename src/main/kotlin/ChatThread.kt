@@ -70,7 +70,7 @@ fun ChatThread(
     val generator by remember { mutableStateOf(Generator(chat, character, snackbarHostState)) }
 
     DisposableEffect(generator.isGenerating) {
-        onGeneratingStatusChange(generator.isGenerating.value)
+        onGeneratingStatusChange(generator.isGenerating)
         onDispose {}
     }
 
@@ -121,10 +121,13 @@ fun ChatThread(
                     MessageView(
                         character = character,
                         message = message,
-                        isRegenerateAvailable = !generator.isGenerating.value && index == chat.messages.lastIndex,
-                        isCompleteAvailable = !generator.isGenerating.value && index == chat.messages.lastIndex,
-                        isGenerativeSwipeAvailable = !generator.isGenerating.value && index == chat.messages.lastIndex,
+                        isEditAvailable = message.swipeId.value != generator.generatingSwipeIndex,
+                        isRegenerateAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
+                        isCompleteAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
+                        isGenerativeSwipeAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
                         isSwipesAvailable = message.swipes.size > 1 || (index == chat.messages.lastIndex && !message.isUser),
+                        isSplitAvailable = index != 0 && message.swipeId.value != generator.generatingSwipeIndex,
+                        isAdditionalSwipeAvailable = true,
                         onRegenerate = { coroutineScope.launch { generator.regenerateMessage(
                             StableDiffusionWebUIClient.connectionStatus
                         ) } },
@@ -179,7 +182,7 @@ fun ChatThread(
             message = message,
             image = image,
             isDeleting = isDeleting,
-            isGenerating = generator.isGenerating.value,
+            isGenerating = generator.isGenerating,
             onSendMessage = { mes ->
                 coroutineScope.launch {
                     message.value = TextFieldValue(text = "")
@@ -212,6 +215,7 @@ fun ChatThread(
                         message.value = TextFieldValue(text = result)
 
                     } catch (e: CouldNotGenerateException) {
+                        e.printStackTrace()
                     }
                 }
             },
@@ -596,10 +600,13 @@ private fun SendIcons(
 private fun MessageView(
     character: ACharacter,
     message: AMessage2,
+    isEditAvailable: Boolean,
     isRegenerateAvailable: Boolean,
     isCompleteAvailable: Boolean,
     isGenerativeSwipeAvailable: Boolean,
     isSwipesAvailable: Boolean,
+    isSplitAvailable: Boolean,
+    isAdditionalSwipeAvailable: Boolean,
     onGenerativeSwipe: () -> Unit,
     onRegenerate: () -> Unit,
     onComplete: () -> Unit,
@@ -675,7 +682,7 @@ private fun MessageView(
                     MessageContent(
                         text = text.format(character),
                         image = message.getImage(index),
-                        isEditAvailable = true,
+                        isEditAvailable = isEditAvailable,
                         editMessage = editMessage,
                         onChange = { editMessage = it },
                         modifier = Modifier.fillMaxWidth(),
@@ -685,11 +692,11 @@ private fun MessageView(
         }
 
         ActionButtons(
-            isEditAvailable = true,
+            isEditAvailable = isEditAvailable,
             isRegenerateAvailable = isRegenerateAvailable,
             isCompleteAvailable = isCompleteAvailable,
-            isSplitAvailable = true,
-            isAdditionalSwipeAvailable = true,
+            isSplitAvailable = isSplitAvailable,
+            isAdditionalSwipeAvailable = isAdditionalSwipeAvailable,
             isEdit = editMessage != null,
             onEditStart = { editMessage = TextFieldValue(message.content) },
             onEditEnd = { accept ->
