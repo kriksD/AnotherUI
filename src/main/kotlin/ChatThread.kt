@@ -121,12 +121,12 @@ fun ChatThread(
                     MessageView(
                         character = character,
                         message = message,
-                        isEditAvailable = message.swipeId.value != generator.generatingSwipeIndex,
+                        isEditAvailable = if (index == chat.messages.lastIndex) message.swipeId.value != generator.generatingSwipeIndex else true,
                         isRegenerateAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
                         isCompleteAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
                         isGenerativeSwipeAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
                         isSwipesAvailable = message.swipes.size > 1 || (index == chat.messages.lastIndex && !message.isUser),
-                        isSplitAvailable = index != 0 && message.swipeId.value != generator.generatingSwipeIndex,
+                        isSplitAvailable = index != 0 && if (index == chat.messages.lastIndex) message.swipeId.value != generator.generatingSwipeIndex else true,
                         isAdditionalSwipeAvailable = true,
                         onRegenerate = { coroutineScope.launch { generator.regenerateMessage(
                             StableDiffusionWebUIClient.connectionStatus
