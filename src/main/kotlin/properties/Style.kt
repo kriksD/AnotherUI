@@ -1,7 +1,6 @@
 package properties
 
 import androidx.compose.ui.graphics.Color
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,6 +22,7 @@ data class Style(
     var menu_width: Int = 300,
     var menu_item_height: Int = 36,
     var scrollbar_thickness: Int = 12,
+    var game_cell_size: Int = 24,
 
     var transparency: Float = 0.95F,
     var transparency_second: Float = 0.7F,

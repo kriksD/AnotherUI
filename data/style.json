@@ -15,6 +15,7 @@
     "menu_width": 300,
     "menu_item_height": 36,
     "scrollbar_thickness": 12,
+    "game_cell_size": 24,
     "transparency": 0.95,
     "transparency_second": 0.7,
     "transparency_light": 0.4,

@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 fun AppearDisappearAnimation(
     visible: Boolean,
     duration: Int = 300,
+    delayIn: Int = 0,
+    delayOut: Int = 0,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -18,11 +20,13 @@ fun AppearDisappearAnimation(
         enter = fadeIn(
             animationSpec = tween(
                 durationMillis = duration,
+                delayMillis = delayIn,
             ),
         ),
         exit = fadeOut(
             animationSpec = tween(
                 durationMillis = duration,
+                delayMillis = delayOut,
             ),
         ),
     ) {

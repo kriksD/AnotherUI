@@ -22,9 +22,11 @@ import composableFunctions.openFileDialog
 @Composable
 fun CreateCharacterWindow(
     window: ComposeWindow,
-    onDone: (ACharacter) -> Unit = {},
-    onClose: () -> Unit = {},
-    onLoadFail: () -> Unit = {},
+    onDone: (ACharacter) -> Unit,
+    onDoneMultiple: (List<ACharacter>) -> Unit,
+    onClose: () -> Unit,
+    onLoadFail: () -> Unit,
+    onLoadMultipleFail: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -47,7 +49,9 @@ fun CreateCharacterWindow(
                 .fillMaxWidth()
                 .weight(8F),
             onLoadFail = onLoadFail,
+            onLoadMultipleFail = onLoadMultipleFail,
             onDone = onDone,
+            onDoneMultiple = onDoneMultiple,
         )
         Text("OR", color = colorText, fontSize = bigText, modifier = Modifier.align(Alignment.CenterHorizontally))
         CreateArea(
@@ -63,8 +67,10 @@ fun CreateCharacterWindow(
 @Composable
 private fun LoadArea(
     window: ComposeWindow,
-    onDone: (ACharacter) -> Unit = {},
-    onLoadFail: () -> Unit = {},
+    onDone: (ACharacter) -> Unit,
+    onDoneMultiple: (List<ACharacter>) -> Unit,
+    onLoadFail: () -> Unit,
+    onLoadMultipleFail: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isDroppable by remember { mutableStateOf(false) }
@@ -95,9 +101,30 @@ private fun LoadArea(
                     val dragData = externalDragValue.dragData
                     if (dragData is androidx.compose.ui.DragData.FilesList) {
                         val paths = dragData.readFiles()
-                        loadNewCharacter(File(paths.first().removePrefix("file:/")))?.let { nc ->
-                            onDone.invoke(nc)
-                        } ?: onLoadFail.invoke()
+
+                        if (paths.size == 1) {
+                            loadNewCharacter(File(paths.first().removePrefix("file:/")))?.let { nc ->
+                                onDone(nc)
+                            } ?: onLoadFail()
+                        }
+
+                        if (paths.size > 1) {
+                            val loaded = mutableListOf<ACharacter>()
+                            val failed = mutableListOf<String>()
+
+                            paths.forEach { p ->
+                                loadNewCharacter(File(p.removePrefix("file:/")))?.let { nc ->
+                                    loaded.add(nc)
+
+                                } ?: failed.add(p)
+                            }
+
+                            if (failed.isNotEmpty()) {
+                                onLoadMultipleFail(failed)
+                            }
+
+                            onDoneMultiple(loaded)
+                        }
                     }
                 }
             ),

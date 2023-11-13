@@ -18,6 +18,7 @@ val tinyIconSize get() = style.tiny_icon_size.dp
 val menuWidth get() = style.menu_width.dp
 val menuItemHeight get() = style.menu_item_height.dp
 val scrollbarThickness get() = style.scrollbar_thickness.dp
+val gameCellSize get() = style.game_cell_size.dp
 
 val transparency get() = style.transparency
 val transparencySecond get() = style.transparency_second
@@ -29,6 +30,6 @@ val normalText get() = style.normal_text.sp
 val bigText get() = style.big_text.sp
 val hugeText get() = style.huge_text.sp
 
-var shortAnimationDuration: Int = style.shortAnimationDuration
-var normalAnimationDuration: Int = style.normalAnimationDuration
-var longAnimationDuration: Int = style.longAnimationDuration
+val shortAnimationDuration get() = style.shortAnimationDuration
+val normalAnimationDuration get() = style.normalAnimationDuration
+val longAnimationDuration get() = style.longAnimationDuration

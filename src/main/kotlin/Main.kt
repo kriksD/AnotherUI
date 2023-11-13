@@ -24,6 +24,9 @@ import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.AppearDisappearAnimation
 import composableFunctions.LoadingIcon
+import games.FiveGame
+import games.LineGame
+import games.PairGame
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -281,6 +284,7 @@ fun main() = application {
                                                 newChat.save()
 
                                                 chats.selectChat(newChat, char)
+                                                reloadChatThread = true
                                             }
                                         }
                                     }
@@ -381,10 +385,26 @@ fun main() = application {
                             saveSettings()
                             closeWindow()
                         },
+                        onDoneMultiple = {
+                            it.forEach { newCharacter ->
+                                characters.add(0, newCharacter)
+                            }
+
+                            saveSettings()
+                            closeWindow()
+                        },
                         onLoadFail = {
                             coroutineScope.launch {
                                 snackbarHostState.currentSnackbarData?.dismiss()
                                 snackbarHostState.showSnackbar("Couldn't load character")
+                            }
+                        },
+                        onLoadMultipleFail = {
+                            coroutineScope.launch {
+                                snackbarHostState.currentSnackbarData?.dismiss()
+                                var listString = ""
+                                it.forEach { listString += it + "\n" }
+                                snackbarHostState.showSnackbar("Couldn't load multiple characters:\n$listString")
                             }
                         }
                     )
@@ -409,6 +429,40 @@ fun main() = application {
                     contentColor = colorText,
                 ) {
                     Text(data.message, color = colorText, fontSize = normalText)
+                }
+            }
+
+            val game = remember { CheckManager(
+                CheckValue(0, true),
+                CheckValue(1, false),
+                CheckValue(2, false),
+                CheckValue(3, false),
+            ) }
+
+            Column(
+                modifier = Modifier
+                    .padding(start = biggerPadding)
+                    .align(Alignment.CenterStart)
+            ) {
+                Text(
+                    text = "▶",
+                    color = colorText,
+                    fontSize = hugeText,
+                    modifier = Modifier.clickable {
+                        val checked = game.getChecked() ?: return@clickable
+
+                        if (checked < 3) game.check(checked + 1) else game.check(0)
+                    }
+                )
+
+                Crossfade(
+                    game.getChecked(),
+                ) { checked ->
+                    when (checked) {
+                        1 -> LineGame()
+                        2 -> PairGame()
+                        3 -> FiveGame()
+                    }
                 }
             }
         }
