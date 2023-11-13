@@ -189,6 +189,8 @@ private class LineGameField(
 
     fun check(): Int {
         var score = 0
+        val finishedRows = mutableListOf<Int>()
+        val finishedColumns = mutableListOf<Int>()
 
         repeat(width) { x ->
             var count = 0
@@ -198,8 +200,8 @@ private class LineGameField(
             }
 
             if (count == width) {
-                repeat(height) { y ->
-                    cells[x][y] = false
+                repeat(height) {
+                    finishedRows.add(x)
                 }
 
                 score++
@@ -216,14 +218,26 @@ private class LineGameField(
             }
 
             if (count == height) {
-                repeat(width) { x ->
-                    cells[x][y] = false
+                repeat(width) {
+                    finishedColumns.add(y)
                 }
 
                 score++
             }
 
             count = 0
+        }
+
+        finishedRows.forEach { x ->
+            repeat(height) { y ->
+                cells[x][y] = false
+            }
+        }
+
+        finishedColumns.forEach { y ->
+            repeat(width) { x ->
+                cells[x][y] = false
+            }
         }
 
         return score
