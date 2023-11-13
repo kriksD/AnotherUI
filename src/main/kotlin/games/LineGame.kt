@@ -269,6 +269,8 @@ private class Piece(
         val presets = listOf(
             Piece(1, 1, listOf(listOf(true))),
             Piece(1, 2, listOf(listOf(true, true))),
+            Piece(1, 3, listOf(listOf(true, true, true))),
+            Piece(1, 4, listOf(listOf(true, true, true, true))),
             Piece(
                 2,
                 2,
@@ -282,6 +284,14 @@ private class Piece(
                 2,
                 listOf(
                     listOf(true, true),
+                    listOf(true, false),
+                )
+            ),
+            Piece(
+                2,
+                2,
+                listOf(
+                    listOf(false, true),
                     listOf(true, false),
                 )
             ),
@@ -310,15 +320,6 @@ private class Piece(
                     listOf(true, false),
                     listOf(true, true),
                     listOf(true, false),
-                )
-            ),
-            Piece(
-                3,
-                3,
-                listOf(
-                    listOf(true, true, true),
-                    listOf(true, true, true),
-                    listOf(true, true, true),
                 )
             ),
             Piece(
