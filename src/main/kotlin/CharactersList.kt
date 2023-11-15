@@ -3,10 +3,13 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import composableFunctions.AppearDisappearAnimation
 import composableFunctions.Grid
 import properties.Properties
@@ -31,6 +35,7 @@ fun CharacterList(
     onNewCharacter: () -> Unit,
 ) {
     var view by remember { mutableStateOf(settings.characters_list_view) }
+    var searchSequence by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier,
@@ -40,11 +45,58 @@ fun CharacterList(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Button(
-                onClick = onNewCharacter,
-                colors = ButtonDefaults.buttonColors(colorBackgroundSecondLighter),
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(padding),
             ) {
-                Text("+ add character", color = colorText, fontSize = normalText)
+                Button(
+                    onClick = onNewCharacter,
+                    colors = ButtonDefaults.buttonColors(colorBackgroundSecondLighter),
+                ) {
+                    Text("+ add character", color = colorText, fontSize = normalText)
+                }
+
+                Button(
+                    onClick = {
+                        list.randomOrNull()?.let { onCharacterClick(it) }
+                    },
+                    colors = ButtonDefaults.buttonColors(colorBackgroundSecondLighter),
+                ) {
+                    Text("random character", color = colorText, fontSize = normalText)
+                }
+
+                BasicTextField(
+                    modifier = Modifier
+                        .background(colorBackground, RoundedCornerShape(corners))
+                        .border(smallBorder, colorBorder, RoundedCornerShape(corners))
+                        .padding(padding),
+                    value = searchSequence,
+                    decorationBox = { innerTextField ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search",
+                                modifier = Modifier.size(tinyIconSize),
+                                tint = colorText
+                            )
+
+                            Box {
+                                if (searchSequence.isEmpty()) {
+                                    Text("Type to search...", color = colorTextSecond, fontSize = normalText)
+                                }
+
+                                innerTextField()
+                            }
+                        }
+                    },
+                    textStyle = TextStyle(color = colorText, fontSize = normalText),
+                    cursorBrush = SolidColor(colorText),
+                    onValueChange = { if (it.length <= 25) searchSequence = it },
+                    singleLine = true,
+                    maxLines = 1,
+                )
             }
 
             ViewControls(
@@ -53,7 +105,7 @@ fun CharacterList(
                     view = it
                     settings.characters_list_view = it
                     Properties.saveSettings()
-                }
+                },
             )
         }
 
@@ -70,7 +122,7 @@ fun CharacterList(
                                 .weight(1F)
                                 .verticalScroll(scrollState),
                         ) {
-                            list.forEach {
+                            list.filter { it.jsonData.name.contains(searchSequence, ignoreCase = true) }.forEach {
                                 CharacterCardList(
                                     it,
                                     Modifier.clickable {
@@ -103,7 +155,9 @@ fun CharacterList(
                         val scrollState = rememberScrollState()
                         Grid(
                             columns = 4,
-                            items = list.ifEmpty { listOf(0) },
+                            items = list
+                                .filter { it.jsonData.name.contains(searchSequence, ignoreCase = true) }
+                                .ifEmpty { listOf(0) },
                             modifier = Modifier
                                 .weight(1F)
                                 .verticalScroll(scrollState),
