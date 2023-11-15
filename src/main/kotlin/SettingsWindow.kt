@@ -379,8 +379,8 @@ private fun Generating() {
                     repPenRange = it
                     settings.generating.rep_pen_range = repPenRange.toInt()
                 },
-                valueRange = 0F..2048F,
-                intStep = 8,
+                valueRange = 0F..16384F,
+                intStep = 64,
                 modifier = Modifier.weight(1F),
             )
 
@@ -491,6 +491,45 @@ private fun Generating() {
                     settings.generating.tfs = tfs
                 },
                 modifier = Modifier.weight(1F),
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
+            Text(
+                text = "Seed:",
+                color = colorText,
+                fontSize = normalText,
+            )
+
+            var seed by remember { mutableStateOf<Int?>(settings.generating.seed) }
+            BasicTextField(
+                modifier = Modifier
+                    .background(colorBackground, RoundedCornerShape(corners))
+                    .border(smallBorder, colorBorder, RoundedCornerShape(corners))
+                    .padding(padding),
+                value = if (seed == null) "" else seed.toString(),
+                textStyle = TextStyle(color = colorText, fontSize = normalText),
+                cursorBrush = SolidColor(colorText),
+                onValueChange = { value ->
+                    if (value == "-") {
+                        seed = -1
+                    }
+
+                    if (value.isBlank()) {
+                        seed = null
+                        settings.generating.seed = -1
+                    }
+
+                    value.toIntOrNull()?.let {
+                        seed = it
+                        settings.generating.seed = it
+                    }
+                },
+                singleLine = true,
+                maxLines = 1,
             )
         }
     }

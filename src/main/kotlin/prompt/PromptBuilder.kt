@@ -107,6 +107,7 @@ class PromptBuilder {
             typical = settings.generating.typical,
             sampler_order = listOf(6, 0, 1, 2, 3, 4, 5),
             use_default_badwordsids = false,
+            seed = settings.generating.seed,
         )
     }
 

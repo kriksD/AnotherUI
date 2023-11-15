@@ -34,4 +34,5 @@ data class Prompt(
     val typical: Float,
     val sampler_order: List<Int>,
     val use_default_badwordsids: Boolean,
+    val seed: Int,
 )
