@@ -317,138 +317,6 @@ private fun Generating() {
                 modifier = Modifier.weight(1F),
             )
 
-            var repPen by remember { mutableStateOf(settings.generating.rep_pen) }
-            DescriptionSlider(
-                name = "Repetition Penalty",
-                value = repPen,
-                onValueChange = {
-                    repPen = it
-                },
-                onValueChangeFinished = {
-                    repPen = it
-                    settings.generating.rep_pen = repPen
-                },
-                valueRange = 1F..1.5F,
-                modifier = Modifier.weight(1F),
-            )
-
-            Spacer(modifier = Modifier.weight(1F))
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(padding)
-        ) {
-            var topP by remember { mutableStateOf(settings.generating.top_p) }
-            DescriptionSlider(
-                name = "Top P Sampling",
-                value = topP,
-                onValueChange = {
-                    topP = it
-                },
-                onValueChangeFinished = {
-                    topP = it
-                    settings.generating.top_p = topP
-                },
-                modifier = Modifier.weight(1F),
-            )
-
-            var topK by remember { mutableStateOf(settings.generating.top_k.toFloat()) }
-            DescriptionSlider(
-                name = "Top K Sampling",
-                value = topK,
-                onValueChange = {
-                    topK = it
-                },
-                onValueChangeFinished = {
-                    topK = it
-                    settings.generating.top_k = topK.toInt()
-                },
-                valueRange = 0F..100F,
-                intStep = 1,
-                modifier = Modifier.weight(1F)
-            )
-
-            var topA by remember { mutableStateOf(settings.generating.top_a) }
-            DescriptionSlider(
-                name = "Top A Sampling",
-                value = topA,
-                onValueChange = {
-                    topA = it
-                },
-                onValueChangeFinished = {
-                    topA = it
-                    settings.generating.top_a = topA
-                },
-                modifier = Modifier.weight(1F),
-            )
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(padding)
-        ) {
-            var typical by remember { mutableStateOf(settings.generating.typical) }
-            DescriptionSlider(
-                name = "Typical Sampling",
-                value = typical,
-                onValueChange = {
-                    typical = it
-                },
-                onValueChangeFinished = {
-                    typical = it
-                    settings.generating.typical = typical
-                },
-                modifier = Modifier.weight(1F),
-            )
-
-            var tfs by remember { mutableStateOf(settings.generating.tfs) }
-            DescriptionSlider(
-                name = "Tail Free Sampling",
-                value = tfs,
-                onValueChange = {
-                    tfs = it
-                },
-                onValueChangeFinished = {
-                    tfs = it
-                    settings.generating.tfs = tfs
-                },
-                modifier = Modifier.weight(1F),
-            )
-
-            var repPenRange by remember { mutableStateOf(settings.generating.rep_pen_range.toFloat()) }
-            DescriptionSlider(
-                name = "Repetition Penalty Range",
-                value = repPenRange,
-                onValueChange = {
-                    repPenRange = it
-                },
-                onValueChangeFinished = {
-                    repPenRange = it
-                    settings.generating.rep_pen_range = repPenRange.toInt()
-                },
-                valueRange = 0F..2048F,
-                intStep = 8,
-                modifier = Modifier.weight(1F),
-            )
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(padding)
-        ) {
-            var repPenSlope by remember { mutableStateOf(settings.generating.rep_pen_slope) }
-            DescriptionSlider(
-                name = "Rep Pen Slope",
-                value = repPenSlope,
-                onValueChange = {
-                    repPenSlope = it
-                },
-                onValueChangeFinished = {
-                    repPenSlope = it
-                    settings.generating.rep_pen_slope = repPenSlope
-                },
-                valueRange = 0.1F..10F,
-                modifier = Modifier.weight(1F),
-            )
-
             var maxLength by remember { mutableStateOf(settings.generating.max_length.toFloat()) }
             DescriptionSlider(
                 name = "Amount of generation",
@@ -478,6 +346,150 @@ private fun Generating() {
                 },
                 valueRange = 512F..16384F,
                 intStep = 64,
+                modifier = Modifier.weight(1F),
+            )
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
+            var repPen by remember { mutableStateOf(settings.generating.rep_pen) }
+            DescriptionSlider(
+                name = "Repetition Penalty",
+                value = repPen,
+                onValueChange = {
+                    repPen = it
+                },
+                onValueChangeFinished = {
+                    repPen = it
+                    settings.generating.rep_pen = repPen
+                },
+                valueRange = 1F..1.5F,
+                modifier = Modifier.weight(1F),
+            )
+
+            var repPenRange by remember { mutableStateOf(settings.generating.rep_pen_range.toFloat()) }
+            DescriptionSlider(
+                name = "Repetition Penalty Range",
+                value = repPenRange,
+                onValueChange = {
+                    repPenRange = it
+                },
+                onValueChangeFinished = {
+                    repPenRange = it
+                    settings.generating.rep_pen_range = repPenRange.toInt()
+                },
+                valueRange = 0F..2048F,
+                intStep = 8,
+                modifier = Modifier.weight(1F),
+            )
+
+            var repPenSlope by remember { mutableStateOf(settings.generating.rep_pen_slope) }
+            DescriptionSlider(
+                name = "Rep Pen Slope",
+                value = repPenSlope,
+                onValueChange = {
+                    repPenSlope = it
+                },
+                onValueChangeFinished = {
+                    repPenSlope = it
+                    settings.generating.rep_pen_slope = repPenSlope
+                },
+                valueRange = 0.1F..10F,
+                modifier = Modifier.weight(1F),
+            )
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
+            var minP by remember { mutableStateOf(settings.generating.min_p) }
+            DescriptionSlider(
+                name = "Min P Sampling",
+                value = minP,
+                onValueChange = {
+                    minP = it
+                },
+                onValueChangeFinished = {
+                    minP = it
+                    settings.generating.min_p = minP
+                },
+                modifier = Modifier.weight(1F),
+            )
+
+            var topP by remember { mutableStateOf(settings.generating.top_p) }
+            DescriptionSlider(
+                name = "Top P Sampling",
+                value = topP,
+                onValueChange = {
+                    topP = it
+                },
+                onValueChangeFinished = {
+                    topP = it
+                    settings.generating.top_p = topP
+                },
+                modifier = Modifier.weight(1F),
+            )
+
+            var topK by remember { mutableStateOf(settings.generating.top_k.toFloat()) }
+            DescriptionSlider(
+                name = "Top K Sampling",
+                value = topK,
+                onValueChange = {
+                    topK = it
+                },
+                onValueChangeFinished = {
+                    topK = it
+                    settings.generating.top_k = topK.toInt()
+                },
+                valueRange = 0F..100F,
+                intStep = 1,
+                modifier = Modifier.weight(1F)
+            )
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
+            var topA by remember { mutableStateOf(settings.generating.top_a) }
+            DescriptionSlider(
+                name = "Top A Sampling",
+                value = topA,
+                onValueChange = {
+                    topA = it
+                },
+                onValueChangeFinished = {
+                    topA = it
+                    settings.generating.top_a = topA
+                },
+                modifier = Modifier.weight(1F),
+            )
+
+            var typical by remember { mutableStateOf(settings.generating.typical) }
+            DescriptionSlider(
+                name = "Typical Sampling",
+                value = typical,
+                onValueChange = {
+                    typical = it
+                },
+                onValueChangeFinished = {
+                    typical = it
+                    settings.generating.typical = typical
+                },
+                modifier = Modifier.weight(1F),
+            )
+
+            var tfs by remember { mutableStateOf(settings.generating.tfs) }
+            DescriptionSlider(
+                name = "Tail Free Sampling",
+                value = tfs,
+                onValueChange = {
+                    tfs = it
+                },
+                onValueChangeFinished = {
+                    tfs = it
+                    settings.generating.tfs = tfs
+                },
                 modifier = Modifier.weight(1F),
             )
         }
@@ -875,7 +887,9 @@ private fun AppearanceSettings(
                                 settings.background = img.first
                             }
 
-                        } catch (e: Exception) {}
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 },
             )

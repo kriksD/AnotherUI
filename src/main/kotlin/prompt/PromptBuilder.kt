@@ -103,6 +103,7 @@ class PromptBuilder {
             top_a = settings.generating.top_a,
             top_k = settings.generating.top_k,
             top_p = settings.generating.top_p,
+            min_p = settings.generating.min_p,
             typical = settings.generating.typical,
             sampler_order = listOf(6, 0, 1, 2, 3, 4, 5),
             use_default_badwordsids = false,

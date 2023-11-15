@@ -15,6 +15,7 @@ data class GeneratingSettings(
     var top_a: Float = 0.9F,
     var top_k: Int = 0,
     var top_p: Float = 0.9F,
+    var min_p: Float = 0.1F,
     var typical: Float = 1F,
 ) {
     companion object {
@@ -33,6 +34,7 @@ data class GeneratingSettings(
                 map["top_a"]?.jsonPrimitive?.floatOrNull?.let { newSettings.top_a = it }
                 map["top_k"]?.jsonPrimitive?.intOrNull?.let { newSettings.top_k = it }
                 map["top_p"]?.jsonPrimitive?.floatOrNull?.let { newSettings.top_p = it }
+                map["min_p"]?.jsonPrimitive?.floatOrNull?.let { newSettings.min_p = it }
                 map["typical"]?.jsonPrimitive?.floatOrNull?.let { newSettings.typical = it }
 
                 newSettings
