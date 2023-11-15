@@ -2,6 +2,7 @@ package prompt
 
 import character.ACharacter
 import character.chat.newChat.AChat2
+import character.chat.newChat.AMessage2
 import client.kobold.KoboldAIClient
 import client.format
 import settings
@@ -15,6 +16,7 @@ class PromptBuilder {
     private var character: ACharacter? = null
     private var chat: AChat2? = null
     private var systemPrompt: String? = null
+    private var additionalMessages: MutableList<AMessage2> = mutableListOf()
     private var pattern: String = """
         {{systemPrompt}}
         {{persona}}
@@ -56,6 +58,11 @@ class PromptBuilder {
 
     fun systemPrompt(systemPrompt: String): PromptBuilder {
         this.systemPrompt = systemPrompt
+        return this
+    }
+
+    fun addAdditionalMessage(message: AMessage2): PromptBuilder {
+        this.additionalMessages.add(message)
         return this
     }
 
@@ -143,16 +150,17 @@ class PromptBuilder {
             )
         }
 
+        val mergedMessages = chat.messages + additionalMessages
         val maxContextLength = settings.generating.max_context_length
         val currentTokenCount = KoboldAIClient.countTokens(prompt)
         if (currentTokenCount == -1) return null
         var tokensLeft = maxContextLength - currentTokenCount - 32
         println("tokensLeft: $tokensLeft")
         var messagesPrompt = ""
-        val lastIndex = if (regenerate) chat.messages.lastIndex - 1 else chat.messages.lastIndex
+        val lastIndex = if (regenerate) mergedMessages.lastIndex - 1 else mergedMessages.lastIndex
 
         for (messageIndex in lastIndex downTo 0) {
-            val message = chat.messages[messageIndex]
+            val message = mergedMessages[messageIndex]
 
             val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null
@@ -216,16 +224,17 @@ class PromptBuilder {
             )
         }
 
+        val mergedMessages = chat.messages + additionalMessages
         val maxContextLength = settings.generating.max_context_length
         val currentTokenCount = KoboldAIClient.countTokens(prompt)
         if (currentTokenCount == -1) return null
         var tokensLeft = maxContextLength - currentTokenCount - 32
         println("tokensLeft: $tokensLeft")
         var messagesPrompt = ""
-        val lastIndex = if (regenerate) chat.messages.lastIndex - 1 else chat.messages.lastIndex
+        val lastIndex = if (regenerate) mergedMessages.lastIndex - 1 else mergedMessages.lastIndex
 
         for (messageIndex in lastIndex downTo 0) {
-            val message = chat.messages[messageIndex]
+            val message = mergedMessages[messageIndex]
 
             val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null

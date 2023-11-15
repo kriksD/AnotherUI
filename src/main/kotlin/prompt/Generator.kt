@@ -2,6 +2,7 @@ package prompt
 
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
@@ -11,6 +12,7 @@ import character.chat.newChat.AMessage2
 import client.kobold.KoboldAIClient
 import client.stablediffusion.ImagePrompt
 import client.stablediffusion.StableDiffusionWebUIClient
+import client.trimCorrectly
 import settings
 import showsImageString
 import user
@@ -60,7 +62,7 @@ class Generator(
             return
         }
 
-        message.updateSwipe(0, result.trimIndent())
+        message.updateSwipe(0, result.trimCorrectly())
 
         if (withImage) {
             val image = generateImage(result)
@@ -75,17 +77,30 @@ class Generator(
     /**
      * @throws CouldNotGenerateException if the message could not be generated
      */
-    suspend fun generateUserMessage(): String {
+    suspend fun generateUserMessage(userMessage: String = ""): String {
         isGenerating = true
 
-        val prompt = PromptBuilder()
+        val promptBuilder = PromptBuilder()
             .pattern(settings.prompt_settings.pattern)
             .systemPrompt(settings.prompt_settings.system_prompt)
             .character(character)
             .chat(chat)
             .type(settings.prompt_settings.type)
             .forUser()
-            .build()
+            .complete(userMessage.isNotBlank())
+
+        if (userMessage.isNotBlank()) {
+            promptBuilder.addAdditionalMessage(
+                AMessage2(
+                    name = user.name,
+                    isUser = true,
+                    swipeId = mutableStateOf(0),
+                    swipes = mutableStateListOf(userMessage),
+                    sendDate = 0)
+            )
+        }
+
+        val prompt = promptBuilder.build()
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             isGenerating = false
@@ -95,7 +110,7 @@ class Generator(
 
         isGenerating = false
 
-        return result.trimIndent()
+        return "$userMessage$result".trimCorrectly()
     }
 
     suspend fun completeMessage(
@@ -127,7 +142,7 @@ class Generator(
         }
 
         val newContent = "$oldContent$result"
-        message.updateSwipe(generatingSwipeIndex, newContent.trimIndent())
+        message.updateSwipe(generatingSwipeIndex, newContent.trimCorrectly())
 
         if (withImage) {
             val image = generateImage(result)
@@ -166,7 +181,7 @@ class Generator(
             return
         }
 
-        message.updateSwipe(generatingSwipeIndex, result.trimIndent())
+        message.updateSwipe(generatingSwipeIndex, result.trimCorrectly())
 
         if (withImage) {
             val image = generateImage(result)
@@ -205,7 +220,7 @@ class Generator(
             return
         }
 
-        message.updateSwipe(generatingSwipeIndex, result.trimIndent())
+        message.updateSwipe(generatingSwipeIndex, result.trimCorrectly())
 
         if (withImage) {
             val image = generateImage(result)

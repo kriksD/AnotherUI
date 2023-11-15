@@ -121,12 +121,12 @@ fun ChatThread(
                     MessageView(
                         character = character,
                         message = message,
-                        isEditAvailable = if (index == chat.messages.lastIndex) message.swipeId.value != generator.generatingSwipeIndex else true,
+                        isEditAvailable = if (index == chat.messages.lastIndex) !message.isUser && message.swipeId.value != generator.generatingSwipeIndex else true,
                         isRegenerateAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
                         isCompleteAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
-                        isGenerativeSwipeAvailable = !generator.isGenerating && index == chat.messages.lastIndex,
+                        isGenerativeSwipeAvailable = !generator.isGenerating && !message.isUser && index == chat.messages.lastIndex,
                         isSwipesAvailable = message.swipes.size > 1 || (index == chat.messages.lastIndex && !message.isUser),
-                        isSplitAvailable = index != 0 && if (index == chat.messages.lastIndex) message.swipeId.value != generator.generatingSwipeIndex else true,
+                        isSplitAvailable = index != 0 && if (index == chat.messages.lastIndex) !message.isUser && message.swipeId.value != generator.generatingSwipeIndex else true,
                         isAdditionalSwipeAvailable = true,
                         onRegenerate = { coroutineScope.launch { generator.regenerateMessage(
                             StableDiffusionWebUIClient.connectionStatus
@@ -211,7 +211,7 @@ fun ChatThread(
             onGenerateUserMessage = {
                 coroutineScope.launch {
                     try {
-                        val result = generator.generateUserMessage()
+                        val result = generator.generateUserMessage(message.value.text)
                         message.value = TextFieldValue(text = result)
 
                     } catch (e: CouldNotGenerateException) {
@@ -1001,22 +1001,6 @@ private fun ActionButtons(
                 }
 
                 AppearDisappearAnimation(
-                    isAdditionalSwipeAvailable,
-                    shortAnimationDuration,
-                ) {
-                    Icon(
-                        Icons.Default.Add,
-                        "create new empty swipe for this message",
-                        tint = colorText,
-                        modifier = Modifier
-                            .padding(padding)
-                            .width(tinyIconSize)
-                            .aspectRatio(1F)
-                            .clickable(onClick = onCreateEmptySwipe)
-                    )
-                }
-
-                AppearDisappearAnimation(
                     isEditAvailable,
                     shortAnimationDuration,
                 ) {
@@ -1029,6 +1013,22 @@ private fun ActionButtons(
                             .width(tinyIconSize)
                             .aspectRatio(1F)
                             .clickable(onClick = onEditStart)
+                    )
+                }
+
+                AppearDisappearAnimation(
+                    isAdditionalSwipeAvailable,
+                    shortAnimationDuration,
+                ) {
+                    Icon(
+                        Icons.Default.Add,
+                        "create new empty swipe for this message",
+                        tint = colorText,
+                        modifier = Modifier
+                            .padding(padding)
+                            .width(tinyIconSize)
+                            .aspectRatio(1F)
+                            .clickable(onClick = onCreateEmptySwipe)
                     )
                 }
             }

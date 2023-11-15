@@ -46,7 +46,7 @@ fun PairGame(
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(((gameCellSize.value + padding.value * 2) * 3).dp)
+            modifier = Modifier.height(((gameCellSize.value + padding.value * 2) * 4).dp)
         ) {
             Icon(
                 imageVector = Icons.Default.Refresh,

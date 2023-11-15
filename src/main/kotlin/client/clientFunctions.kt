@@ -27,3 +27,14 @@ fun String.format(character: ACharacter): String {
         .replace("{{user_name}}", user.name, true)
         .replace("<user_name>", user.name, true)
 }
+
+fun String.trimCorrectly(): String {
+    var result = this
+
+    while (result.first() == '\n' || result.first() == '\t' || result.first() == ' ') result = result.drop(1)
+    while (result.last() == '\n' || result.last() == '\t' || result.last() == ' ') result = result.dropLast(1)
+
+    result = result.replace(Regex("(?<!\\n)\\n(?!\\n)"), "\n\n")
+
+    return result
+}

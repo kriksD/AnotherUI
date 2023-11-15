@@ -123,6 +123,7 @@ fun main() = application {
 
                             if (!firstMessage.isUser) {
                                 firstMessage.updateSwipe(0, char.jsonData.first_mes)
+                                selected.save()
                             }
                         }
                     }

@@ -46,7 +46,7 @@ fun LineGame(
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(((gameCellSize.value + padding.value * 2) * 3).dp)
+            modifier = Modifier.height(((gameCellSize.value + padding.value * 2) * 4).dp)
         ) {
             Icon(
                 imageVector = Icons.Default.Refresh,
@@ -331,9 +331,27 @@ private class Piece(
                 3,
                 2,
                 listOf(
+                    listOf(true, true),
+                    listOf(false, true),
+                    listOf(false, true),
+                )
+            ),
+            Piece(
+                3,
+                2,
+                listOf(
                     listOf(true, false),
                     listOf(true, true),
                     listOf(true, false),
+                )
+            ),
+            Piece(
+                3,
+                2,
+                listOf(
+                    listOf(true, true),
+                    listOf(true, false),
+                    listOf(true, true),
                 )
             ),
             Piece(
