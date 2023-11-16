@@ -1,3 +1,6 @@
+package composableFunctions.screen
+
+import ViewType
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
@@ -9,6 +12,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,11 +25,38 @@ import character.ACharacter
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
+import bigText
+import colorBackground
+import colorBackgroundLighter
+import colorBackgroundSecond
+import colorBackgroundSecondLighter
+import colorBorder
+import colorText
+import colorTextSecond
+import composableFunctions.ADropDownMenuItem
+import composableFunctions.ADropdownMenu
 import composableFunctions.AppearDisappearAnimation
 import composableFunctions.Grid
+import corners
+import imageHeight
+import imageWidth
+import menuWidth
+import normalAnimationDuration
+import normalText
+import padding
 import properties.Properties
+import scrollbarThickness
+import settings
+import smallBorder
+import smallIconSize
+import tinyIconSize
+import transparency
+import transparencySecond
 
 @Composable
 fun CharacterList(
@@ -33,6 +64,7 @@ fun CharacterList(
     list: List<ACharacter>,
     onCharacterClick: (ACharacter) -> Unit,
     onNewCharacter: () -> Unit,
+    onDelete: (ACharacter) -> Unit,
 ) {
     var view by remember { mutableStateOf(settings.characters_list_view) }
     var searchSequence by remember { mutableStateOf("") }
@@ -172,8 +204,9 @@ fun CharacterList(
 
                             if (it is ACharacter) {
                                 CharacterCardGrid(
-                                    it,
-                                    Modifier.clickable {
+                                    character =  it,
+                                    onDelete = onDelete,
+                                    modifier = Modifier.clickable {
                                         onCharacterClick.invoke(it)
                                     },
                                 )
@@ -276,8 +309,28 @@ private fun CharacterCardList(
 @Composable
 private fun CharacterCardGrid(
     character: ACharacter,
+    onDelete: (ACharacter) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var showOptions by remember { mutableStateOf(false) }
+
+    ADropdownMenu(
+        expanded = showOptions,
+        onDismissRequest = { showOptions = false },
+        offset = DpOffset((-3).dp, 4.dp),
+        modifier = Modifier.width(menuWidth)
+            .background(SolidColor(colorBackgroundSecondLighter), RectangleShape, transparency)
+            .border(smallBorder, colorBackgroundSecondLighter, RectangleShape),
+    ) {
+        ADropDownMenuItem(
+            "delete",
+            onClick = {
+                showOptions = false
+                onDelete(character)
+            }
+        )
+    }
+
     Column(
         modifier = modifier
             .padding(padding)
@@ -298,7 +351,24 @@ private fun CharacterCardGrid(
                 .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                 .clip(RoundedCornerShape(corners)),
         )
-        Text(character.jsonData.name, fontSize = bigText, color = colorText)
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(character.jsonData.name, fontSize = bigText, color = colorText)
+
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = "character options",
+                tint = colorText,
+                modifier = Modifier
+                    .size(smallIconSize)
+                    .clickable {
+                        showOptions = true
+                    }
+            )
+        }
     }
 }
 

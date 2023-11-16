@@ -1,3 +1,6 @@
+package composableFunctions.screen
+
+import MDDocument
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -36,19 +39,56 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import bigText
 import character.ACharacter
 import character.chat.newChat.AChat2
 import character.chat.newChat.AMessage2
 import client.*
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
+import colorBackground
+import colorBackgroundDelete
+import colorBackgroundLighter
+import colorBackgroundSecond
+import colorBackgroundSecondLighter
+import colorBorder
+import colorCheckConnection
+import colorNoConnection
+import colorText
+import colorTextError
+import colorTextSecond
+import colorTextSuccess
 import composableFunctions.*
+import corners
+import emptyImageBitmap
+import getImageBitmap
+import iconSize
+import imageHeight
+import imageWidth
 import kotlinx.coroutines.launch
+import longAnimationDuration
+import menuWidth
+import messageImageHeight
+import normalAnimationDuration
+import normalText
 import org.commonmark.node.Document
 import properties.Properties
 import org.commonmark.parser.Parser
+import padding
 import prompt.CouldNotGenerateException
 import prompt.Generator
+import scrollbarThickness
+import settings
+import shortAnimationDuration
+import showsImageString
+import smallBorder
+import smallCorners
+import smallIconSize
+import smallText
+import tinyIconSize
+import transparency
+import transparencyLight
+import transparencySecond
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -635,17 +675,21 @@ private fun MessageView(
                         ?: emptyImageBitmap else character.image,
                     animationSpec = tween(longAnimationDuration),
                 ) { newImage ->
-                    Image(
-                        newImage,
-                        contentDescription = "profile image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(imageWidth, imageHeight)
-                            .padding(padding)
-                            .background(colorBackground, RoundedCornerShape(corners))
-                            .border(smallBorder, colorBorder, RoundedCornerShape(corners))
-                            .clip(RoundedCornerShape(corners)),
-                    )
+                    AppearDisappearAnimation(
+                        settings.profile_images_enabled,
+                    ) {
+                        Image(
+                            newImage,
+                            contentDescription = "profile image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(imageWidth, imageHeight)
+                                .padding(padding)
+                                .background(colorBackground, RoundedCornerShape(corners))
+                                .border(smallBorder, colorBorder, RoundedCornerShape(corners))
+                                .clip(RoundedCornerShape(corners)),
+                        )
+                    }
                 }
 
                 if (isSwipesAvailable) {

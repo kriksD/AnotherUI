@@ -54,4 +54,9 @@ data class ACharacter(
             dummyFile.copyTo(File("data/characters/$fileName.webp"), overwrite = true)
         }
     }
+
+    fun delete() {
+        File("data/characters/$fileName.webp").delete()
+        File("data/characters/$fileName.json").delete()
+    }
 }

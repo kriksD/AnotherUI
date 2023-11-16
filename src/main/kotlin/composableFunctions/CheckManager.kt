@@ -1,3 +1,5 @@
+package composableFunctions
+
 import androidx.compose.runtime.toMutableStateList
 
 class CheckManager<K>(

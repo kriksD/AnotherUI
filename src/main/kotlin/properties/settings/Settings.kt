@@ -10,6 +10,7 @@ data class Settings(
     var link: String = "http://localhost:5000",
     var stable_diffusion_link: String = "http://127.0.0.1:7860",
     var stable_diffusion_api_enabled: Boolean = false,
+    var profile_images_enabled: Boolean = true,
     var background: String = "bg1.png",
     var characters_list_view: ViewType = ViewType.Grid,
     var generating: GeneratingSettings = GeneratingSettings(),
@@ -27,10 +28,14 @@ data class Settings(
                 map["link"]?.jsonPrimitive?.contentOrNull?.let { newSettings.link = it }
                 map["stable_diffusion_link"]?.jsonPrimitive?.contentOrNull?.let { newSettings.stable_diffusion_link = it }
                 map["stable_diffusion_api_enabled"]?.jsonPrimitive?.booleanOrNull?.let { newSettings.stable_diffusion_api_enabled = it }
+                map["profile_images_enabled"]?.jsonPrimitive?.booleanOrNull?.let { newSettings.profile_images_enabled = it }
+                map["background"]?.jsonPrimitive?.contentOrNull?.let { newSettings.background = it }
                 map["characters_list_view"]?.jsonPrimitive?.contentOrNull?.let {
                     try {
                         newSettings.characters_list_view = ViewType.valueOf(it)
-                    } catch (e: Exception) {}
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 map["generating"]?.jsonObject?.let { jsonStr ->

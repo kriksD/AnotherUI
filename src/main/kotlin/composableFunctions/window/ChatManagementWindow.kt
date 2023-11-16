@@ -1,3 +1,5 @@
+package composableFunctions.window
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,9 +15,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import character.ACharacter
 import androidx.compose.ui.graphics.SolidColor
+import bigText
+import biggerPadding
+import border
 import character.chat.newChat.AChat2
+import colorBackgroundLighter
+import colorBackgroundSecond
+import colorBorder
+import colorText
+import colorTextSecond
+import colorTextSuccess
 import composableFunctions.CloseLine
 import composableFunctions.UsualDivider
+import corners
+import iconSize
+import normalText
+import padding
+import smallBorder
+import toTimeString
+import transparency
 
 @Composable
 fun ChatManagementWindow(

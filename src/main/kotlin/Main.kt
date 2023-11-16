@@ -23,7 +23,15 @@ import character.chat.newChat.ChatLoader
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.AppearDisappearAnimation
+import composableFunctions.CheckManager
+import composableFunctions.CheckValue
 import composableFunctions.LoadingIcon
+import composableFunctions.screen.CharacterList
+import composableFunctions.screen.ChatThread
+import composableFunctions.window.ChatManagementWindow
+import composableFunctions.window.CreateCharacterWindow
+import composableFunctions.window.DeleteCharacterWindow
+import composableFunctions.window.SettingsWindow
 import games.FiveGame
 import games.LineGame
 import games.PairGame
@@ -39,7 +47,7 @@ enum class Screen {
 }
 
 enum class OpenWindow {
-    Settings, ChatsManaging, CreateCharacter,
+    Settings, ChatsManaging, CreateCharacter, DeleteCharacter,
 }
 
 enum class ViewType {
@@ -63,6 +71,7 @@ fun main() = application {
     val characters = remember { mutableStateListOf<ACharacter>() }
     var currentCharacter by remember { mutableStateOf<ACharacter?>(null) }
     var isCharacterRedacted by remember { mutableStateOf(false) }
+    var characterToDelete by remember { mutableStateOf<ACharacter?>(null) }
 
     val chats = remember { ChatLoader() }
     var reloadChatThread by remember { mutableStateOf(false) }
@@ -77,6 +86,7 @@ fun main() = application {
     var isSettingsOpen by remember { mutableStateOf(false) }
     var isChatManagementOpen by remember { mutableStateOf(false) }
     var isCreateCharacterOpen by remember { mutableStateOf(false) }
+    var isDeleteCharacterOpen by remember { mutableStateOf(false) }
     var saving by remember { mutableStateOf(false) }
     var isGenerating by remember { mutableStateOf(false) }
 
@@ -159,6 +169,7 @@ fun main() = application {
                     isSettingsOpen = win == OpenWindow.Settings
                     isChatManagementOpen = win == OpenWindow.ChatsManaging
                     isCreateCharacterOpen = win == OpenWindow.CreateCharacter
+                    isDeleteCharacterOpen = win == OpenWindow.DeleteCharacter
                 }
             }
         }
@@ -176,6 +187,7 @@ fun main() = application {
                     isSettingsOpen = false
                     isChatManagementOpen = false
                     isCreateCharacterOpen = false
+                    isDeleteCharacterOpen = false
                 }
             }
         }
@@ -251,6 +263,10 @@ fun main() = application {
                                 onNewCharacter = {
                                     openWindow(OpenWindow.CreateCharacter)
                                 },
+                                onDelete = { character ->
+                                    characterToDelete = character
+                                    openWindow(OpenWindow.DeleteCharacter)
+                                }
                             )
                         }
                         Screen.Chat -> {
@@ -407,6 +423,38 @@ fun main() = application {
                                 it.forEach { listString += it + "\n" }
                                 snackbarHostState.showSnackbar("Couldn't load multiple characters:\n$listString")
                             }
+                        }
+                    )
+                }
+            }
+
+            AppearDisappearAnimation(
+                isDeleteCharacterOpen,
+                normalAnimationDuration,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(colorBackground.copy(transparencyLight))
+                ) {
+                    DeleteCharacterWindow(
+                        modifier = Modifier
+                            .fillMaxWidth(0.3F)
+                            .fillMaxHeight(0.4F)
+                            .align(Alignment.Center),
+                        onCancel = { closeWindow() },
+                        onAccept = { withChats ->
+                            if (withChats) {
+                                characterToDelete?.let {
+                                    File("data/chats/${it.fileName}").deleteRecursively()
+                                }
+                            }
+
+                            characterToDelete?.delete()
+                            characters.remove(characterToDelete)
+                            characterToDelete = null
+
+                            closeWindow()
                         }
                     )
                 }

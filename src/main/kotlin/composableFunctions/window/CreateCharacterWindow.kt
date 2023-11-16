@@ -1,3 +1,5 @@
+package composableFunctions.window
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,10 +16,26 @@ import java.io.File
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.onExternalDrag
 import androidx.compose.ui.text.TextStyle
+import bigText
+import biggerPadding
+import border
 import character.*
+import colorBackground
+import colorBackgroundLighter
+import colorBackgroundSecondLighter
+import colorBackgroundSelection
+import colorBorder
+import colorText
+import colorTextSecond
 import composableFunctions.CloseLine
 import composableFunctions.UsualDivider
 import composableFunctions.openFileDialog
+import corners
+import normalText
+import padding
+import smallBorder
+import smallText
+import transparency
 
 @Composable
 fun CreateCharacterWindow(

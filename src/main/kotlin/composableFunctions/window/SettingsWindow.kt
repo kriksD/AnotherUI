@@ -1,3 +1,5 @@
+package composableFunctions.window
+
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
@@ -31,14 +33,48 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import bigIconSize
+import bigText
+import biggerPadding
+import border
 import character.ACharacter
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
+import colorBackground
+import colorBackgroundLighter
+import colorBackgroundSecond
+import colorBackgroundSecondLighter
+import colorBorder
+import colorCheckConnection
+import colorConnection
+import colorNoConnection
+import colorText
+import colorTextError
+import colorTextSecond
 import composableFunctions.*
+import copyAndGetImage
+import corners
+import emptyImageBitmap
+import getImageBitmap
 import gpt2Tokenizer.GlobalTokenizer
+import imageHeight
+import imageWidth
 import kotlinx.coroutines.launch
+import loadAllImages
+import longAnimationDuration
+import normalAnimationDuration
+import normalText
+import padding
 import prompt.PromptType
 import properties.Properties
+import settings
+import smallBorder
+import smallText
+import style
+import toState
+import transparency
+import transparencyLight
+import user
 import java.io.File
 import java.net.URI
 
@@ -886,6 +922,17 @@ private fun AppearanceSettings(
         modifier = modifier
     ) {
         item {
+            var profileImageEnabled by remember { mutableStateOf(settings.profile_images_enabled) }
+
+            CheckboxText(
+                "profile images enabled",
+                profileImageEnabled,
+                onChange = {
+                    profileImageEnabled = it
+                    settings.profile_images_enabled = it
+                }
+            )
+
             var shapeSelected by remember { mutableStateOf(ImageShape.makeImageShape()) }
 
             ProfileImageShape(
