@@ -1,6 +1,7 @@
 package character.chat.newChat
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.ImageBitmap
 import getImageBitmap
@@ -65,4 +66,13 @@ class AMessage2(
     fun getImage(index: Int): ImageBitmap? {
         return getImageBitmap(images[index] ?: return null)
     }
+
+    fun copy(
+        name: String = this.name,
+        isUser: Boolean = this.isUser,
+        sendDate: Long = this.sendDate,
+        swipeId: Int = this.swipeId.value,
+        swipes: SnapshotStateList<String> = this.swipes,
+        images: MutableMap<Int, String> = this.images,
+    ) = AMessage2(name, isUser, sendDate, mutableStateOf(swipeId), swipes, images)
 }

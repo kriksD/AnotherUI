@@ -296,7 +296,7 @@ fun main() = application {
                                                 val newChat = chats.createChat(char)
                                                 newChat.messages.clear()
                                                 newChat.messages.addAll(
-                                                    selectedChat.messages.subList(0, messageIndex + 1)
+                                                    selectedChat.messages.subList(0, messageIndex + 1).map { it.copy() }
                                                 )
                                                 newChat.save()
 

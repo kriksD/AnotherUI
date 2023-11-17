@@ -283,6 +283,8 @@ private class Piece(
         val presets = listOf(
             Piece(1, 1, listOf(listOf(true))),
             Piece(1, 2, listOf(listOf(true, true))),
+            Piece(1, 1, listOf(listOf(true))),
+            Piece(1, 2, listOf(listOf(true, true))),
             Piece(1, 3, listOf(listOf(true, true, true))),
             Piece(1, 4, listOf(listOf(true, true, true, true))),
             Piece(
@@ -310,6 +312,22 @@ private class Piece(
                 )
             ),
             Piece(
+                2,
+                2,
+                listOf(
+                    listOf(true, true),
+                    listOf(true, false),
+                )
+            ),
+            Piece(
+                2,
+                2,
+                listOf(
+                    listOf(false, true),
+                    listOf(true, false),
+                )
+            ),
+            Piece(
                 3,
                 2,
                 listOf(
@@ -340,6 +358,24 @@ private class Piece(
                 3,
                 2,
                 listOf(
+                    listOf(false, true),
+                    listOf(true, true),
+                    listOf(true, false),
+                )
+            ),
+            Piece(
+                3,
+                2,
+                listOf(
+                    listOf(true, false),
+                    listOf(true, true),
+                    listOf(false, true),
+                )
+            ),
+            Piece(
+                3,
+                2,
+                listOf(
                     listOf(true, false),
                     listOf(true, true),
                     listOf(true, false),
@@ -352,6 +388,15 @@ private class Piece(
                     listOf(true, true),
                     listOf(true, false),
                     listOf(true, true),
+                )
+            ),
+            Piece(
+                3,
+                2,
+                listOf(
+                    listOf(false, true),
+                    listOf(true, false),
+                    listOf(false, true),
                 )
             ),
             Piece(
@@ -370,6 +415,15 @@ private class Piece(
                     listOf(false, false, true),
                     listOf(false, true, false),
                     listOf(true, false, false),
+                )
+            ),
+            Piece(
+                3,
+                3,
+                listOf(
+                    listOf(true, false, true),
+                    listOf(false, true, false),
+                    listOf(true, false, true),
                 )
             ),
         )

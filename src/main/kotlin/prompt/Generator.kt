@@ -29,9 +29,11 @@ class Generator(
         set(value) {
             _isGenerating = value
             generatingSwipeIndex = -1
+            isGeneratingUserMessage = false
         }
     var generatingSwipeIndex by mutableStateOf(-1 )
         private set
+    var isGeneratingUserMessage by mutableStateOf(false)
 
     suspend fun generateNewMessage(
         userMessage: String? = null,
@@ -43,6 +45,7 @@ class Generator(
         userMessage?.let { um ->
             val message = chat.addMessage(um, user.name, true)
             userImage?.let { addImage(message, it) }
+            chat.save()
         }
 
         val prompt = PromptBuilder()
@@ -79,6 +82,7 @@ class Generator(
      */
     suspend fun generateUserMessage(userMessage: String = ""): String {
         isGenerating = true
+        isGeneratingUserMessage = true
 
         val promptBuilder = PromptBuilder()
             .pattern(settings.prompt_settings.pattern)
