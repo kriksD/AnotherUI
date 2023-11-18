@@ -576,6 +576,7 @@ private fun Prompt() {
     var promptType by remember { mutableStateOf(settings.prompt_settings.type) }
     var pattern by remember { mutableStateOf(settings.prompt_settings.pattern) }
     var systemPrompt by remember { mutableStateOf(settings.prompt_settings.system_prompt) }
+    var systemInstructPrefix by remember { mutableStateOf(settings.prompt_settings.system_instruct_prefix) }
     var userInstructPrefix by remember { mutableStateOf(settings.prompt_settings.user_instruct_prefix) }
     var modelInstructPrefix by remember { mutableStateOf(settings.prompt_settings.model_instruct_prefix) }
     var endTokens by remember { mutableStateOf(settings.prompt_settings.stop_sequence) }
@@ -608,6 +609,17 @@ private fun Prompt() {
             systemPrompt = it
             settings.prompt_settings.system_prompt = it
         },
+        singleLine = true,
+    )
+
+    TextFieldWithTokens(
+        systemInstructPrefix,
+        "System Instruction Prefix",
+        onValueChange = {
+            systemInstructPrefix = it
+            settings.prompt_settings.system_instruct_prefix = it
+        },
+        showTokens = false,
         singleLine = true,
     )
 

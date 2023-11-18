@@ -120,7 +120,7 @@ class PromptBuilder {
         systemPrompt?.let { spr ->
             prompt = prompt.replace(
                 "{{systemPrompt}}",
-                if (spr.isNotEmpty()) "<|system|>${spr.format(character)}" else ""
+                if (spr.isNotEmpty()) "${settings.prompt_settings.system_instruct_prefix}${spr.format(character)}" else ""
             )
         } ?: run { prompt.replace("{{systemPrompt}}", "") }
 
