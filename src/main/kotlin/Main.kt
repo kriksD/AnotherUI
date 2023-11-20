@@ -32,9 +32,10 @@ import composableFunctions.window.ChatManagementWindow
 import composableFunctions.window.CreateCharacterWindow
 import composableFunctions.window.DeleteCharacterWindow
 import composableFunctions.window.SettingsWindow
-import games.FiveGame
-import games.LineGame
-import games.PairGame
+import games.five.FiveGame
+import games.land.LandGame
+import games.line.LineGame
+import games.pair.PairGame
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -486,6 +487,7 @@ fun main() = application {
                 CheckValue(1, false),
                 CheckValue(2, false),
                 CheckValue(3, false),
+                CheckValue(4, false),
             ) }
 
             Column(
@@ -500,7 +502,7 @@ fun main() = application {
                     modifier = Modifier.clickable {
                         val checked = game.getChecked() ?: return@clickable
 
-                        if (checked < 3) game.check(checked + 1) else game.check(0)
+                        if (checked < 4) game.check(checked + 1) else game.check(0)
                     }
                 )
 
@@ -511,6 +513,7 @@ fun main() = application {
                         1 -> LineGame()
                         2 -> PairGame()
                         3 -> FiveGame()
+                        4 -> LandGame()
                     }
                 }
             }
