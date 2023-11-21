@@ -9,6 +9,7 @@ import character.chat.ChatInfo
 import character.chat.aChat.AMessage
 import character.chat.aChat.AdditionalMessageInfo
 import character.chat.legacyChat.LegacyMessage
+import client.utilities.ImageLoaderClient
 import getImageBitmap
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -260,15 +261,23 @@ fun createNewCharacter(name: String) = ACharacter(
 ).also { it.save() }
 
 
-fun loadNewCharacter(file: File): ACharacter? {
+suspend fun loadNewCharacter(file: File): ACharacter? {
     val loadedCharacterJson = loadCharacterFromWebP(file)
         ?: loadCharacterFromJson(file)
         ?: return null
 
-    val characterImage = when {
-        file.extension == "webp" -> getImageBitmap(file)
-        else -> getImageBitmap("data/DummyCharacter.webp")
-    } ?: return null
+    val characterImage = if (file.extension == "webp") {
+        getImageBitmap(file) ?: return null
+
+    } else if (loadedCharacterJson.avatar != "none" || loadedCharacterJson.avatar.isNotBlank()) {
+        val imageLoader = ImageLoaderClient()
+
+        val image = imageLoader.loadImageBitmap(loadedCharacterJson.avatar)
+        image ?: getImageBitmap("data/DummyCharacter.webp") ?: return null
+
+    } else {
+        getImageBitmap("data/DummyCharacter.webp") ?: return null
+    }
 
     return ACharacter(
         uniqueName(loadedCharacterJson.name, "webp", File("data/characters")),

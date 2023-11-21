@@ -31,6 +31,7 @@ import composableFunctions.CloseLine
 import composableFunctions.UsualDivider
 import composableFunctions.openFileDialog
 import corners
+import kotlinx.coroutines.launch
 import normalText
 import padding
 import smallBorder
@@ -91,6 +92,7 @@ private fun LoadArea(
     onLoadMultipleFail: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     var isDroppable by remember { mutableStateOf(false) }
 
     Box(
@@ -101,10 +103,13 @@ private fun LoadArea(
                 val file = openFileDialog(window, "", listOf(".webp", ".json"), false).firstOrNull()
 
                 file?.let { f ->
-                    loadNewCharacter(f)?.let {
-                        onDone.invoke(it)
+                    coroutineScope.launch {
+                        loadNewCharacter(f)?.let {
+                            onDone.invoke(it)
 
-                    } ?: onLoadFail.invoke()
+                        } ?: onLoadFail.invoke()
+                    }
+
                 } ?: onLoadFail.invoke()
             }
             .onExternalDrag(
@@ -120,28 +125,30 @@ private fun LoadArea(
                     if (dragData is androidx.compose.ui.DragData.FilesList) {
                         val paths = dragData.readFiles()
 
-                        if (paths.size == 1) {
-                            loadNewCharacter(File(paths.first().removePrefix("file:/")))?.let { nc ->
-                                onDone(nc)
-                            } ?: onLoadFail()
-                        }
-
-                        if (paths.size > 1) {
-                            val loaded = mutableListOf<ACharacter>()
-                            val failed = mutableListOf<String>()
-
-                            paths.forEach { p ->
-                                loadNewCharacter(File(p.removePrefix("file:/")))?.let { nc ->
-                                    loaded.add(nc)
-
-                                } ?: failed.add(p)
+                        coroutineScope.launch {
+                            if (paths.size == 1) {
+                                loadNewCharacter(File(paths.first().removePrefix("file:/")))?.let { nc ->
+                                    onDone(nc)
+                                } ?: onLoadFail()
                             }
 
-                            if (failed.isNotEmpty()) {
-                                onLoadMultipleFail(failed)
-                            }
+                            if (paths.size > 1) {
+                                val loaded = mutableListOf<ACharacter>()
+                                val failed = mutableListOf<String>()
 
-                            onDoneMultiple(loaded)
+                                paths.forEach { p ->
+                                    loadNewCharacter(File(p.removePrefix("file:/")))?.let { nc ->
+                                        loaded.add(nc)
+
+                                    } ?: failed.add(p)
+                                }
+
+                                if (failed.isNotEmpty()) {
+                                    onLoadMultipleFail(failed)
+                                }
+
+                                onDoneMultiple(loaded)
+                            }
                         }
                     }
                 }
