@@ -9,6 +9,7 @@ data class CharacterInfo(
     var description: String = "",
     var personality: String = "",
     var first_mes: String = "",
+    val alternate_greetings: MutableList<String> = mutableListOf(),
     val avatar: String = "none",
     var chat: String = "",
     var mes_example: String = "",

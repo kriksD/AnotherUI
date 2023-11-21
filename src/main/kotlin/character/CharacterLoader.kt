@@ -2,10 +2,7 @@ package character
 
 import getImageBitmap
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.longOrNull
+import kotlinx.serialization.json.*
 import runCommand
 import uniqueName
 import java.io.File
@@ -70,6 +67,7 @@ class CharacterLoader {
                 map["description"]?.jsonPrimitive?.content ?: "",
                 map["personality"]?.jsonPrimitive?.content ?: "",
                 map["first_mes"]?.jsonPrimitive?.content ?: "",
+                map["alternate_greetings"]?.jsonArray?.map { it.jsonPrimitive.content }?.toMutableList() ?: mutableListOf(),
                 map["avatar"]?.jsonPrimitive?.content ?: "none",
                 map["chat"]?.jsonPrimitive?.content ?: "",
                 map["mes_example"]?.jsonPrimitive?.content ?: "",

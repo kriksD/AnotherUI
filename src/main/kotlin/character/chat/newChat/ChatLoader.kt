@@ -53,7 +53,7 @@ class ChatLoader {
                     false,
                     dateCreate,
                     mutableStateOf(0),
-                    mutableStateListOf(character.jsonData.first_mes),
+                    (listOf(character.jsonData.first_mes) + character.jsonData.alternate_greetings).toMutableStateList(),
                 )
             ),
         )

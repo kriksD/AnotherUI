@@ -74,6 +74,7 @@ private fun readJsonCharacter(text: String): CharacterInfo? {
             map["description"]?.jsonPrimitive?.content ?: "",
             map["personality"]?.jsonPrimitive?.content ?: "",
             map["first_mes"]?.jsonPrimitive?.content ?: "",
+            map["alternate_greetings"]?.jsonArray?.map { it.jsonPrimitive.content }?.toMutableList() ?: mutableListOf(),
             map["avatar"]?.jsonPrimitive?.content ?: "none",
             map["chat"]?.jsonPrimitive?.content ?: "",
             map["mes_example"]?.jsonPrimitive?.content ?: "",
