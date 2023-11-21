@@ -2,6 +2,95 @@ package games.land
 
 import kotlin.math.sqrt
 
+class TempEvaluator(
+    val minP: Double,
+    val field: Field,
+    val forTeam: Team,
+) {
+    private val movesValues = mutableMapOf<Pair<Int, Int>, Double>()
+
+    fun getNextMove(): Pair<Int, Int>? {
+        println("team: ${forTeam.type}")
+        val maxValue = movesValues.maxOfOrNull { it.value } ?: return null
+        val minValue = movesValues.minOfOrNull { it.value } ?: return null
+        val minPValue = minValue + (maxValue - minValue) * minP
+        println("minPValue: $minPValue")
+
+        val filteredMoves = movesValues.filter { it.value >= minPValue }
+        filteredMoves.forEach { println("move: ${it.key} | value: ${it.value}") }
+
+        return filteredMoves.keys.randomOrNull()
+    }
+
+    fun evaluate() {
+        val possibleMoves = field.getAllPossible(forTeam)
+
+        possibleMoves.forEach { move ->
+            val baseDistance = evaluateBaseDistanceScore(move)
+            val cellPrice = evaluateCellPrice(forTeam, move)
+
+            movesValues[move] = baseDistance + cellPrice
+        }
+    }
+
+    private fun evaluateBaseDistanceScore(fieldPos: Pair<Int, Int>): Double {
+        var fullScore = 0.0
+
+        field.teams.forEach { otherTeam ->
+            val otherBasePos = field.getBase(otherTeam) ?: return@forEach
+
+            fullScore += calculateDistance(fieldPos, otherBasePos) / (field.width * field.height)
+        }
+
+        return fullScore
+    }
+
+    private fun evaluateCellPrice(team: Team, fieldPos: Pair<Int, Int>): Double {
+        var fullScore = 0.0
+
+        val cellsAround = listOfNotNull(
+            field.getCell(fieldPos.first - 1, fieldPos.second),
+            field.getCell(fieldPos.first + 1, fieldPos.second),
+            field.getCell(fieldPos.first, fieldPos.second - 1),
+            field.getCell(fieldPos.first, fieldPos.second + 1),
+        )
+
+        val cornerCells = listOfNotNull(
+            field.getCell(fieldPos.first - 1, fieldPos.second - 1),
+            field.getCell(fieldPos.first - 1, fieldPos.second + 1),
+            field.getCell(fieldPos.first + 1, fieldPos.second - 1),
+            field.getCell(fieldPos.first + 1, fieldPos.second + 1),
+        )
+
+        if ((cellsAround + cornerCells).any { it.team == team && it.isBase }) {
+            fullScore += 1.0
+        }
+
+        cellsAround.forEach { cell ->
+            if (cell.team == null) {
+                fullScore += 0.1
+            }
+
+            if (cell.team != team) {
+                fullScore += 0.2
+            }
+
+            if (cell.isBase && cell.team != team) {
+                fullScore += 0.5
+            }
+        }
+
+        return fullScore
+    }
+
+    private fun calculateDistance(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Double {
+        val deltaX = point2.first.toDouble() - point1.first.toDouble()
+        val deltaY = point2.second.toDouble() - point1.second.toDouble()
+
+        return sqrt(deltaX * deltaX + deltaY * deltaY)
+    }
+}
+
 class SingleMinimax(
     val field: Field,
     val forTeam: Team,
@@ -134,7 +223,7 @@ class MinimaxNode(
 
     private fun evaluateCellPrice(team: Team, fieldPos: Pair<Int, Int>): Double {
         if (field.cells[fieldPos.first][fieldPos.second].isBase) {
-            return 3.0
+            return 10.0
         }
 
         var fullScore = 0.0
@@ -157,7 +246,7 @@ class MinimaxNode(
             }
 
             if (cell.isBase) {
-                fullScore += 0.1
+                fullScore += 5.0
             }
         }
 

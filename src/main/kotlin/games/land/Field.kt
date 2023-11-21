@@ -24,19 +24,25 @@ class Field {
     private fun setCells(): SnapshotStateList<SnapshotStateList<Cell>> {
         val newCells = mutableStateListOf<SnapshotStateList<Cell>>()
 
-        repeat(width) {
+        repeat(width) { x ->
             val newColumn = mutableStateListOf<Cell>()
-            repeat(height) {
-                newColumn.add(Cell())
+            repeat(height) { y ->
+                newColumn.add(Cell(x, y))
             }
             newCells.add(newColumn)
         }
 
         teams.forEach { team ->
-            team.score = 1
             val baseCell = newCells.flatten().filter { it.team == null }.random()
             baseCell.team = team
             baseCell.isBase = true
+
+            newCells.getOrNull(baseCell.x - 1)?.getOrNull(baseCell.y)?.team = team
+            newCells.getOrNull(baseCell.x + 1)?.getOrNull(baseCell.y)?.team = team
+            newCells.getOrNull(baseCell.x)?.getOrNull(baseCell.y - 1)?.team = team
+            newCells.getOrNull(baseCell.x)?.getOrNull(baseCell.y + 1)?.team = team
+
+            team.score = newCells.flatten().count { it.team == team }
         }
 
         return newCells
@@ -104,14 +110,18 @@ class Field {
     }
 
     fun action(team: Team) {
-        val fieldCopy = copy()
+        /*val fieldCopy = copy()
         val minimax = Minimax(
             field = fieldCopy,
             forTeam = fieldCopy.teams.find { it.type == team.type } ?: return,
         )
-        val cell = minimax.getNextMove() ?: return
-        println(cell)
+        val cell = minimax.getNextMove() ?: return*/
         //val cell = getAllPossible(team).randomOrNull() ?: return
+
+        val evaluator = TempEvaluator(0.90, this, team)
+        evaluator.evaluate()
+        val cell = evaluator.getNextMove() ?: return
+
         action(cell.first, cell.second, team)
     }
 
@@ -131,7 +141,7 @@ class Field {
 
     fun isPossible(x: Int, y: Int, team: Team): Boolean {
         val cellsAround = listOfNotNull(getCell(x, y - 1), getCell(x, y + 1), getCell(x - 1, y), getCell(x + 1, y))
-        return cells[x][y].team == team && !cellsAround.all { it.team == team }
+        return !cells[x][y].isBase && cells[x][y].team == team && !cellsAround.all { it.team == team }
     }
 
     fun getCell(x: Int, y: Int): Cell? {

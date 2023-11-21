@@ -103,6 +103,21 @@ fun LandGame(
                                                 delay(1000L - (timeEnd - timeStart))
                                             }
 
+                                            while (
+                                                teams.find { it.type == TeamType.Teal }!!.score == 0
+                                                && teams.count { it.score != 0 } >= 2
+                                            ) {
+                                                teams.filter {
+                                                    it.type != TeamType.Teal && it.score != 0
+                                                }.forEachIndexed { index, team ->
+                                                    val timeStart = System.currentTimeMillis()
+                                                    field.action(team)
+                                                    val timeEnd = System.currentTimeMillis()
+
+                                                    delay(1000L - (timeEnd - timeStart))
+                                                }
+                                            }
+
                                             areActionsGoing = false
                                         }
                                     }

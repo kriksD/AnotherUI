@@ -356,7 +356,7 @@ private fun CharacterCardGrid(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text(character.jsonData.name, fontSize = bigText, color = colorText)
+            Text(character.jsonData.name, fontSize = bigText, color = colorText, modifier = Modifier.weight(1F))
 
             Icon(
                 imageVector = Icons.Default.MoreVert,
