@@ -75,8 +75,16 @@ class Field {
         if (cells[x][y].team != team) return
 
         val cellsAround = listOfNotNull(getCell(x, y - 1), getCell(x, y + 1), getCell(x - 1, y), getCell(x + 1, y))
+        val cornerCellsAround = listOfNotNull(
+            getCell(x - 1, y - 1),
+            getCell(x + 1, y - 1),
+            getCell(x - 1, y + 1),
+            getCell(x + 1, y + 1),
+        )
 
-        cellsAround.forEach { cell ->
+        val finalCells = if (team.score >= 16) listOf(cornerCellsAround.random()) + cellsAround else cellsAround
+
+        finalCells.forEach { cell ->
             val cellTeam = cell.team
 
             if (cellTeam == null) {

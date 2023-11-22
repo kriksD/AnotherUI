@@ -16,7 +16,7 @@ class ImageLoaderClient {
     }
 
     suspend fun loadImageBitmap(link: String): ImageBitmap? {
-        if (!link.endsWith(".png")) return null
+        if (!link.endsWith(".png") && !link.endsWith(".webp")) return null
 
         return try {
             val result = client.get(link) {

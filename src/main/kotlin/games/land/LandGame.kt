@@ -95,7 +95,7 @@ fun LandGame(
 
                                             teams.filter {
                                                 it.type != TeamType.Teal && it.score != 0
-                                            }.forEachIndexed { index, team ->
+                                            }.forEach { team ->
                                                 val timeStart = System.currentTimeMillis()
                                                 field.action(team)
                                                 val timeEnd = System.currentTimeMillis()
@@ -109,7 +109,7 @@ fun LandGame(
                                             ) {
                                                 teams.filter {
                                                     it.type != TeamType.Teal && it.score != 0
-                                                }.forEachIndexed { index, team ->
+                                                }.forEach { team ->
                                                     val timeStart = System.currentTimeMillis()
                                                     field.action(team)
                                                     val timeEnd = System.currentTimeMillis()
