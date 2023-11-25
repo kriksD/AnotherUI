@@ -65,5 +65,6 @@ data class ACharacter(
     fun delete() {
         File("data/characters/$fileName.webp").delete()
         File("data/characters/$fileName.json").delete()
+        File("data/characters/${fileName}_meta.json").delete()
     }
 }
