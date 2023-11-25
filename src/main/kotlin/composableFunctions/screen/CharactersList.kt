@@ -31,6 +31,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import bigText
+import biggerPadding
 import colorBackground
 import colorBackgroundLighter
 import colorBackgroundSecond
@@ -43,6 +44,7 @@ import composableFunctions.ADropdownMenu
 import composableFunctions.AppearDisappearAnimation
 import composableFunctions.Grid
 import corners
+import iconSize
 import imageHeight
 import imageWidth
 import menuWidth
@@ -52,6 +54,7 @@ import padding
 import properties.Properties
 import scrollbarThickness
 import settings
+import shortAnimationDuration
 import smallBorder
 import smallIconSize
 import tinyIconSize
@@ -68,6 +71,7 @@ fun CharacterList(
 ) {
     var view by remember { mutableStateOf(settings.characters_list_view) }
     var searchSequence by remember { mutableStateOf("") }
+    var favoriteFilter by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier,
@@ -129,6 +133,21 @@ fun CharacterList(
                     singleLine = true,
                     maxLines = 1,
                 )
+
+                Crossfade(
+                    favoriteFilter,
+                    animationSpec = tween(shortAnimationDuration),
+                ) { fav ->
+                    Icon(
+                        if (fav) painterResource("favorite.svg") else painterResource("favorite_o.svg"),
+                        contentDescription = null,
+                        tint = colorText,
+                        modifier = Modifier
+                            .padding(biggerPadding)
+                            .size(iconSize)
+                            .clickable { favoriteFilter = !favoriteFilter }
+                    )
+                }
             }
 
             ViewControls(
@@ -154,7 +173,10 @@ fun CharacterList(
                                 .weight(1F)
                                 .verticalScroll(scrollState),
                         ) {
-                            list.filter { it.jsonData.name.contains(searchSequence, ignoreCase = true) }.forEach {
+                            list.filter {
+                                it.jsonData.name.contains(searchSequence, ignoreCase = true)
+                                        && if (favoriteFilter) it.metaData.favorite else true
+                            }.forEach {
                                 CharacterCardList(
                                     it,
                                     Modifier.clickable {
@@ -188,7 +210,10 @@ fun CharacterList(
                         Grid(
                             columns = 4,
                             items = list
-                                .filter { it.jsonData.name.contains(searchSequence, ignoreCase = true) }
+                                .filter {
+                                    it.jsonData.name.contains(searchSequence, ignoreCase = true)
+                                            && if (favoriteFilter) it.metaData.favorite else true
+                                }
                                 .ifEmpty { listOf(0) },
                             modifier = Modifier
                                 .weight(1F)
@@ -340,17 +365,42 @@ private fun CharacterCardGrid(
             .padding(padding),
         verticalArrangement = Arrangement.spacedBy(padding)
     ) {
-        Image(
-            character.image,
-            contentDescription = "profile image of ${character.jsonData.name}",
-            contentScale = ContentScale.Crop,
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(imageWidth / imageHeight)
                 .background(colorBackground, RoundedCornerShape(corners))
                 .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                 .clip(RoundedCornerShape(corners)),
-        )
+        ) {
+            Image(
+                character.image,
+                contentDescription = "profile image of ${character.jsonData.name}",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+            )
+
+            var favorite by remember { mutableStateOf(character.metaData.favorite) }
+            Crossfade(
+                favorite,
+                animationSpec = tween(shortAnimationDuration),
+                modifier = Modifier.align(Alignment.TopEnd)
+            ) { fav ->
+                Icon(
+                    if (fav) painterResource("favorite.svg") else painterResource("favorite_o.svg"),
+                    contentDescription = null,
+                    tint = colorBackgroundSecond,
+                    modifier = Modifier
+                        .padding(biggerPadding)
+                        .size(iconSize)
+                        .clickable {
+                            favorite = !favorite
+                            character.metaData.favorite = favorite
+                            character.saveMeta()
+                        }
+                )
+            }
+        }
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

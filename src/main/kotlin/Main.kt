@@ -275,7 +275,7 @@ fun main() = application {
                                 ChatThread(
                                     modifier = Modifier.fillMaxWidth(0.5F).weight(1F),
                                     window = window,
-                                    character = currentCharacter ?: ACharacter("", CharacterInfo(name = "")),
+                                    character = currentCharacter ?: ACharacter("", CharacterInfo(name = ""), CharacterMetaData()),
                                     chat = chats.selected ?: throw Exception("Chat not found"),
                                     snackbarHostState = snackbarHostState,
                                     onChatManage = {

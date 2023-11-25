@@ -36,9 +36,12 @@ fun loadAllCharacters(): List<ACharacter>? {
                 ?: loadCharacterFromWebP(charFile).also { jsonFile.writeText(json.encodeToString(it)) }
                 ?: return@mapNotNull null
 
+            val metaFile = File("data/characters/${charFile.nameWithoutExtension}_meta.json")
+            val metaData = readCharacterMetaData(metaFile)
+
             val image = getImageBitmap(charFile) ?: return@mapNotNull null
 
-            ACharacter(charFile.nameWithoutExtension, jsonCharacter, image)
+            ACharacter(charFile.nameWithoutExtension, jsonCharacter, metaData, image)
 
         } catch (e: Exception) {
             println("${charFile.name} : ${e.message}")
@@ -88,6 +91,17 @@ private fun readJsonCharacter(text: String): CharacterInfo? {
     } catch (e: Exception) {
         null
     }
+}
+
+private fun readCharacterMetaData(file: File): CharacterMetaData {
+    if (!file.exists() || file.extension != "json") return CharacterMetaData()
+
+    val text = file.readText()
+    val map = Json.parseToJsonElement(text).jsonObject.toMap()
+
+    return CharacterMetaData(
+        map["favorite"]?.jsonPrimitive?.booleanOrNull ?: false
+    )
 }
 
 fun loadAllChats(file: File): List<Chat>? {
@@ -258,6 +272,7 @@ fun createNewChat(character: ACharacter): AChat {
 fun createNewCharacter(name: String) = ACharacter(
     uniqueName(name, "webp", File("data/characters")),
     CharacterInfo(name = name),
+    CharacterMetaData(),
 ).also { it.save() }
 
 
@@ -282,6 +297,7 @@ suspend fun loadNewCharacter(file: File): ACharacter? {
     return ACharacter(
         uniqueName(loadedCharacterJson.name, "webp", File("data/characters")),
         loadedCharacterJson,
+        CharacterMetaData(),
         characterImage,
     ).also { it.save() }
 }

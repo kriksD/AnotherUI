@@ -15,6 +15,7 @@ import java.util.*
 data class ACharacter(
     val fileName: String,
     val jsonData: CharacterInfo,
+    val metaData: CharacterMetaData,
     var image: ImageBitmap = getImageBitmap("data/DummyCharacter.webp") ?: emptyImageBitmap,
 ) {
     @OptIn(ExperimentalSerializationApi::class)
@@ -38,6 +39,7 @@ data class ACharacter(
         }
 
         jsonFile.writeText(jsonNormal)
+        saveMeta()
     }
 
     fun saveWithImage() {
@@ -53,6 +55,11 @@ data class ACharacter(
             val dummyFile = File("data/DummyCharacter.webp")
             dummyFile.copyTo(File("data/characters/$fileName.webp"), overwrite = true)
         }
+    }
+
+    fun saveMeta() {
+        val metaFile = File("data/characters/${fileName}_meta.json")
+        metaFile.writeText(json.encodeToString(metaData))
     }
 
     fun delete() {
