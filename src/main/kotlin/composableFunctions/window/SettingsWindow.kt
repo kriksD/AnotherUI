@@ -1488,7 +1488,7 @@ private fun CharacterScreen(
                                             image?.let { img ->
                                                 //val newImg = img.cropImageWithRatio(2.0, 3.0)
                                                 char.image = img
-                                                char.saveWithImage()
+                                                char.saveWithImage(img)
                                                 onForceSaving.invoke()
                                             }
                                         }
@@ -1523,6 +1523,8 @@ private fun CharacterScreen(
                         char.jsonData.first_mes = it
                         tokens = countTokens()
                         onCharacterRedacted.invoke()
+                        println(char.image.width)
+                        println(char.image.height)
                     },
                     showTokens = false,
                     modifier = Modifier

@@ -2,6 +2,7 @@ package character
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import emptyImageBitmap
 import getImageBitmap
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -9,15 +10,66 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.skia.EncodedImageFormat
 import org.jetbrains.skiko.toImage
+import java.awt.image.BufferedImage
 import java.io.File
 import java.util.*
 
-data class ACharacter(
+class ACharacter(
     val fileName: String,
     val jsonData: CharacterInfo,
     val metaData: CharacterMetaData,
-    var image: ImageBitmap = getImageBitmap("data/DummyCharacter.webp") ?: emptyImageBitmap,
+    image: ImageBitmap = getImageBitmap("data/DummyCharacter.webp") ?: emptyImageBitmap,
 ) {
+    var image: ImageBitmap = run {
+        val newSize = calculateScaledDownSize(image.width, image.height, 500, 500)
+        image.scaleAndCropImage(newSize.first, newSize.second)
+    }
+        set(value) {
+            val newSize = calculateScaledDownSize(value.width, value.height, 500, 500)
+            field = value.scaleAndCropImage(newSize.first, newSize.second)
+        }
+
+    private fun ImageBitmap.scaleAndCropImage(width: Int, height: Int): ImageBitmap {
+        val bufferedImage = this.toAwtImage()
+
+        val outputImage = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+
+        val scaleX = width.toDouble() / bufferedImage.width.toDouble()
+        val scaleY = height.toDouble() / bufferedImage.height.toDouble()
+        val scale = kotlin.math.max(scaleX, scaleY)
+
+        val scaledWidth = (bufferedImage.width * scale).toInt()
+        val scaledHeight = (bufferedImage.height * scale).toInt()
+
+        val scaledImage = BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB)
+        val g2d = scaledImage.createGraphics()
+        g2d.drawImage(bufferedImage, 0, 0, scaledWidth, scaledHeight, null)
+        g2d.dispose()
+
+        val x = (scaledWidth - width) / 2
+        val y = (scaledHeight - height) / 2
+
+        val croppedImage = scaledImage.getSubimage(x, y, width, height)
+
+        val g2dOut = outputImage.createGraphics()
+        g2dOut.drawImage(croppedImage, 0, 0, null)
+        g2dOut.dispose()
+
+        return outputImage.toComposeImageBitmap()
+    }
+
+    private fun calculateScaledDownSize(originalWidth: Int, originalHeight: Int, maxWidth: Int, maxHeight: Int): Pair<Int, Int> {
+        val widthRatio = originalWidth.toDouble() / maxWidth.toDouble()
+        val heightRatio = originalHeight.toDouble() / maxHeight.toDouble()
+        val scaleRatio = maxOf(widthRatio, heightRatio)
+
+        val scaledWidth = (originalWidth.toDouble() / scaleRatio).toInt()
+        val scaledHeight = (originalHeight.toDouble() / scaleRatio).toInt()
+
+        return Pair(scaledWidth, scaledHeight)
+    }
+
+
     @OptIn(ExperimentalSerializationApi::class)
     fun save() {
         val file = File("data/characters/$fileName.webp")
@@ -42,13 +94,14 @@ data class ACharacter(
         saveMeta()
     }
 
-    fun saveWithImage() {
-        saveImage()
+    fun saveWithImage(image: ImageBitmap? = null) {
+        saveImage(image)
         save()
     }
 
-    private fun saveImage() {
-        val data = image.toAwtImage().toImage().encodeToData(EncodedImageFormat.WEBP, 95)
+    private fun saveImage(image: ImageBitmap? = null) {
+        val imageToSave = image ?: this.image
+        val data = imageToSave.toAwtImage().toImage().encodeToData(EncodedImageFormat.WEBP, 95)
         data?.let {
             File("data/characters/$fileName.webp").writeBytes(it.bytes)
         } ?: run {
