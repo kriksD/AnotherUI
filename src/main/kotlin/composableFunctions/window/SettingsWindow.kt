@@ -16,6 +16,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -66,11 +68,13 @@ import normalAnimationDuration
 import normalText
 import padding
 import prompt.PromptType
+import prompt.samplerName
 import properties.Properties
 import settings
 import smallBorder
 import smallText
 import style
+import tinyIconSize
 import toState
 import transparency
 import transparencyLight
@@ -530,44 +534,134 @@ private fun Generating() {
             )
         }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(padding)
+        Row (
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = "Seed:",
-                color = colorText,
-                fontSize = normalText,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(padding)
+            ) {
+                Text(
+                    text = "Seed:",
+                    color = colorText,
+                    fontSize = normalText,
+                )
 
-            var seed by remember { mutableStateOf<Int?>(settings.generating.seed) }
-            BasicTextField(
-                modifier = Modifier
-                    .background(colorBackground, RoundedCornerShape(corners))
-                    .border(smallBorder, colorBorder, RoundedCornerShape(corners))
-                    .padding(padding),
-                value = if (seed == null) "" else seed.toString(),
-                textStyle = TextStyle(color = colorText, fontSize = normalText),
-                cursorBrush = SolidColor(colorText),
-                onValueChange = { value ->
-                    if (value == "-") {
-                        seed = -1
-                    }
+                var seed by remember { mutableStateOf<Int?>(settings.generating.seed) }
+                BasicTextField(
+                    modifier = Modifier
+                        .background(colorBackground, RoundedCornerShape(corners))
+                        .border(smallBorder, colorBorder, RoundedCornerShape(corners))
+                        .padding(padding),
+                    value = if (seed == null) "" else seed.toString(),
+                    textStyle = TextStyle(color = colorText, fontSize = normalText),
+                    cursorBrush = SolidColor(colorText),
+                    onValueChange = { value ->
+                        if (value == "-") {
+                            seed = -1
+                        }
 
-                    if (value.isBlank()) {
-                        seed = null
-                        settings.generating.seed = -1
-                    }
+                        if (value.isBlank()) {
+                            seed = null
+                            settings.generating.seed = -1
+                        }
 
-                    value.toIntOrNull()?.let {
-                        seed = it
-                        settings.generating.seed = it
+                        value.toIntOrNull()?.let {
+                            seed = it
+                            settings.generating.seed = it
+                        }
+                    },
+                    singleLine = true,
+                    maxLines = 1,
+                )
+            }
+
+            Column {
+                Text(
+                    text = "Sampler Order:",
+                    color = colorText,
+                    fontSize = normalText,
+                )
+
+                val samplerOrder = remember { settings.generating.sampler_order.toMutableStateList() }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(padding),
+                    modifier = Modifier.width(IntrinsicSize.Max),
+                ) {
+                    samplerOrder.forEachIndexed { index, sampler ->
+                        DraggableSamplerLine(
+                            number = sampler,
+                            name = samplerName(sampler),
+                            onUp = {
+                                samplerOrder.removeAt(index)
+                                samplerOrder.add(index - 1, sampler)
+
+                                settings.generating.sampler_order = samplerOrder
+                            },
+                            onDown = {
+                                samplerOrder.removeAt(index)
+                                samplerOrder.add(index + 1, sampler)
+
+                                settings.generating.sampler_order = samplerOrder
+                            },
+                            upAvailable = index > 0,
+                            downAvailable = index < samplerOrder.lastIndex,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
-                },
-                singleLine = true,
-                maxLines = 1,
-            )
+                }
+            }
         }
+    }
+}
+
+@Composable
+private fun DraggableSamplerLine(
+    number: Int,
+    name: String,
+    onUp: () -> Unit,
+    onDown: () -> Unit,
+    upAvailable: Boolean,
+    downAvailable: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .background(colorBackground, RoundedCornerShape(corners))
+            .border(smallBorder, colorBorder, RoundedCornerShape(corners))
+            .padding(padding),
+    ) {
+        Column {
+            if (upAvailable) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowUp,
+                    contentDescription = "Up",
+                    tint = colorText,
+                    modifier = Modifier
+                        .size(tinyIconSize)
+                        .clickable { onUp() },
+                )
+            }
+
+            if (downAvailable) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Down",
+                    tint = colorText,
+                    modifier = Modifier
+                        .size(tinyIconSize)
+                        .clickable { onDown() },
+                )
+            }
+        }
+
+        Text(
+            text = "$number - $name",
+            color = colorText,
+            fontSize = normalText,
+        )
     }
 }
 
