@@ -353,7 +353,7 @@ private fun Generating() {
                     temperature = it
                     settings.generating.temperature = temperature
                 },
-                valueRange = 0.1F..2F,
+                valueRange = 0.1F..4F,
                 modifier = Modifier.weight(1F),
             )
 
