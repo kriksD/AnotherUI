@@ -3,6 +3,7 @@ package games.land
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import randomWithAmount
 
 class Field {
     val width: Int
@@ -74,7 +75,13 @@ class Field {
     fun action(x: Int, y: Int, team: Team) {
         if (cells[x][y].team != team) return
 
-        val cellsAround = listOfNotNull(getCell(x, y - 1), getCell(x, y + 1), getCell(x - 1, y), getCell(x + 1, y))
+        val cellsAround = listOfNotNull(
+            getCell(x, y - 1),
+            getCell(x, y + 1),
+            getCell(x - 1, y),
+            getCell(x + 1, y)
+        )
+
         val cornerCellsAround = listOfNotNull(
             getCell(x - 1, y - 1),
             getCell(x + 1, y - 1),
@@ -82,7 +89,14 @@ class Field {
             getCell(x + 1, y + 1),
         )
 
-        val finalCells = if (team.score >= 16) listOf(cornerCellsAround.random()) + cellsAround else cellsAround
+        val finalCells = when {
+            team.score > 12 -> cellsAround + cornerCellsAround.randomWithAmount(1)
+            team.score > 10 -> cellsAround
+            team.score > 8 -> cellsAround.randomWithAmount(3)
+            team.score > 0 -> cellsAround.randomWithAmount(2)
+            else -> cellsAround.randomWithAmount(1)
+        }
+        //val finalCells = if (team.score >= 16) listOf(cornerCellsAround.random()) + cellsAround else cellsAround
 
         finalCells.forEach { cell ->
             val cellTeam = cell.team

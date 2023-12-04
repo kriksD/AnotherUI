@@ -2,6 +2,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.graphics.*
 import org.jetbrains.skia.*
+import org.jetbrains.skiko.currentNanoTime
 import org.jetbrains.skiko.toImage
 import properties.*
 import properties.Properties
@@ -199,4 +200,19 @@ fun Map<String, *>.toStringList(): List<String> {
     val list = mutableListOf<String>()
     forEach { (string, _) -> list.add(string) }
     return list
+}
+
+fun <T> List<T>.randomWithAmount(amount: Int): List<T> {
+    val list = this.toMutableList()
+    val newList = mutableListOf<T>()
+
+    repeat(amount) {
+        if (list.isEmpty()) return newList
+
+        val index = Random(currentNanoTime()).nextInt(0, list.size)
+        newList.add(list[index])
+        list.removeAt(index)
+    }
+
+    return newList
 }

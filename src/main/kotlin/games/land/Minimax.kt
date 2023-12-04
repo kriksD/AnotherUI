@@ -66,7 +66,7 @@ class TempEvaluator(
             fullScore += 1.2
         }
 
-        val finalCells = if (team.score >= 16) cornerCells + cellsAround else cellsAround
+        val finalCells = if (team.score >= 12) cornerCells + cellsAround else cellsAround
 
         finalCells.forEach { cell ->
             if (cell.team == null) {

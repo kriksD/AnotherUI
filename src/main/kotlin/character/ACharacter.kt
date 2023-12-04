@@ -27,7 +27,7 @@ class ACharacter(
         } else {
             calculateScaledDownSize(image.width, image.height, style.image_width * 2, Int.MAX_VALUE)
         }
-        println(newSize)
+
         image.scaleAndCropImage(newSize.first, newSize.second)
     }
         set(value) {
@@ -36,7 +36,7 @@ class ACharacter(
             } else {
                 calculateScaledDownSize(image.width, image.height, 600, Int.MAX_VALUE)
             }
-            println(newSize)
+
             field = value.scaleAndCropImage(newSize.first, newSize.second)
         }
 
