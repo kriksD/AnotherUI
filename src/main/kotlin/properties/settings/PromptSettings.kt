@@ -1,13 +1,15 @@
 package properties.settings
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.*
 import prompt.PromptType
 
-@Serializable
-data class PromptSettings(
-    var type: PromptType = PromptType.Instruct,
-    var pattern: String = """
+@Serializable(with = PromptSettingsSerializer::class)
+class PromptSettings(
+    type: PromptType = PromptType.Instruct,
+    pattern: String = """
         {{systemPrompt}}
         {{persona}}
         {{personality}}
@@ -15,34 +17,29 @@ data class PromptSettings(
         {{messageExample}}
         {{chat}}
     """.trimIndent(),
-    var system_prompt: String = "Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.",
-    var system_instruct_prefix: String = "<|system|>",
-    var user_instruct_prefix: String = "<|user|>",
-    var model_instruct_prefix: String = "<|model|>",
-    var stop_sequence: String = "<|user|>,<|model|>",
+    systemPrompt: String = "Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.",
+    systemInstructPrefix: String = "<|system|>",
+    userInstructPrefix: String = "<|user|>",
+    modelInstructPrefix: String = "<|model|>",
+    stopSequence: String = "<|user|>,<|model|>",
 ) {
-    companion object {
-        fun createFromJson(jsonObject: JsonObject): PromptSettings? {
-            return try {
-                val map = jsonObject.toMap()
-                val newSettings = PromptSettings()
+    var type: PromptType by mutableStateOf(type)
+    var pattern: String by mutableStateOf(pattern)
+    var systemPrompt: String by mutableStateOf(systemPrompt)
+    var systemInstructPrefix: String by mutableStateOf(systemInstructPrefix)
+    var userInstructPrefix: String by mutableStateOf(userInstructPrefix)
+    var modelInstructPrefix: String by mutableStateOf(modelInstructPrefix)
+    var stopSequence: String by mutableStateOf(stopSequence)
 
-                map["type"]?.jsonPrimitive?.contentOrNull?.let {
-                    try {
-                        newSettings.type = PromptType.valueOf(it)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                map["pattern"]?.jsonPrimitive?.contentOrNull?.let { newSettings.pattern = it }
-                map["system_prompt"]?.jsonPrimitive?.contentOrNull?.let { newSettings.system_prompt = it }
-                map["system_instruct_prefix"]?.jsonPrimitive?.contentOrNull?.let { newSettings.system_instruct_prefix = it }
-                map["user_instruct_prefix"]?.jsonPrimitive?.contentOrNull?.let { newSettings.user_instruct_prefix = it }
-                map["model_instruct_prefix"]?.jsonPrimitive?.contentOrNull?.let { newSettings.model_instruct_prefix = it }
-                map["stop_sequence"]?.jsonPrimitive?.contentOrNull?.let { newSettings.stop_sequence = it }
-
-                newSettings
-            } catch (e: Exception) { null }
-        }
+    fun copy(): PromptSettings {
+        return PromptSettings(
+            type,
+            pattern,
+            systemPrompt,
+            systemInstructPrefix,
+            userInstructPrefix,
+            modelInstructPrefix,
+            stopSequence,
+        )
     }
 }

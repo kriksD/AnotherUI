@@ -501,7 +501,7 @@ private fun ControlsOptions(
                 StableDiffusionWebUIClient.onConnectionChange("chatThread") { sdConnectionStatus = it }
             }
 
-            if (!connectionStatus || (!sdConnectionStatus && settings.stable_diffusion_api_enabled)) {
+            if (!connectionStatus || (!sdConnectionStatus && settings.stableDiffusionApiEnabled)) {
                 var checking by remember { mutableStateOf(false) }
                 var text = ""
 
@@ -509,7 +509,7 @@ private fun ControlsOptions(
                     text += "no connection to KoboldAI\n"
                 }
 
-                if (!sdConnectionStatus && settings.stable_diffusion_api_enabled) {
+                if (!sdConnectionStatus && settings.stableDiffusionApiEnabled) {
                     text += "no connection to Stable Diffusion WebUI\n"
                 }
 
@@ -532,7 +532,7 @@ private fun ControlsOptions(
                                     connectionStatus = KoboldAIClient.connectionStatus
                                 }
 
-                                if (!sdConnectionStatus && settings.stable_diffusion_api_enabled) {
+                                if (!sdConnectionStatus && settings.stableDiffusionApiEnabled) {
                                     StableDiffusionWebUIClient.checkModelName()
                                     sdConnectionStatus = StableDiffusionWebUIClient.connectionStatus
                                 }
@@ -611,7 +611,7 @@ private fun SendIcons(
                         .clickable(enabled = !isDeleting, onClick = onSendMessage),
                 )
 
-                if (settings.stable_diffusion_api_enabled) {
+                if (settings.stableDiffusionApiEnabled) {
                     Icon(
                         painterResource("add_photo.svg"),
                         "load image",
@@ -676,7 +676,7 @@ private fun MessageView(
                     animationSpec = tween(longAnimationDuration),
                 ) { newImage ->
                     AppearDisappearAnimation(
-                        settings.profile_images_enabled,
+                        settings.profileImagesEnabled,
                     ) {
                         Image(
                             newImage,

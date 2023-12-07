@@ -78,11 +78,11 @@ class PromptBuilder {
             null -> null
         } ?: return null
 
-        val stopSequence = if (settings.prompt_settings.stop_sequence.isNotEmpty()) {
-            if (settings.prompt_settings.stop_sequence.contains(",")) {
-                settings.prompt_settings.stop_sequence.split(",")
+        val stopSequence = if (settings.promptSettings.stopSequence.isNotEmpty()) {
+            if (settings.promptSettings.stopSequence.contains(",")) {
+                settings.promptSettings.stopSequence.split(",")
             } else {
-                listOf(settings.prompt_settings.stop_sequence)
+                listOf(settings.promptSettings.stopSequence)
             }
         } else emptyList()
 
@@ -93,19 +93,19 @@ class PromptBuilder {
             use_memory = false,
             use_authors_note = false,
             use_world_info = false,
-            max_context_length = settings.generating.max_context_length,
-            max_length = settings.generating.max_length,
-            rep_pen = settings.generating.rep_pen,
-            rep_pen_range = settings.generating.rep_pen_range,
-            rep_pen_slope = settings.generating.rep_pen_slope,
+            max_context_length = settings.generating.maxContextLength,
+            max_length = settings.generating.maxLength,
+            rep_pen = settings.generating.repPen,
+            rep_pen_range = settings.generating.repPenRange,
+            rep_pen_slope = settings.generating.repPenSlope,
             temperature = settings.generating.temperature,
             tfs = settings.generating.tfs,
-            top_a = settings.generating.top_a,
-            top_k = settings.generating.top_k,
-            top_p = settings.generating.top_p,
-            min_p = settings.generating.min_p,
+            top_a = settings.generating.topA,
+            top_k = settings.generating.topK,
+            top_p = settings.generating.topP,
+            min_p = settings.generating.minP,
             typical = settings.generating.typical,
-            sampler_order = settings.generating.sampler_order,
+            sampler_order = settings.generating.samplerOrder,
             use_default_badwordsids = false,
             seed = settings.generating.seed,
         )
@@ -120,7 +120,7 @@ class PromptBuilder {
         systemPrompt?.let { spr ->
             prompt = prompt.replace(
                 "{{systemPrompt}}",
-                if (spr.isNotEmpty()) "${settings.prompt_settings.system_instruct_prefix}${spr.format(character)}" else ""
+                if (spr.isNotEmpty()) "${settings.promptSettings.systemInstructPrefix}${spr.format(character)}" else ""
             )
         } ?: run { prompt.replace("{{systemPrompt}}", "") }
 
@@ -153,7 +153,7 @@ class PromptBuilder {
         }
 
         val mergedMessages = chat.messages + additionalMessages
-        val maxContextLength = settings.generating.max_context_length
+        val maxContextLength = settings.generating.maxContextLength
         val currentTokenCount = KoboldAIClient.countTokens(prompt)
         if (currentTokenCount == -1) return null
         var tokensLeft = maxContextLength - currentTokenCount - 32
@@ -183,9 +183,9 @@ class PromptBuilder {
         if (!complete) {
             prompt += "\n${
                 if (forUser) 
-                    settings.prompt_settings.user_instruct_prefix
+                    settings.promptSettings.userInstructPrefix
                 else 
-                    settings.prompt_settings.model_instruct_prefix
+                    settings.promptSettings.modelInstructPrefix
             }"
         }
 
@@ -227,7 +227,7 @@ class PromptBuilder {
         }
 
         val mergedMessages = chat.messages + additionalMessages
-        val maxContextLength = settings.generating.max_context_length
+        val maxContextLength = settings.generating.maxContextLength
         val currentTokenCount = KoboldAIClient.countTokens(prompt)
         if (currentTokenCount == -1) return null
         var tokensLeft = maxContextLength - currentTokenCount - 32

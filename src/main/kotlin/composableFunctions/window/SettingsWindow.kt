@@ -14,10 +14,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -31,6 +28,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.onExternalDrag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.DpOffset
@@ -83,14 +81,13 @@ import java.io.File
 import java.net.URI
 
 private enum class SettingsScreen {
-    AI, StableDiffusion, Appearance, User, Experimental, Character;
+    AI, StableDiffusion, Appearance, User, Character;
 
     override fun toString(): String = when (this) {
         AI -> "AI"
         StableDiffusion -> "stable diffusion"
         Appearance -> "appearance"
         User -> "user"
-        Experimental -> "experimental"
         Character -> "character"
     }
 }
@@ -163,10 +160,6 @@ fun SettingsWindow(
                     window = window,
                     modifier = Modifier.weight(1F),
                 )
-
-                SettingsScreen.Experimental -> ExperimentalSettings(
-                    modifier = Modifier.weight(1F),
-                )
             }
         }
     }
@@ -231,6 +224,8 @@ private fun AIScreen(
     ) {
         item { ConnectionCheck() }
         item { UsualDivider() }
+        item { SettingsPreset() }
+        item { UsualDivider() }
         item { Generating() }
         item { UsualDivider() }
         item { Prompt() }
@@ -243,7 +238,6 @@ private fun ConnectionCheck() {
     val coroutineScope = rememberCoroutineScope()
 
     Column {
-        var linkText by remember { mutableStateOf(settings.link) }
         var connectionText by remember { mutableStateOf(KoboldAIClient.connectionStatusString) }
         var connectionColor by remember { mutableStateOf(KoboldAIClient.connectionStatusColor) }
         var modelName by remember {
@@ -287,11 +281,8 @@ private fun ConnectionCheck() {
             horizontalArrangement = Arrangement.spacedBy(padding),
         ) {
             OutlinedTextField(
-                linkText,
-                onValueChange = {
-                    settings.link = it
-                    linkText = settings.link
-                },
+                settings.link,
+                onValueChange = { settings.link = it },
                 textStyle = TextStyle(
                     color = colorText,
                     fontSize = normalText,
@@ -335,6 +326,104 @@ private fun ConnectionCheck() {
 }
 
 @Composable
+private fun SettingsPreset() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(padding),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            "Presets:",
+            color = colorText,
+            fontSize = normalText,
+        )
+
+        var editedPresetName by remember { mutableStateOf(settings.presetName ?: "<custom>") }
+
+        Menu(
+            settings.presetName ?: "<custom>",
+            listOf("<custom>") + Properties.settingsPresets().mapNotNull { it.presetName },
+            onSelect = {
+                if (it == "<custom>") {
+                    settings.presetName = null
+                    editedPresetName = "<custom>"
+                    return@Menu
+                }
+
+                Properties.selectPreset(it as String)
+                editedPresetName = it
+            },
+            itemContent = { item, type ->
+                if (type == MenuItemType.Main) {
+                    BasicTextField(
+                        editedPresetName,
+                        onValueChange = {
+                            editedPresetName = it
+                        },
+                        textStyle = TextStyle(
+                            color = colorText,
+                            fontSize = normalText,
+                        ),
+                        cursorBrush = SolidColor(colorText),
+                        modifier = Modifier
+                            .weight(1F)
+                            .background(colorBackground, RoundedCornerShape(corners))
+                            .padding(padding),
+                    )
+
+                } else {
+                    Text(
+                        item as String,
+                        color = if (item == settings.presetName || (settings.presetName == null && item == "<custom>")) colorTextSecond else colorText,
+                        fontSize = normalText,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colorBackground)
+                            .padding(padding),
+                    )
+                }
+            },
+            modifier = Modifier,
+        )
+
+        IconWithToolTip(
+            painterResource("save.svg"),
+            contentDescription = "Save as new preset",
+            toolTip = "Save as new preset",
+            tint = colorText,
+            modifier = Modifier.size(tinyIconSize).clickable {
+                if (editedPresetName != "<custom>" && editedPresetName.isNotBlank()) {
+                    Properties.createPreset(editedPresetName)
+                    settings.presetName = editedPresetName
+                }
+            },
+        )
+
+        IconWithToolTip(
+            painterResource("save_as.svg"),
+            contentDescription = "Save changes",
+            toolTip = "Save changes",
+            tint = colorText,
+            modifier = Modifier.size(tinyIconSize).clickable {
+                settings.presetName?.let { Properties.saveCurrentPreset() }
+            },
+        )
+
+        IconWithToolTip(
+            Icons.Default.Delete,
+            contentDescription = "Delete preset",
+            toolTip = "Delete preset",
+            tint = colorText,
+            modifier = Modifier.size(tinyIconSize).clickable {
+                settings.presetName?.let {
+                    Properties.deletePreset(it)
+                    settings.presetName = null
+                }
+            },
+        )
+    }
+}
+
+@Composable
 private fun Generating() {
     Column(
         verticalArrangement = Arrangement.spacedBy(padding)
@@ -342,48 +431,30 @@ private fun Generating() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
-            var temperature by remember { mutableStateOf(settings.generating.temperature) }
             DescriptionSlider(
                 name = "Temperature",
-                value = temperature,
-                onValueChange = {
-                    temperature = it
-                },
-                onValueChangeFinished = {
-                    temperature = it
-                    settings.generating.temperature = temperature
-                },
+                value = settings.generating.temperature,
+                onValueChange = { settings.generating.temperature = it },
+                onValueChangeFinished = { settings.generating.temperature = it },
                 valueRange = 0.1F..4F,
                 modifier = Modifier.weight(1F),
             )
 
-            var maxLength by remember { mutableStateOf(settings.generating.max_length.toFloat()) }
             DescriptionSlider(
                 name = "Amount of generation",
-                value = maxLength,
-                onValueChange = {
-                    maxLength = it
-                },
-                onValueChangeFinished = {
-                    maxLength = it
-                    settings.generating.max_length = maxLength.toInt()
-                },
+                value = settings.generating.maxLength.toFloat(),
+                onValueChange = { settings.generating.maxLength = it.toInt() },
+                onValueChangeFinished = { settings.generating.maxLength = it.toInt() },
                 valueRange = 16F..512F,
                 intStep = 8,
                 modifier = Modifier.weight(1F),
             )
 
-            var maxContextLength by remember { mutableStateOf(settings.generating.max_context_length.toFloat()) }
             DescriptionSlider(
                 name = "Max Context Length",
-                value = maxContextLength,
-                onValueChange = {
-                    maxContextLength = it
-                },
-                onValueChangeFinished = {
-                    maxContextLength = it
-                    settings.generating.max_context_length = maxContextLength.toInt()
-                },
+                value = settings.generating.maxContextLength.toFloat(),
+                onValueChange = { settings.generating.maxContextLength = it.toInt() },
+                onValueChangeFinished = { settings.generating.maxContextLength = it.toInt() },
                 valueRange = 512F..16384F,
                 intStep = 64,
                 modifier = Modifier.weight(1F),
@@ -393,48 +464,30 @@ private fun Generating() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
-            var repPen by remember { mutableStateOf(settings.generating.rep_pen) }
             DescriptionSlider(
                 name = "Repetition Penalty",
-                value = repPen,
-                onValueChange = {
-                    repPen = it
-                },
-                onValueChangeFinished = {
-                    repPen = it
-                    settings.generating.rep_pen = repPen
-                },
+                value = settings.generating.repPen,
+                onValueChange = { settings.generating.repPen = it },
+                onValueChangeFinished = { settings.generating.repPen = it },
                 valueRange = 1F..1.5F,
                 modifier = Modifier.weight(1F),
             )
 
-            var repPenRange by remember { mutableStateOf(settings.generating.rep_pen_range.toFloat()) }
             DescriptionSlider(
                 name = "Repetition Penalty Range",
-                value = repPenRange,
-                onValueChange = {
-                    repPenRange = it
-                },
-                onValueChangeFinished = {
-                    repPenRange = it
-                    settings.generating.rep_pen_range = repPenRange.toInt()
-                },
+                value = settings.generating.repPenRange.toFloat(),
+                onValueChange = { settings.generating.repPenRange = it.toInt() },
+                onValueChangeFinished = { settings.generating.repPenRange = it.toInt() },
                 valueRange = 0F..16384F,
                 intStep = 64,
                 modifier = Modifier.weight(1F),
             )
 
-            var repPenSlope by remember { mutableStateOf(settings.generating.rep_pen_slope) }
             DescriptionSlider(
                 name = "Rep Pen Slope",
-                value = repPenSlope,
-                onValueChange = {
-                    repPenSlope = it
-                },
-                onValueChangeFinished = {
-                    repPenSlope = it
-                    settings.generating.rep_pen_slope = repPenSlope
-                },
+                value = settings.generating.repPenSlope,
+                onValueChange = { settings.generating.repPenSlope = it },
+                onValueChangeFinished = { settings.generating.repPenSlope = it },
                 valueRange = 0.1F..10F,
                 modifier = Modifier.weight(1F),
             )
@@ -443,45 +496,27 @@ private fun Generating() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
-            var minP by remember { mutableStateOf(settings.generating.min_p) }
             DescriptionSlider(
                 name = "Min P Sampling",
-                value = minP,
-                onValueChange = {
-                    minP = it
-                },
-                onValueChangeFinished = {
-                    minP = it
-                    settings.generating.min_p = minP
-                },
+                value = settings.generating.minP,
+                onValueChange = { settings.generating.minP = it },
+                onValueChangeFinished = { settings.generating.minP = it },
                 modifier = Modifier.weight(1F),
             )
 
-            var topP by remember { mutableStateOf(settings.generating.top_p) }
             DescriptionSlider(
                 name = "Top P Sampling",
-                value = topP,
-                onValueChange = {
-                    topP = it
-                },
-                onValueChangeFinished = {
-                    topP = it
-                    settings.generating.top_p = topP
-                },
+                value = settings.generating.topP,
+                onValueChange = { settings.generating.topP = it },
+                onValueChangeFinished = { settings.generating.topP = it },
                 modifier = Modifier.weight(1F),
             )
 
-            var topK by remember { mutableStateOf(settings.generating.top_k.toFloat()) }
             DescriptionSlider(
                 name = "Top K Sampling",
-                value = topK,
-                onValueChange = {
-                    topK = it
-                },
-                onValueChangeFinished = {
-                    topK = it
-                    settings.generating.top_k = topK.toInt()
-                },
+                value = settings.generating.topK.toFloat(),
+                onValueChange = { settings.generating.topK = it.toInt() },
+                onValueChangeFinished = { settings.generating.topK = it.toInt() },
                 valueRange = 0F..100F,
                 intStep = 1,
                 modifier = Modifier.weight(1F)
@@ -491,45 +526,27 @@ private fun Generating() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
-            var topA by remember { mutableStateOf(settings.generating.top_a) }
             DescriptionSlider(
                 name = "Top A Sampling",
-                value = topA,
-                onValueChange = {
-                    topA = it
-                },
-                onValueChangeFinished = {
-                    topA = it
-                    settings.generating.top_a = topA
-                },
+                value = settings.generating.topA,
+                onValueChange = { settings.generating.topA = it },
+                onValueChangeFinished = { settings.generating.topA = it },
                 modifier = Modifier.weight(1F),
             )
 
-            var typical by remember { mutableStateOf(settings.generating.typical) }
             DescriptionSlider(
                 name = "Typical Sampling",
-                value = typical,
-                onValueChange = {
-                    typical = it
-                },
-                onValueChangeFinished = {
-                    typical = it
-                    settings.generating.typical = typical
-                },
+                value = settings.generating.typical,
+                onValueChange = { settings.generating.typical = it },
+                onValueChangeFinished = { settings.generating.typical = it },
                 modifier = Modifier.weight(1F),
             )
 
-            var tfs by remember { mutableStateOf(settings.generating.tfs) }
             DescriptionSlider(
                 name = "Tail Free Sampling",
-                value = tfs,
-                onValueChange = {
-                    tfs = it
-                },
-                onValueChangeFinished = {
-                    tfs = it
-                    settings.generating.tfs = tfs
-                },
+                value = settings.generating.tfs,
+                onValueChange = { settings.generating.tfs = it },
+                onValueChangeFinished = { settings.generating.tfs = it },
                 modifier = Modifier.weight(1F),
             )
         }
@@ -548,27 +565,20 @@ private fun Generating() {
                     fontSize = normalText,
                 )
 
-                var seed by remember { mutableStateOf<Int?>(settings.generating.seed) }
                 BasicTextField(
                     modifier = Modifier
                         .background(colorBackground, RoundedCornerShape(corners))
                         .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                         .padding(padding),
-                    value = if (seed == null) "" else seed.toString(),
+                    value = settings.generating.seed.toString(),
                     textStyle = TextStyle(color = colorText, fontSize = normalText),
                     cursorBrush = SolidColor(colorText),
                     onValueChange = { value ->
-                        if (value == "-") {
-                            seed = -1
-                        }
-
-                        if (value.isBlank()) {
-                            seed = null
+                        if (value == "-" || value.isBlank()) {
                             settings.generating.seed = -1
                         }
 
                         value.toIntOrNull()?.let {
-                            seed = it
                             settings.generating.seed = it
                         }
                     },
@@ -584,29 +594,24 @@ private fun Generating() {
                     fontSize = normalText,
                 )
 
-                val samplerOrder = remember { settings.generating.sampler_order.toMutableStateList() }
                 Column(
                     verticalArrangement = Arrangement.spacedBy(padding),
                     modifier = Modifier.width(IntrinsicSize.Max),
                 ) {
-                    samplerOrder.forEachIndexed { index, sampler ->
+                    settings.generating.samplerOrder.forEachIndexed { index, sampler ->
                         DraggableSamplerLine(
                             number = sampler,
                             name = samplerName(sampler),
                             onUp = {
-                                samplerOrder.removeAt(index)
-                                samplerOrder.add(index - 1, sampler)
-
-                                settings.generating.sampler_order = samplerOrder
+                                settings.generating.samplerOrder.removeAt(index)
+                                settings.generating.samplerOrder.add(index - 1, sampler)
                             },
                             onDown = {
-                                samplerOrder.removeAt(index)
-                                samplerOrder.add(index + 1, sampler)
-
-                                settings.generating.sampler_order = samplerOrder
+                                settings.generating.samplerOrder.removeAt(index)
+                                settings.generating.samplerOrder.add(index + 1, sampler)
                             },
                             upAvailable = index > 0,
-                            downAvailable = index < samplerOrder.lastIndex,
+                            downAvailable = index < settings.generating.samplerOrder.lastIndex,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -667,85 +672,55 @@ private fun DraggableSamplerLine(
 
 @Composable
 private fun Prompt() {
-    var promptType by remember { mutableStateOf(settings.prompt_settings.type) }
-    var pattern by remember { mutableStateOf(settings.prompt_settings.pattern) }
-    var systemPrompt by remember { mutableStateOf(settings.prompt_settings.system_prompt) }
-    var systemInstructPrefix by remember { mutableStateOf(settings.prompt_settings.system_instruct_prefix) }
-    var userInstructPrefix by remember { mutableStateOf(settings.prompt_settings.user_instruct_prefix) }
-    var modelInstructPrefix by remember { mutableStateOf(settings.prompt_settings.model_instruct_prefix) }
-    var endTokens by remember { mutableStateOf(settings.prompt_settings.stop_sequence) }
-
     CheckboxText(
         "instruct",
-        promptType == PromptType.Instruct,
-        onChange = {
-            promptType = if (it) PromptType.Instruct else PromptType.Chat
-            settings.prompt_settings.type = promptType
-        }
+        settings.promptSettings.type == PromptType.Instruct,
+        onChange = { settings.promptSettings.type = if (it) PromptType.Instruct else PromptType.Chat },
     )
 
     TextFieldWithTokens(
-        pattern,
+        settings.promptSettings.pattern,
         "Pattern",
-        onValueChange = {
-            pattern = it
-            settings.prompt_settings.pattern = it
-        },
+        onValueChange = { settings.promptSettings.pattern = it },
         showTokens = false,
-        modifier = Modifier
-            .height(140.dp),
+        modifier = Modifier.height(140.dp),
     )
 
     TextFieldWithTokens(
-        systemPrompt,
+        settings.promptSettings.systemPrompt,
         "System Prompt",
-        onValueChange = {
-            systemPrompt = it
-            settings.prompt_settings.system_prompt = it
-        },
+        onValueChange = { settings.promptSettings.systemPrompt = it },
         singleLine = true,
     )
 
     TextFieldWithTokens(
-        systemInstructPrefix,
+        settings.promptSettings.systemInstructPrefix,
         "System Instruction Prefix",
-        onValueChange = {
-            systemInstructPrefix = it
-            settings.prompt_settings.system_instruct_prefix = it
-        },
+        onValueChange = { settings.promptSettings.systemInstructPrefix = it },
         showTokens = false,
         singleLine = true,
     )
 
     TextFieldWithTokens(
-        userInstructPrefix,
+        settings.promptSettings.userInstructPrefix,
         "User Instruction Prefix",
-        onValueChange = {
-            userInstructPrefix = it
-            settings.prompt_settings.user_instruct_prefix = it
-        },
+        onValueChange = { settings.promptSettings.userInstructPrefix = it },
         showTokens = false,
         singleLine = true,
     )
 
     TextFieldWithTokens(
-        modelInstructPrefix,
+        settings.promptSettings.modelInstructPrefix,
         "Model Instruction Prefix",
-        onValueChange = {
-            modelInstructPrefix = it
-            settings.prompt_settings.model_instruct_prefix = it
-        },
+        onValueChange = { settings.promptSettings.modelInstructPrefix = it },
         showTokens = false,
         singleLine = true,
     )
 
     TextFieldWithTokens(
-        endTokens,
+        settings.promptSettings.stopSequence,
         "End Tokens",
-        onValueChange = {
-            endTokens = it
-            settings.prompt_settings.stop_sequence = it
-        },
+        onValueChange = { settings.promptSettings.stopSequence = it },
         showTokens = false,
         singleLine = true,
     )
@@ -772,8 +747,6 @@ private fun SDConnectionCheck() {
     val coroutineScope = rememberCoroutineScope()
 
     Column {
-        var connectionEnabled by remember { mutableStateOf(settings.stable_diffusion_api_enabled) }
-        var linkText by remember { mutableStateOf(settings.stable_diffusion_link) }
         var connectionText by remember { mutableStateOf(StableDiffusionWebUIClient.connectionStatusString) }
         var connectionColor by remember { mutableStateOf(StableDiffusionWebUIClient.connectionStatusColor) }
         var modelName by remember {
@@ -799,12 +772,11 @@ private fun SDConnectionCheck() {
 
         CheckboxText(
             "connect to stable diffusion webui api",
-            connectionEnabled,
+            settings.stableDiffusionApiEnabled,
             onChange = {
-                connectionEnabled = it
-                settings.stable_diffusion_api_enabled = it
+                settings.stableDiffusionApiEnabled = it
 
-                if (!connectionEnabled) {
+                if (!settings.stableDiffusionApiEnabled) {
                     StableDiffusionWebUIClient.disconnect()
                     updateConnection()
                 } else {
@@ -834,11 +806,8 @@ private fun SDConnectionCheck() {
             horizontalArrangement = Arrangement.spacedBy(padding),
         ) {
             OutlinedTextField(
-                linkText,
-                onValueChange = {
-                    settings.stable_diffusion_link = it
-                    linkText = settings.stable_diffusion_link
-                },
+                settings.stableDiffusionLink,
+                onValueChange = { settings.stableDiffusionLink = it },
                 textStyle = TextStyle(
                     color = colorText,
                     fontSize = normalText,
@@ -857,11 +826,11 @@ private fun SDConnectionCheck() {
                         connectionText = "checking connection..."
                         connectionColor = colorCheckConnection
 
-                        if (settings.stable_diffusion_api_enabled) StableDiffusionWebUIClient.checkModelName()
+                        if (settings.stableDiffusionApiEnabled) StableDiffusionWebUIClient.checkModelName()
                         updateConnection()
                     }
                 },
-                enabled = settings.stable_diffusion_api_enabled,
+                enabled = settings.stableDiffusionApiEnabled,
                 colors = ButtonDefaults.buttonColors(
                     colorBackgroundSecondLighter,
                     disabledBackgroundColor = colorBackground
@@ -893,33 +862,21 @@ private fun SDGenerating() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
-            var sfgScale by remember { mutableStateOf(settings.image_generating.cfg_scale.toFloat()) }
             DescriptionSlider(
                 name = "CFG Scale",
-                value = sfgScale,
-                onValueChange = {
-                    sfgScale = it
-                },
-                onValueChangeFinished = {
-                    sfgScale = it
-                    settings.image_generating.cfg_scale = sfgScale.toInt()
-                },
+                value = settings.imageGenerating.cfgScale.toFloat(),
+                onValueChange = { settings.imageGenerating.cfgScale = it.toInt() },
+                onValueChangeFinished = { settings.imageGenerating.cfgScale = it.toInt() },
                 valueRange = 1F..30F,
                 intStep = 1,
                 modifier = Modifier.weight(1F),
             )
 
-            var steps by remember { mutableStateOf(settings.image_generating.steps.toFloat()) }
             DescriptionSlider(
                 name = "Steps",
-                value = steps,
-                onValueChange = {
-                    steps = it
-                },
-                onValueChangeFinished = {
-                    steps = it
-                    settings.image_generating.steps = steps.toInt()
-                },
+                value = settings.imageGenerating.steps.toFloat(),
+                onValueChange = { settings.imageGenerating.steps = it.toInt() },
+                onValueChangeFinished = { settings.imageGenerating.steps = it.toInt() },
                 valueRange = 1F..150F,
                 intStep = 1,
                 modifier = Modifier.weight(1F),
@@ -929,60 +886,40 @@ private fun SDGenerating() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
-            var width by remember { mutableStateOf(settings.image_generating.width.toFloat()) }
             DescriptionSlider(
                 name = "Image Width",
-                value = width,
-                onValueChange = {
-                    width = it
-                },
-                onValueChangeFinished = {
-                    width = it
-                    settings.image_generating.width = width.toInt()
-                },
+                value = settings.imageGenerating.width.toFloat(),
+                onValueChange = { settings.imageGenerating.width = it.toInt() },
+                onValueChangeFinished = { settings.imageGenerating.width = it.toInt() },
                 valueRange = 64F..2048F,
                 intStep = 1,
                 modifier = Modifier.weight(1F),
             )
 
-            var height by remember { mutableStateOf(settings.image_generating.height.toFloat()) }
             DescriptionSlider(
                 name = "Image Height",
-                value = height,
-                onValueChange = {
-                    height = it
-                },
-                onValueChangeFinished = {
-                    height = it
-                    settings.image_generating.height = height.toInt()
-                },
+                value = settings.imageGenerating.height.toFloat(),
+                onValueChange = { settings.imageGenerating.height = it.toInt() },
+                onValueChangeFinished = { settings.imageGenerating.height = it.toInt() },
                 valueRange = 64F..2048F,
                 intStep = 1,
                 modifier = Modifier.weight(1F),
             )
         }
 
-        var style by remember { mutableStateOf(settings.image_generating.style) }
         TextFieldWithTokens(
-            text = style,
+            text = settings.imageGenerating.style,
             name = "Image Style",
             singleLine = true,
-            onValueChange = {
-                style = it
-                settings.image_generating.style = it
-            },
+            onValueChange = { settings.imageGenerating.style = it },
             modifier = Modifier.fillMaxWidth()
         )
 
-        var negativePrompt by remember { mutableStateOf(settings.image_generating.negative_prompt) }
         TextFieldWithTokens(
-            text = negativePrompt,
+            text = settings.imageGenerating.negativePrompt,
             name = "Negative Prompt",
             singleLine = true,
-            onValueChange = {
-                negativePrompt = it
-                settings.image_generating.negative_prompt = it
-            },
+            onValueChange = { settings.imageGenerating.negativePrompt = it },
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -1028,15 +965,10 @@ private fun AppearanceSettings(
         modifier = modifier
     ) {
         item {
-            var profileImageEnabled by remember { mutableStateOf(settings.profile_images_enabled) }
-
             CheckboxText(
                 "profile images enabled",
-                profileImageEnabled,
-                onChange = {
-                    profileImageEnabled = it
-                    settings.profile_images_enabled = it
-                }
+                settings.profileImagesEnabled,
+                onChange = { settings.profileImagesEnabled = it }
             )
 
             var shapeSelected by remember { mutableStateOf(ImageShape.makeImageShape()) }
@@ -1056,13 +988,11 @@ private fun AppearanceSettings(
         item {
             val backgroundsFolder by remember { mutableStateOf(File("data/backgrounds")) }
             val list = remember { backgroundsFolder.loadAllImages().toState() }
-            var selected by remember { mutableStateOf(settings.background) }
             Text("Backgrounds:", color = colorText, fontSize = bigText)
             BackgroundImages(
                 list,
-                selected,
+                settings.background,
                 onSelected = { name ->
-                    selected = name
                     settings.background = name
                     getImageBitmap("${backgroundsFolder.path}/$name")?.let { img ->
                         onBackgroundChange.invoke(img)
@@ -1075,7 +1005,6 @@ private fun AppearanceSettings(
                             copyAndGetImage(it, backgroundsFolder)?.let { img ->
                                 list[img.first] = img.second
                                 onBackgroundChange.invoke(img.second)
-                                selected = img.first
                                 settings.background = img.first
                             }
 
@@ -1372,127 +1301,6 @@ private fun ProfileImageCard(
             .clip(RoundedCornerShape(corners))
             .clickable(onClick = onSelected),
     )
-}
-
-@Composable
-private fun ExperimentalSettings(
-    modifier: Modifier = Modifier,
-) {
-    LazyColumn(
-        modifier = modifier
-    ) {
-        item { MultiGen() }
-        item { UsualDivider() }
-        item { ChangeableContext() }
-        item { UsualDivider() }
-    }
-}
-
-@Composable
-private fun MultiGen() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(padding)
-    ) {
-        Text(
-            "Multigen (experimental):",
-            modifier = Modifier.fillMaxWidth(),
-            color = colorText,
-            fontSize = bigText,
-        )
-
-        var checked by remember { mutableStateOf(settings.multi_gen.enabled) }
-        CheckboxText(
-            "enable",
-            checked,
-            onChange = {
-                checked = it
-                settings.multi_gen.enabled = it
-            }
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(padding)
-        ) {
-            var tokensPerStep by remember { mutableStateOf(settings.multi_gen.tokens_per_step.toFloat()) }
-            DescriptionSlider(
-                tokensPerStep,
-                name = "Tokens Per Step",
-                onValueChange = {
-                    tokensPerStep = it
-                },
-                onValueChangeFinished = {
-                    tokensPerStep = it
-                    settings.multi_gen.tokens_per_step = tokensPerStep.toInt()
-                },
-                valueRange = 8F..64F,
-                intStep = 8,
-                enabled = checked,
-                modifier = Modifier.weight(1F),
-            )
-
-            var tries by remember { mutableStateOf(settings.multi_gen.tries.toFloat()) }
-            DescriptionSlider(
-                tries,
-                name = "Tries",
-                onValueChange = {
-                    tries = it
-                },
-                onValueChangeFinished = {
-                    tries = it
-                    settings.multi_gen.tries = tries.toInt()
-                },
-                valueRange = 1F..5F,
-                intStep = 1,
-                enabled = checked,
-                modifier = Modifier.weight(1F),
-            )
-        }
-    }
-}
-
-@Composable
-private fun ChangeableContext() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(padding)
-    ) {
-        Text(
-            "Changeable Context (experimental):",
-            modifier = Modifier.fillMaxWidth(),
-            color = colorText,
-            fontSize = bigText,
-        )
-
-        var checked by remember { mutableStateOf(settings.changeable_context.enabled) }
-        CheckboxText(
-            "enable",
-            checked,
-            onChange = {
-                checked = it
-                settings.changeable_context.enabled = it
-            }
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(padding)
-        ) {
-            var tokensPerStep by remember { mutableStateOf(settings.changeable_context.buffer.toFloat()) }
-            DescriptionSlider(
-                tokensPerStep,
-                name = "Buffer",
-                onValueChange = {
-                    tokensPerStep = it
-                },
-                onValueChangeFinished = {
-                    tokensPerStep = it
-                    settings.changeable_context.buffer = tokensPerStep.toInt()
-                },
-                valueRange = 256F..1024F,
-                intStep = 8,
-                enabled = checked,
-                modifier = Modifier.weight(1F),
-            )
-        }
-    }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)

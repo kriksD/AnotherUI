@@ -76,15 +76,15 @@ data class ImagePrompt(
     companion object {
         fun createPrompt(prompt: String = ""): ImagePrompt {
             return ImagePrompt(
-                prompt = "${settings.image_generating.style}. $prompt.",
-                seed = settings.image_generating.seed,
-                steps = settings.image_generating.steps,
-                cfg_scale = settings.image_generating.cfg_scale,
-                width = settings.image_generating.width,
-                height = settings.image_generating.height,
-                negative_prompt = settings.image_generating.negative_prompt,
-                sampler_index = settings.image_generating.sampler_index,
-                save_images = settings.image_generating.save_images,
+                prompt = "${settings.imageGenerating.style}. $prompt.",
+                seed = settings.imageGenerating.seed,
+                steps = settings.imageGenerating.steps,
+                cfg_scale = settings.imageGenerating.cfgScale,
+                width = settings.imageGenerating.width,
+                height = settings.imageGenerating.height,
+                negative_prompt = settings.imageGenerating.negativePrompt,
+                sampler_index = settings.imageGenerating.samplerIndex,
+                save_images = settings.imageGenerating.saveImages,
             )
         }
     }

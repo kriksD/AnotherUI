@@ -6,7 +6,7 @@ import settings
 import user
 
 fun String.dropRest(charName: String): String {
-    return if (settings.prompt_settings.type == PromptType.Chat) {
+    return if (settings.promptSettings.type == PromptType.Chat) {
         replace("$charName:", "")
             .substringBefore("${user.name}:")
             .substringBefore("You:")

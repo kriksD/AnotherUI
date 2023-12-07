@@ -3,7 +3,6 @@ package properties
 import androidx.compose.ui.graphics.ImageBitmap
 import properties.settings.Settings
 import properties.settings.SettingsContainer
-import java.io.File
 
 object Properties {
     const val version = "0.0.0 alpha"
@@ -20,8 +19,13 @@ object Properties {
 
     private val settingsContainer: SettingsContainer = SettingsContainer()
     fun settings(): Settings = settingsContainer.settings
+    fun settingsPresets(): List<Settings> = settingsContainer.presetsList
     fun loadSettings() { settingsContainer.load() }
     fun saveSettings() { settingsContainer.save() }
+    fun createPreset(name: String) { settingsContainer.createPreset(name) }
+    fun deletePreset(name: String) { settingsContainer.deletePreset(name) }
+    fun saveCurrentPreset() { settingsContainer.saveCurrentPreset() }
+    fun selectPreset(name: String) { settingsContainer.selectPreset(name) }
 
     private val styleContainer: StyleContainer = StyleContainer()
     fun style(): Style = styleContainer.style

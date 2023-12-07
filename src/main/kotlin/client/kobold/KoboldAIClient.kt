@@ -97,11 +97,7 @@ object KoboldAIClient {
             println("Tokens: ${GlobalTokenizer.countTokens(prompt.prompt)}")
             println("${printJson.encodeToString(prompt)}\n\n")
 
-            val message = if (settings.multi_gen.enabled) {
-                ""
-            } else {
-                generateAll(prompt)
-            }
+            val message = generateAll(prompt)
 
             println("\n\n===== RESULT =====")
             println("$message\n\n")

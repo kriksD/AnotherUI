@@ -132,7 +132,7 @@ object StableDiffusionWebUIClient {
     }
 
     private fun createLink(): String {
-        val link = settings.stable_diffusion_link.removeSuffix("/").removeSuffix("/sdapi")
+        val link = settings.stableDiffusionLink.removeSuffix("/").removeSuffix("/sdapi")
         return "${if (link.startsWith("http://")) "" else "http://"}$link/sdapi/v1"
     }
 }

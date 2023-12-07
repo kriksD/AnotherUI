@@ -25,9 +25,9 @@ class AMessage2(
 
     val stringInstruct: String get() = "${
         if (isUser)
-            settings.prompt_settings.user_instruct_prefix
+            settings.promptSettings.userInstructPrefix
         else
-            settings.prompt_settings.model_instruct_prefix
+            settings.promptSettings.modelInstructPrefix
     }$content"
 
     fun swipeLeft() {

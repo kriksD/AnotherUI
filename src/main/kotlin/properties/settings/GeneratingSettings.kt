@@ -1,48 +1,60 @@
 package properties.settings
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.*
 
-@Serializable
-data class GeneratingSettings(
-    var max_context_length: Int = 1600,
-    var max_length: Int = 200,
-    var rep_pen: Float = 1.08F,
-    var rep_pen_range: Int = 1024,
-    var rep_pen_slope: Float = 0.9F,
-    var temperature: Float = 0.65F,
-    var tfs: Float = 0.65F,
-    var top_a: Float = 0.9F,
-    var top_k: Int = 0,
-    var top_p: Float = 0.9F,
-    var min_p: Float = 0.1F,
-    var typical: Float = 1F,
-    var sampler_order: List<Int> = listOf(/*6, 0, 1, 2, 3, 4, 5*/ 6, 0, 1, 3, 4, 2, 5),
-    var seed: Int = -1,
+@Serializable(with = GeneratingSettingsSerializer::class)
+class GeneratingSettings(
+    maxContextLength: Int = 1600,
+    maxLength: Int = 200,
+    repPen: Float = 1.08F,
+    repPenRange: Int = 1024,
+    repPenSlope: Float = 0.9F,
+    temperature: Float = 0.65F,
+    tfs: Float = 0.65F,
+    topA: Float = 0.9F,
+    topK: Int = 0,
+    topP: Float = 0.9F,
+    minP: Float = 0.1F,
+    typical: Float = 1F,
+    samplerOrder: SnapshotStateList<Int> = mutableStateListOf(/*6, 0, 1, 2, 3, 4, 5*/ 6, 0, 1, 3, 4, 2, 5),
+    seed: Int = -1,
 ) {
-    companion object {
-        fun createFromJson(jsonObject: JsonObject): GeneratingSettings? {
-            return try {
-                val map = jsonObject.toMap()
-                val newSettings = GeneratingSettings()
+    var maxContextLength: Int by mutableStateOf(maxContextLength)
+    var maxLength: Int by mutableStateOf(maxLength)
+    var repPen: Float by mutableStateOf(repPen)
+    var repPenRange: Int by mutableStateOf(repPenRange)
+    var repPenSlope: Float by mutableStateOf(repPenSlope)
+    var temperature: Float by mutableStateOf(temperature)
+    var tfs: Float by mutableStateOf(tfs)
+    var topA: Float by mutableStateOf(topA)
+    var topK: Int by mutableStateOf(topK)
+    var topP: Float by mutableStateOf(topP)
+    var minP: Float by mutableStateOf(minP)
+    var typical: Float by mutableStateOf(typical)
+    var samplerOrder: SnapshotStateList<Int> by mutableStateOf(samplerOrder)
+    var seed: Int by mutableStateOf(seed)
 
-                map["max_context_length"]?.jsonPrimitive?.intOrNull?.let { newSettings.max_context_length = it }
-                map["max_length"]?.jsonPrimitive?.intOrNull?.let { newSettings.max_length = it }
-                map["rep_pen"]?.jsonPrimitive?.floatOrNull?.let { newSettings.rep_pen = it }
-                map["rep_pen_range"]?.jsonPrimitive?.intOrNull?.let { newSettings.rep_pen_range = it }
-                map["rep_pen_slope"]?.jsonPrimitive?.floatOrNull?.let { newSettings.rep_pen_slope = it }
-                map["temperature"]?.jsonPrimitive?.floatOrNull?.let { newSettings.temperature = it }
-                map["tfs"]?.jsonPrimitive?.floatOrNull?.let { newSettings.tfs = it }
-                map["top_a"]?.jsonPrimitive?.floatOrNull?.let { newSettings.top_a = it }
-                map["top_k"]?.jsonPrimitive?.intOrNull?.let { newSettings.top_k = it }
-                map["top_p"]?.jsonPrimitive?.floatOrNull?.let { newSettings.top_p = it }
-                map["min_p"]?.jsonPrimitive?.floatOrNull?.let { newSettings.min_p = it }
-                map["typical"]?.jsonPrimitive?.floatOrNull?.let { newSettings.typical = it }
-                map["sampler_order"]?.jsonArray?.mapNotNull { it.jsonPrimitive.intOrNull }?.let { newSettings.sampler_order = it }
-                map["seed"]?.jsonPrimitive?.intOrNull?.let { newSettings.seed = it }
-
-                newSettings
-            } catch (e: Exception) { null }
-        }
+    fun copy(): GeneratingSettings {
+        return GeneratingSettings(
+            maxContextLength,
+            maxLength,
+            repPen,
+            repPenRange,
+            repPenSlope,
+            temperature,
+            tfs,
+            topA,
+            topK,
+            topP,
+            minP,
+            typical,
+            samplerOrder,
+            seed,
+        )
     }
 }

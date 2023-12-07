@@ -49,11 +49,11 @@ class Generator(
         }
 
         val prompt = PromptBuilder()
-            .pattern(settings.prompt_settings.pattern)
-            .systemPrompt(settings.prompt_settings.system_prompt)
+            .pattern(settings.promptSettings.pattern)
+            .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
-            .type(settings.prompt_settings.type)
+            .type(settings.promptSettings.type)
             .build()
 
         val message = chat.addMessage(generatingText, character.jsonData.name, false)
@@ -85,11 +85,11 @@ class Generator(
         isGeneratingUserMessage = true
 
         val promptBuilder = PromptBuilder()
-            .pattern(settings.prompt_settings.pattern)
-            .systemPrompt(settings.prompt_settings.system_prompt)
+            .pattern(settings.promptSettings.pattern)
+            .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
-            .type(settings.prompt_settings.type)
+            .type(settings.promptSettings.type)
             .forUser()
             .complete(userMessage.isNotBlank())
 
@@ -127,11 +127,11 @@ class Generator(
         val oldContent = message.content
 
         val prompt = PromptBuilder()
-            .pattern(settings.prompt_settings.pattern)
-            .systemPrompt(settings.prompt_settings.system_prompt)
+            .pattern(settings.promptSettings.pattern)
+            .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
-            .type(settings.prompt_settings.type)
+            .type(settings.promptSettings.type)
             .complete()
             .build()
 
@@ -170,11 +170,11 @@ class Generator(
         message.updateSwipe(generatingSwipeIndex, generatingText)
 
         val prompt = PromptBuilder()
-            .pattern(settings.prompt_settings.pattern)
-            .systemPrompt(settings.prompt_settings.system_prompt)
+            .pattern(settings.promptSettings.pattern)
+            .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
-            .type(settings.prompt_settings.type)
+            .type(settings.promptSettings.type)
             .regenerate()
             .build()
 
@@ -208,11 +208,11 @@ class Generator(
         generatingSwipeIndex = message.swipeId.value
 
         val prompt = PromptBuilder()
-            .pattern(settings.prompt_settings.pattern)
-            .systemPrompt(settings.prompt_settings.system_prompt)
+            .pattern(settings.promptSettings.pattern)
+            .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
-            .type(settings.prompt_settings.type)
+            .type(settings.promptSettings.type)
             .regenerate()
             .build()
 

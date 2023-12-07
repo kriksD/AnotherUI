@@ -69,7 +69,7 @@ fun CharacterList(
     onNewCharacter: () -> Unit,
     onDelete: (ACharacter) -> Unit,
 ) {
-    var view by remember { mutableStateOf(settings.characters_list_view) }
+    var view by remember { mutableStateOf(settings.charactersListView) }
     var searchSequence by remember { mutableStateOf("") }
     var favoriteFilter by remember { mutableStateOf(false) }
 
@@ -154,7 +154,7 @@ fun CharacterList(
                 view = view,
                 onChange = {
                     view = it
-                    settings.characters_list_view = it
+                    settings.charactersListView = it
                     Properties.saveSettings()
                 },
             )

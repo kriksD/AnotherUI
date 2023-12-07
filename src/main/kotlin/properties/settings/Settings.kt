@@ -1,61 +1,50 @@
 package properties.settings
 
 import ViewType
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import kotlinx.serialization.*
-import kotlinx.serialization.json.*
 
-@Serializable
-data class Settings(
-    var language: String = "en",
-    var link: String = "http://localhost:5000",
-    var stable_diffusion_link: String = "http://127.0.0.1:7860",
-    var stable_diffusion_api_enabled: Boolean = false,
-    var profile_images_enabled: Boolean = true,
-    var background: String = "bg1.png",
-    var characters_list_view: ViewType = ViewType.Grid,
-    var generating: GeneratingSettings = GeneratingSettings(),
-    var prompt_settings: PromptSettings = PromptSettings(),
-    var image_generating: ImageGeneratingSettings = ImageGeneratingSettings(),
-    var multi_gen: MultiGenSettings = MultiGenSettings(),
-    var changeable_context: ChangeableContextSettings = ChangeableContextSettings(),
+@Serializable(with = SettingsSerializer::class)
+class Settings(
+    presetName: String? = null,
+    language: String = "en",
+    link: String = "http://localhost:5000",
+    stableDiffusionLink: String = "http://127.0.0.1:7860",
+    stableDiffusionApiEnabled: Boolean = false,
+    profileImagesEnabled: Boolean = true,
+    background: String = "bg1.png",
+    charactersListView: ViewType = ViewType.Grid,
+    generating: GeneratingSettings = GeneratingSettings(),
+    promptSettings: PromptSettings = PromptSettings(),
+    imageGenerating: ImageGeneratingSettings = ImageGeneratingSettings(),
 ) {
-    companion object {
-        fun createFromJson(jsonObject: JsonObject): Settings? {
-            try {
-                val map = jsonObject.toMap()
-                val newSettings = Settings()
-                map["language"]?.jsonPrimitive?.contentOrNull?.let { newSettings.language = it }
-                map["link"]?.jsonPrimitive?.contentOrNull?.let { newSettings.link = it }
-                map["stable_diffusion_link"]?.jsonPrimitive?.contentOrNull?.let { newSettings.stable_diffusion_link = it }
-                map["stable_diffusion_api_enabled"]?.jsonPrimitive?.booleanOrNull?.let { newSettings.stable_diffusion_api_enabled = it }
-                map["profile_images_enabled"]?.jsonPrimitive?.booleanOrNull?.let { newSettings.profile_images_enabled = it }
-                map["background"]?.jsonPrimitive?.contentOrNull?.let { newSettings.background = it }
-                map["characters_list_view"]?.jsonPrimitive?.contentOrNull?.let {
-                    try {
-                        newSettings.characters_list_view = ViewType.valueOf(it)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
+    var presetName: String? by mutableStateOf(presetName)
+    var language: String by mutableStateOf(language)
+    var link: String by mutableStateOf(link)
+    var stableDiffusionLink: String by mutableStateOf(stableDiffusionLink)
+    var stableDiffusionApiEnabled: Boolean by mutableStateOf(stableDiffusionApiEnabled)
+    var profileImagesEnabled: Boolean by mutableStateOf(profileImagesEnabled)
+    var background: String by mutableStateOf(background)
+    var charactersListView: ViewType by mutableStateOf(charactersListView)
+    var generating: GeneratingSettings by mutableStateOf(generating)
+    var promptSettings: PromptSettings by mutableStateOf(promptSettings)
+    var imageGenerating: ImageGeneratingSettings by mutableStateOf(imageGenerating)
 
-                map["generating"]?.jsonObject?.let { jsonStr ->
-                    GeneratingSettings.createFromJson(jsonStr)?.let { newSettings.generating = it }
-                }
-
-                map["prompt_settings"]?.jsonObject?.let { jsonStr ->
-                    PromptSettings.createFromJson(jsonStr)?.let { newSettings.prompt_settings = it }
-                }
-
-                map["image_generating"]?.jsonObject?.let { jsonStr ->
-                    ImageGeneratingSettings.createFromJson(jsonStr)?.let { newSettings.image_generating = it }
-                }
-
-                map["changeable_context"]?.jsonObject?.let { jsonStr ->
-                    ChangeableContextSettings.createFromJson(jsonStr)?.let { newSettings.changeable_context = it }
-                }
-
-                return newSettings
-            } catch (e: Exception) { return null }
-        }
+    fun copy(): Settings {
+        return Settings(
+            presetName,
+            language,
+            link,
+            stableDiffusionLink,
+            stableDiffusionApiEnabled,
+            profileImagesEnabled,
+            background,
+            charactersListView,
+            generating.copy(),
+            promptSettings.copy(),
+            imageGenerating.copy(),
+        )
     }
 }

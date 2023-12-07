@@ -56,15 +56,20 @@ enum class ViewType {
 }
 
 fun main() = application {
-    Properties.loadStyle()
-    Properties.loadSettings()
-    Properties.loadLanguage()
-    Properties.loadUser()
+    var firstTimeSettings by remember { mutableStateOf(true) }
+    if (firstTimeSettings) {
+        Properties.loadStyle()
+        Properties.loadSettings()
+        Properties.loadLanguage()
+        Properties.loadUser()
+
+        firstTimeSettings = false
+    }
 
     val coroutineScope = rememberCoroutineScope()
     coroutineScope.launch {
         KoboldAIClient.checkModelName()
-        if (settings.stable_diffusion_api_enabled) StableDiffusionWebUIClient.checkModelName()
+        if (settings.stableDiffusionApiEnabled) StableDiffusionWebUIClient.checkModelName()
     }
 
     val snackbarHostState by remember { mutableStateOf(SnackbarHostState()) }
@@ -93,12 +98,6 @@ fun main() = application {
 
     var firstTime by remember { mutableStateOf(true) }
     if (firstTime) {
-        timer(initialDelay = 5000, period = 5000) {
-            coroutineScope.launch {
-                KoboldAIClient.checkModelName()
-                if (settings.stable_diffusion_api_enabled) StableDiffusionWebUIClient.checkModelName()
-            }
-        }
         LaunchedEffect(true) {
             withContext(Dispatchers.IO) {
                 loadAllCharacters()
@@ -111,6 +110,13 @@ fun main() = application {
 
             firstTime = false
             screen = Screen.Characters
+        }
+
+        timer(initialDelay = 5000, period = 5000) {
+            coroutineScope.launch {
+                KoboldAIClient.checkModelName()
+                if (settings.stableDiffusionApiEnabled) StableDiffusionWebUIClient.checkModelName()
+            }
         }
     }
 
