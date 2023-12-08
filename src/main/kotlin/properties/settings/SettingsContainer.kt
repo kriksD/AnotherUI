@@ -82,6 +82,7 @@ class SettingsContainer {
         val presetFile = File("data/settings/presets/$name.json")
         presetFile.delete()
         presets.removeIf { it.presetName == name }
+        if (settings.presetName == name) { settings.presetName = null }
     }
 
     fun selectPreset(name: String) {
