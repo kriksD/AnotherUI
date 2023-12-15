@@ -13,8 +13,8 @@ fun String.dropRest(charName: String): String {
             .substringBefore("<START>")
     } else {
         substringBefore("<START>")
-            .substringBefore("<|user|>")
-            .substringBefore("<|model|>")
+            .substringBefore(settings.promptSettings.userInstructPrefix)
+            .substringBefore(settings.promptSettings.modelInstructPrefix)
     }
 }
 
@@ -35,6 +35,7 @@ fun String.trimCorrectly(): String {
     while (result.last() == '\n' || result.last() == '\t' || result.last() == ' ') result = result.dropLast(1)
 
     result = result.replace(Regex("(?<!\\n)\\n(?!\\n)"), "\n\n")
+    result = result.replace(Regex("\\n{3,}"), "\n\n")
 
     return result
 }
