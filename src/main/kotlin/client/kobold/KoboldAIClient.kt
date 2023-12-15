@@ -78,7 +78,8 @@ object KoboldAIClient {
             }
             connectionStatus = result.status.value in 200..299
 
-            val count = Json.decodeFromString<Result>(result.body())
+            val json = Json { ignoreUnknownKeys = true }
+            val count = json.decodeFromString<Result>(result.body())
             return count.value
 
         } catch (e: Exception) {
