@@ -10,14 +10,11 @@ class TempEvaluator(
     private val movesValues = mutableMapOf<Pair<Int, Int>, Double>()
 
     fun getNextMove(): Pair<Int, Int>? {
-        println("team: ${forTeam.type}")
         val maxValue = movesValues.maxOfOrNull { it.value } ?: return null
         val minValue = movesValues.minOfOrNull { it.value } ?: return null
         val minPValue = minValue + (maxValue - minValue) * minP
-        println("minPValue: $minPValue")
 
         val filteredMoves = movesValues.filter { it.value >= minPValue }
-        filteredMoves.forEach { println("move: ${it.key} | value: ${it.value}") }
 
         return filteredMoves.keys.randomOrNull()
     }
@@ -34,12 +31,13 @@ class TempEvaluator(
     }
 
     private fun evaluateBaseDistanceScore(fieldPos: Pair<Int, Int>): Double {
+        val maximumDistance = calculateDistance(Pair(0, 0), Pair(field.width, field.height))
         var fullScore = 0.0
 
         field.teams.forEach { otherTeam ->
             val otherBasePos = field.getBase(otherTeam) ?: return@forEach
 
-            fullScore += calculateDistance(fieldPos, otherBasePos) / (field.width * field.height) * 1.5
+            fullScore += (maximumDistance - calculateDistance(fieldPos, otherBasePos)) / (field.width * field.height) * 1.5
         }
 
         return fullScore
@@ -63,7 +61,7 @@ class TempEvaluator(
         )
 
         if ((cellsAround + cornerCells).any { it.team == team && it.isBase }) {
-            fullScore += 1.2
+            fullScore += 2.6
         }
 
         val finalCells = if (team.score >= 12) cornerCells + cellsAround else cellsAround
@@ -78,7 +76,7 @@ class TempEvaluator(
             }
 
             if (cell.isBase && cell.team != team) {
-                fullScore += 0.8
+                fullScore += 2.0
             }
         }
 
