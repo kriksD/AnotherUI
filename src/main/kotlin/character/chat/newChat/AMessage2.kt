@@ -34,6 +34,18 @@ class AMessage2(
         }
     }
 
+    val lastStringInstruct: String get() = run {
+        val instruct = (if (isUser) settings.promptSettings.userInstruct else settings.promptSettings.modelInstruct)
+            .replace("\\n", "\n")
+            .replaceAfterLast("{{prompt}}", "")
+
+        if (instruct.contains("{{prompt}}")) {
+            instruct.replace("{{prompt}}", content)
+        } else {
+            "$instruct$content"
+        }
+    }
+
     fun swipeLeft() {
         if (swipeId.value == 0) return
 

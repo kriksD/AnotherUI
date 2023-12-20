@@ -169,7 +169,12 @@ class PromptBuilder {
             tokensLeft -= messageTokenCount
             if (tokensLeft < 0) break
 
-            messagesPrompt = "${message.stringInstruct.format(character)}\n$messagesPrompt"
+            val instructMessage = if (messageIndex == lastIndex && complete) {
+                message.lastStringInstruct.format(character)
+            } else {
+                message.stringInstruct.format(character)
+            }
+            messagesPrompt = "$instructMessage\n$messagesPrompt"
         }
 
         messagesPrompt.let { mpr ->
