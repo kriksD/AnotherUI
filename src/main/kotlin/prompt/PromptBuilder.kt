@@ -182,7 +182,7 @@ class PromptBuilder {
         if (!complete) {
             val instruct = (if (forUser) settings.promptSettings.userInstruct else settings.promptSettings.modelInstruct)
                 .replace("\\n", "\n")
-                .replace("{{prompt}}", "")
+                .substringBefore("{{prompt}}")
 
             prompt += instruct
         }
