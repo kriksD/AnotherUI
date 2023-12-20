@@ -31,8 +31,15 @@ fun String.format(character: ACharacter): String {
 fun String.trimCorrectly(): String {
     var result = this
 
-    while (result.first() == '\n' || result.first() == '\t' || result.first() == ' ') result = result.drop(1)
-    while (result.last() == '\n' || result.last() == '\t' || result.last() == ' ') result = result.dropLast(1)
+    while (true) {
+        val firstChar = result.firstOrNull() ?: break
+        if (firstChar == '\n' || firstChar == '\t' || firstChar == ' ') result = result.drop(1) else break
+    }
+
+    while (true) {
+        val lastChar = result.lastOrNull() ?: break
+        if (lastChar == '\n' || lastChar == '\t' || lastChar == ' ') result = result.dropLast(1) else break
+    }
 
     result = result.replace(Regex("(?<!\\n)\\n(?!\\n)"), "\n\n")
     result = result.replace(Regex("\\n{3,}"), "\n\n")
