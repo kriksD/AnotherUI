@@ -78,17 +78,9 @@ class PromptBuilder {
             null -> null
         } ?: return null
 
-        val stopSequence = if (settings.promptSettings.stopSequence.isNotEmpty()) {
-            if (settings.promptSettings.stopSequence.contains(",")) {
-                settings.promptSettings.stopSequence.split(",")
-            } else {
-                listOf(settings.promptSettings.stopSequence)
-            }
-        } else emptyList()
-
         return Prompt(
             prompt = prompt,
-            stop_sequence = stopSequence,
+            stop_sequence = settings.promptSettings.splitStopSequence,
             use_story = false,
             use_memory = false,
             use_authors_note = false,
@@ -118,9 +110,16 @@ class PromptBuilder {
         var prompt = pattern
 
         systemPrompt?.let { spr ->
+            val systemInstruct = settings.promptSettings.systemInstruct.replace("\\n", "\n")
+
             prompt = prompt.replace(
                 "{{systemPrompt}}",
-                if (spr.isNotEmpty()) "${settings.promptSettings.systemInstructPrefix}${spr.format(character)}" else ""
+                if (spr.isNotEmpty())
+                    if (systemInstruct.contains("{{prompt}}"))
+                        systemInstruct.replace("{{prompt}}", spr.format(character))
+                    else
+                        "${systemInstruct}${spr.format(character)}"
+                else ""
             )
         } ?: run { prompt.replace("{{systemPrompt}}", "") }
 
@@ -181,12 +180,11 @@ class PromptBuilder {
         }
 
         if (!complete) {
-            prompt += "\n${
-                if (forUser) 
-                    settings.promptSettings.userInstructPrefix
-                else 
-                    settings.promptSettings.modelInstructPrefix
-            }"
+            val instruct = (if (forUser) settings.promptSettings.userInstruct else settings.promptSettings.modelInstruct)
+                .replace("\\n", "\n")
+                .replace("{{prompt}}", "")
+
+            prompt += instruct
         }
 
         return prompt

@@ -14,7 +14,7 @@ import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
 
 class SettingsSerializer : KSerializer<Settings> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.AChat2") {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.Settings") {
         element<String?>("preset_name")
         element<String>("language")
         element<String>("link")

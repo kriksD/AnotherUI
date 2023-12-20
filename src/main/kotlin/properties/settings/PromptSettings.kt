@@ -18,17 +18,17 @@ class PromptSettings(
         {{chat}}
     """.trimIndent(),
     systemPrompt: String = "Enter RP mode. You shall reply to {{user}} while staying in character. Your responses must be detailed, creative, immersive, and drive the scenario forward. You will follow {{char}}'s persona.",
-    systemInstructPrefix: String = "<|system|>",
-    userInstructPrefix: String = "<|user|>",
-    modelInstructPrefix: String = "<|model|>",
+    systemInstruct: String = "<|system|>{{prompt}}",
+    userInstruct: String = "<|user|>{{prompt}}",
+    modelInstruct: String = "<|model|>{{prompt}}",
     stopSequence: String = "<|user|>,<|model|>",
 ) {
     var type: PromptType by mutableStateOf(type)
     var pattern: String by mutableStateOf(pattern)
     var systemPrompt: String by mutableStateOf(systemPrompt)
-    var systemInstructPrefix: String by mutableStateOf(systemInstructPrefix)
-    var userInstructPrefix: String by mutableStateOf(userInstructPrefix)
-    var modelInstructPrefix: String by mutableStateOf(modelInstructPrefix)
+    var systemInstruct: String by mutableStateOf(systemInstruct)
+    var userInstruct: String by mutableStateOf(userInstruct)
+    var modelInstruct: String by mutableStateOf(modelInstruct)
     var stopSequence: String by mutableStateOf(stopSequence)
 
     fun copy(): PromptSettings {
@@ -36,10 +36,18 @@ class PromptSettings(
             type,
             pattern,
             systemPrompt,
-            systemInstructPrefix,
-            userInstructPrefix,
-            modelInstructPrefix,
+            systemInstruct,
+            userInstruct,
+            modelInstruct,
             stopSequence,
         )
     }
+
+    val splitStopSequence get() = if (stopSequence.isNotEmpty()) {
+        if (stopSequence.contains(",")) {
+            stopSequence.split(",")
+        } else {
+            listOf(stopSequence)
+        }
+    } else emptyList()
 }

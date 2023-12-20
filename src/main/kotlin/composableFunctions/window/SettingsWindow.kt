@@ -694,25 +694,25 @@ private fun Prompt() {
     )
 
     TextFieldWithTokens(
-        settings.promptSettings.systemInstructPrefix,
-        "System Instruction Prefix",
-        onValueChange = { settings.promptSettings.systemInstructPrefix = it },
+        settings.promptSettings.systemInstruct,
+        "System Instruction",
+        onValueChange = { settings.promptSettings.systemInstruct = it },
         showTokens = false,
         singleLine = true,
     )
 
     TextFieldWithTokens(
-        settings.promptSettings.userInstructPrefix,
-        "User Instruction Prefix",
-        onValueChange = { settings.promptSettings.userInstructPrefix = it },
+        settings.promptSettings.userInstruct,
+        "User Instruction",
+        onValueChange = { settings.promptSettings.userInstruct = it },
         showTokens = false,
         singleLine = true,
     )
 
     TextFieldWithTokens(
-        settings.promptSettings.modelInstructPrefix,
-        "Model Instruction Prefix",
-        onValueChange = { settings.promptSettings.modelInstructPrefix = it },
+        settings.promptSettings.modelInstruct,
+        "Model Instruction",
+        onValueChange = { settings.promptSettings.modelInstruct = it },
         showTokens = false,
         singleLine = true,
     )

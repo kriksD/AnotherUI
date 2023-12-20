@@ -23,12 +23,16 @@ class AMessage2(
 
     val string: String get() = "${if (isUser) user.name else name}: $content"
 
-    val stringInstruct: String get() = "${
-        if (isUser)
-            settings.promptSettings.userInstructPrefix
-        else
-            settings.promptSettings.modelInstructPrefix
-    }$content"
+    val stringInstruct: String get() = run {
+        val instruct = (if (isUser) settings.promptSettings.userInstruct else settings.promptSettings.modelInstruct)
+            .replace("\\n", "\n")
+
+        if (instruct.contains("{{prompt}}")) {
+            instruct.replace("{{prompt}}", content)
+        } else {
+            "$instruct$content"
+        }
+    }
 
     fun swipeLeft() {
         if (swipeId.value == 0) return

@@ -11,7 +11,7 @@ import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
 
 class ImageGeneratingSettingsSerializer : KSerializer<ImageGeneratingSettings> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.AChat2") {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.ImageGeneratingSettings") {
         element<Int>("seed")
         element<Int>("steps")
         element<Int>("cfg_scale")

@@ -12,13 +12,13 @@ import kotlinx.serialization.encoding.encodeStructure
 import prompt.PromptType
 
 class PromptSettingsSerializer : KSerializer<PromptSettings> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.AChat2") {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.PromptSettings") {
         element<String>("type")
         element<String>("pattern")
         element<String>("system_prompt")
-        element<String>("system_instruct_prefix")
-        element<String>("user_instruct_prefix")
-        element<String>("model_instruct_prefix")
+        element<String>("system_instruct")
+        element<String>("user_instruct")
+        element<String>("model_instruct")
         element<String>("stop_sequence")
     }
 
@@ -31,9 +31,9 @@ class PromptSettingsSerializer : KSerializer<PromptSettings> {
                 0 -> promptSettings.type = PromptType.valueOf(decodeStringElement(descriptor, 0))
                 1 -> promptSettings.pattern = decodeStringElement(descriptor, 1)
                 2 -> promptSettings.systemPrompt = decodeStringElement(descriptor, 2)
-                3 -> promptSettings.systemInstructPrefix = decodeStringElement(descriptor, 3)
-                4 -> promptSettings.userInstructPrefix = decodeStringElement(descriptor, 4)
-                5 -> promptSettings.modelInstructPrefix = decodeStringElement(descriptor, 5)
+                3 -> promptSettings.systemInstruct = decodeStringElement(descriptor, 3)
+                4 -> promptSettings.userInstruct = decodeStringElement(descriptor, 4)
+                5 -> promptSettings.modelInstruct = decodeStringElement(descriptor, 5)
                 6 -> promptSettings.stopSequence = decodeStringElement(descriptor, 6)
                 else -> throw SerializationException("Unexpected index $index")
             }
@@ -46,9 +46,9 @@ class PromptSettingsSerializer : KSerializer<PromptSettings> {
         encodeStringElement(descriptor, 0, value.type.name)
         encodeStringElement(descriptor, 1, value.pattern)
         encodeStringElement(descriptor, 2, value.systemPrompt)
-        encodeStringElement(descriptor, 3, value.systemInstructPrefix)
-        encodeStringElement(descriptor, 4, value.userInstructPrefix)
-        encodeStringElement(descriptor, 5, value.modelInstructPrefix)
+        encodeStringElement(descriptor, 3, value.systemInstruct)
+        encodeStringElement(descriptor, 4, value.userInstruct)
+        encodeStringElement(descriptor, 5, value.modelInstruct)
         encodeStringElement(descriptor, 6, value.stopSequence)
     }
 }

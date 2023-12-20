@@ -12,9 +12,9 @@ fun String.dropRest(charName: String): String {
             .substringBefore("You:")
             .substringBefore("<START>")
     } else {
-        substringBefore("<START>")
-            .substringBefore(settings.promptSettings.userInstructPrefix)
-            .substringBefore(settings.promptSettings.modelInstructPrefix)
+        var text = substringBefore("<START>")
+        settings.promptSettings.splitStopSequence.forEach { text = text.substringBefore(it) }
+        text
     }
 }
 

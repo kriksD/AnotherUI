@@ -14,7 +14,7 @@ import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
 
 class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.AChat2") {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.GeneratingSettings") {
         element<Int>("max_context_length")
         element<Int>("max_length")
         element<Float>("rep_pen")
