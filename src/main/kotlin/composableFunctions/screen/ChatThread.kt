@@ -162,10 +162,10 @@ fun ChatThread(
                         character = character,
                         message = message,
                         isEditAvailable = if (index == chat.messages.lastIndex) message.swipeId.value != generator.generatingSwipeIndex && !generator.isGeneratingUserMessage else true,
-                        isRegenerateAvailable = !message.isUser && !generator.isGenerating && index == chat.messages.lastIndex,
-                        isCompleteAvailable = !message.isUser && !generator.isGenerating && index == chat.messages.lastIndex,
+                        isRegenerateAvailable = index != 0 && !message.isUser && !generator.isGenerating && index == chat.messages.lastIndex,
+                        isCompleteAvailable = index != 0 && !message.isUser && !generator.isGenerating && index == chat.messages.lastIndex,
                         isGenerativeSwipeAvailable = index != 0 && !message.isUser && !generator.isGenerating && !message.isUser && index == chat.messages.lastIndex,
-                        isSwipesAvailable = message.swipes.size > 1 || (index == chat.messages.lastIndex && !message.isUser),
+                        isSwipesAvailable = if (index == 0) message.swipes.size > 1 else message.swipes.size > 1 || (index == chat.messages.lastIndex && !message.isUser),
                         isSplitAvailable = index != 0 && if (index == chat.messages.lastIndex) message.swipeId.value != generator.generatingSwipeIndex && !generator.isGeneratingUserMessage else true,
                         isAdditionalSwipeAvailable = true,
                         onRegenerate = { coroutineScope.launch { generator.regenerateMessage(
