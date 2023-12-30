@@ -26,6 +26,7 @@ class SettingsSerializer : KSerializer<Settings> {
         element<GeneratingSettings>("generating")
         element<PromptSettings>("prompt_settings")
         element<ImageGeneratingSettings>("image_generating")
+        element<Boolean>("normalize_results")
     }
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -46,6 +47,7 @@ class SettingsSerializer : KSerializer<Settings> {
                 8 -> settings.generating = decodeSerializableElement(descriptor, 8, GeneratingSettings.serializer())
                 9 -> settings.promptSettings = decodeSerializableElement(descriptor, 9, PromptSettings.serializer())
                 10 -> settings.imageGenerating = decodeSerializableElement(descriptor, 10, ImageGeneratingSettings.serializer())
+                11 -> settings.normalizeResults = decodeBooleanElement(descriptor, 11)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -66,5 +68,6 @@ class SettingsSerializer : KSerializer<Settings> {
         encodeSerializableElement(descriptor, 8, GeneratingSettings.serializer(), value.generating)
         encodeSerializableElement(descriptor, 9, PromptSettings.serializer(), value.promptSettings)
         encodeSerializableElement(descriptor, 10, ImageGeneratingSettings.serializer(), value.imageGenerating)
+        encodeBooleanElement(descriptor, 11, value.normalizeResults)
     }
 }

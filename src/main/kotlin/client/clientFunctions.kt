@@ -41,8 +41,10 @@ fun String.trimCorrectly(): String {
         if (lastChar == '\n' || lastChar == '\t' || lastChar == ' ') result = result.dropLast(1) else break
     }
 
-    result = result.replace(Regex("(?<!\\n)\\n(?!\\n)"), "\n\n")
-    result = result.replace(Regex("\\n{3,}"), "\n\n")
+    if (settings.normalizeResults) {
+        result = result.replace(Regex("(?<!\\n)\\n(?!\\n)"), "\n\n")
+        result = result.replace(Regex("\\n{3,}"), "\n\n")
+    }
 
     return result
 }

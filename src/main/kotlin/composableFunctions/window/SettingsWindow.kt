@@ -971,6 +971,12 @@ private fun AppearanceSettings(
                 onChange = { settings.profileImagesEnabled = it }
             )
 
+            CheckboxText(
+                "normalize results",
+                settings.normalizeResults,
+                onChange = { settings.normalizeResults = it }
+            )
+
             var shapeSelected by remember { mutableStateOf(ImageShape.makeImageShape()) }
 
             ProfileImageShape(

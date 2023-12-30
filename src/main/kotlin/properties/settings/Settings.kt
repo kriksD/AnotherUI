@@ -14,6 +14,7 @@ class Settings(
     stableDiffusionLink: String = "http://127.0.0.1:7860",
     stableDiffusionApiEnabled: Boolean = false,
     profileImagesEnabled: Boolean = true,
+    normalizeResults: Boolean = true,
     background: String = "bg1.png",
     charactersListView: ViewType = ViewType.Grid,
     generating: GeneratingSettings = GeneratingSettings(),
@@ -26,6 +27,7 @@ class Settings(
     var stableDiffusionLink: String by mutableStateOf(stableDiffusionLink)
     var stableDiffusionApiEnabled: Boolean by mutableStateOf(stableDiffusionApiEnabled)
     var profileImagesEnabled: Boolean by mutableStateOf(profileImagesEnabled)
+    var normalizeResults: Boolean by mutableStateOf(normalizeResults)
     var background: String by mutableStateOf(background)
     var charactersListView: ViewType by mutableStateOf(charactersListView)
     var generating: GeneratingSettings by mutableStateOf(generating)
@@ -40,6 +42,7 @@ class Settings(
             stableDiffusionLink,
             stableDiffusionApiEnabled,
             profileImagesEnabled,
+            normalizeResults,
             background,
             charactersListView,
             generating.copy(),

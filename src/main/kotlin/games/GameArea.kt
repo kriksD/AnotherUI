@@ -68,10 +68,10 @@ fun GameArea(
             game.getChecked(),
         ) { checked ->
             when (checked) {
-                1 -> LineGame(isSettingsOpen = isSettingsOpen,)
-                2 -> PairGame(isSettingsOpen = isSettingsOpen,)
-                3 -> FiveGame(isSettingsOpen = isSettingsOpen,)
-                4 -> LandGame(isSettingsOpen = isSettingsOpen,)
+                1 -> LineGame(isSettingsOpen = isSettingsOpen)
+                2 -> PairGame(isSettingsOpen = isSettingsOpen)
+                3 -> FiveGame(isSettingsOpen = isSettingsOpen)
+                4 -> LandGame(isSettingsOpen = isSettingsOpen)
             }
         }
     }
