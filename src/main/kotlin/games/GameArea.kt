@@ -54,14 +54,16 @@ fun GameArea(
                 }
             )
 
-            Icon(
-                Icons.Default.Settings,
-                "game settings",
-                tint = colorText,
-                modifier = Modifier
-                    .size(tinyIconSize)
-                    .clickable { isSettingsOpen = !isSettingsOpen }
-            )
+            if (game.getChecked() != 0 && game.getChecked() != null) {
+                Icon(
+                    Icons.Default.Settings,
+                    "game settings",
+                    tint = colorText,
+                    modifier = Modifier
+                        .size(tinyIconSize)
+                        .clickable { isSettingsOpen = !isSettingsOpen }
+                )
+            }
         }
 
         Crossfade(

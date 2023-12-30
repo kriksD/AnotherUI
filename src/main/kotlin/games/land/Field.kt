@@ -42,7 +42,9 @@ class Field {
             newCells.getOrNull(baseCell.x + 1)?.getOrNull(baseCell.y)?.team = team
             newCells.getOrNull(baseCell.x)?.getOrNull(baseCell.y - 1)?.team = team
             newCells.getOrNull(baseCell.x)?.getOrNull(baseCell.y + 1)?.team = team
+        }
 
+        teams.forEach { team ->
             team.score = newCells.flatten().count { it.team == team }
         }
 

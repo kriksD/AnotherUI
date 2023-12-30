@@ -37,8 +37,9 @@ class TempEvaluator(
         field.teams.forEach { otherTeam ->
             val otherBasePos = field.getBase(otherTeam) ?: return@forEach
 
-            fullScore += (maximumDistance - calculateDistance(fieldPos, otherBasePos)) / (field.width * field.height) * 1.5
+            fullScore += (maximumDistance - calculateDistance(fieldPos, otherBasePos)) / maximumDistance
         }
+        println("distance: $fullScore")
 
         return fullScore
     }
@@ -60,8 +61,8 @@ class TempEvaluator(
             field.getCell(fieldPos.first + 1, fieldPos.second + 1),
         )
 
-        if ((cellsAround + cornerCells).any { it.team == team && it.isBase }) {
-            fullScore += 2.6
+        if ((cellsAround).any { it.team == team && it.isBase }) {
+            fullScore += 0.8
         }
 
         val finalCells = if (team.score >= 12) cornerCells + cellsAround else cellsAround
@@ -72,13 +73,14 @@ class TempEvaluator(
             }
 
             if (cell.team != team) {
-                fullScore += 0.3
+                fullScore += 0.2
             }
 
             if (cell.isBase && cell.team != team) {
-                fullScore += 2.0
+                fullScore += 0.6
             }
         }
+        println("cells: $fullScore")
 
         return fullScore
     }
