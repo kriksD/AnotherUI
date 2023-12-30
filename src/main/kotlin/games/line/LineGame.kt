@@ -28,6 +28,7 @@ import tinyIconSize
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LineGame(
+    isSettingsOpen: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     var score by remember { mutableStateOf(0) }

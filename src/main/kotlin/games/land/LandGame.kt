@@ -13,7 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import colorBackgroundLighter
 import colorText
+import composableFunctions.AppearDisappearAnimation
+import composableFunctions.CheckboxText
+import composableFunctions.DescriptionSlider
 import gameCellSize
+import games.Cells
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -25,6 +29,7 @@ import tinyIconSize
 
 @Composable
 fun LandGame(
+    isSettingsOpen: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -35,13 +40,62 @@ fun LandGame(
         Team(TeamType.Black, 0),
         Team(TeamType.White, 0)
     ) }
-    var field by remember { mutableStateOf(Field(8, 8, teams)) }
+    var currentWidth by remember { mutableStateOf(8F) }
+    var currentHeight by remember { mutableStateOf(8F) }
+    var field by remember { mutableStateOf(Field(currentWidth.toInt(), currentHeight.toInt(), teams)) }
     var areActionsGoing by remember { mutableStateOf(false) }
+    var onlyBots by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(padding),
         modifier = modifier,
     ) {
+        AppearDisappearAnimation(
+            visible = isSettingsOpen,
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.1F)
+            ) {
+                Row {
+                    DescriptionSlider(
+                        name = "Width",
+                        value = currentWidth,
+                        onValueChange = {
+                            currentWidth = it
+                        },
+                        onValueChangeFinished = {
+                            field = Field(currentWidth.toInt(), currentHeight.toInt(), teams)
+                        },
+                        valueRange = 8F..16F,
+                        intStep = 1,
+                        modifier = Modifier.weight(1F),
+                    )
+
+                    DescriptionSlider(
+                        name = "Height",
+                        value = currentHeight,
+                        onValueChange = {
+                            currentHeight = it
+                        },
+                        onValueChangeFinished = {
+                            field = Field(currentWidth.toInt(), currentHeight.toInt(), teams)
+                        },
+                        valueRange = 8F..16F,
+                        intStep = 1,
+                        modifier = Modifier.weight(1F),
+                    )
+                }
+
+                CheckboxText(
+                    text = "Only bots",
+                    enabled = onlyBots,
+                    onChange = {
+                        onlyBots = it
+                    },
+                )
+            }
+        }
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding),
             verticalAlignment = Alignment.CenterVertically,
@@ -58,7 +112,7 @@ fun LandGame(
                         teams.add(Team(TeamType.Red, 0))
                         teams.add(Team(TeamType.Black, 0))
                         teams.add(Team(TeamType.White, 0))
-                        field = Field(8, 8, teams)
+                        field = Field(currentWidth.toInt(), currentHeight.toInt(), teams)
                     },
                 tint = colorText
             )
@@ -76,63 +130,64 @@ fun LandGame(
             }
         }
 
-        Row {
-            repeat(field.width) { x ->
-                Column {
-                    repeat(field.height) { y ->
-                        Box(
-                            modifier = Modifier
-                                .size(gameCellSize + padding)
-                                .padding(start = padding, top = padding)
-                                .background(field.cells[x][y].team?.color ?: colorBackgroundLighter)
-                                .clickable(enabled = !areActionsGoing && field.cells[x][y].team?.type == TeamType.Teal && field.isPossible(x, y, teams.find { it.type == TeamType.Teal }!!)) {
-                                    coroutineScope.launch {
-                                        withContext(Dispatchers.IO) {
-                                            areActionsGoing = true
+        Cells(
+            width = field.width,
+            height = field.height,
+            onClick = { x, y ->
+                coroutineScope.launch {
+                    withContext(Dispatchers.IO) {
+                        areActionsGoing = true
 
-                                            field.action(x, y, teams.find { it.type == TeamType.Teal }!!)
-                                            delay(1000L)
+                        if (!onlyBots) {
+                            field.action(x, y, teams.find { it.type == TeamType.Teal }!!)
+                            delay(1000L)
+                        }
 
-                                            teams.filter {
-                                                it.type != TeamType.Teal && it.score != 0
-                                            }.forEach { team ->
-                                                val timeStart = System.currentTimeMillis()
-                                                field.action(team)
-                                                val timeEnd = System.currentTimeMillis()
+                        teams.filter {
+                            it.type != TeamType.Teal && it.score != 0
+                        }.forEach { team ->
+                            val timeStart = System.currentTimeMillis()
+                            field.action(team)
+                            val timeEnd = System.currentTimeMillis()
 
-                                                delay(1000L - (timeEnd - timeStart))
-                                            }
+                            delay(1000L - (timeEnd - timeStart))
+                        }
 
-                                            while (
-                                                teams.find { it.type == TeamType.Teal }!!.score == 0
-                                                && teams.count { it.score != 0 } >= 2
-                                            ) {
-                                                teams.filter {
-                                                    it.type != TeamType.Teal && it.score != 0
-                                                }.forEach { team ->
-                                                    val timeStart = System.currentTimeMillis()
-                                                    field.action(team)
-                                                    val timeEnd = System.currentTimeMillis()
-
-                                                    delay(1000L - (timeEnd - timeStart))
-                                                }
-                                            }
-
-                                            areActionsGoing = false
-                                        }
-                                    }
-                                },
+                        while (
+                            teams.find { it.type == TeamType.Teal }!!.score == 0 || onlyBots
+                            && teams.count { it.score != 0 } >= 2
                         ) {
-                            if (field.cells[x][y].isBase) {
-                                Text(
-                                    text = field.cells[x][y].team?.baseSymbol?.toString() ?: "",
-                                    color = colorText,
-                                    fontSize = smallText,
-                                    modifier = Modifier.align(Alignment.Center)
-                                )
+                            teams.filter {
+                                (it.type != TeamType.Teal || onlyBots) && it.score != 0
+                            }.forEach { team ->
+                                val timeStart = System.currentTimeMillis()
+                                field.action(team)
+                                val timeEnd = System.currentTimeMillis()
+
+                                delay(1000L - (timeEnd - timeStart))
                             }
                         }
+
+                        areActionsGoing = false
                     }
+                }
+            },
+            isEnable = { x, y ->
+                !areActionsGoing && field.cells[x][y].team?.type == TeamType.Teal && field.isPossible(x, y, teams.find { it.type == TeamType.Teal }!!)
+            }
+        ) { x, y ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(field.cells[x][y].team?.color ?: colorBackgroundLighter),
+            ) {
+                if (field.cells[x][y].isBase) {
+                    Text(
+                        text = field.cells[x][y].team?.baseSymbol?.toString() ?: "",
+                        color = colorText,
+                        fontSize = smallText,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }

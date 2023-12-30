@@ -23,8 +23,6 @@ import character.chat.newChat.ChatLoader
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.AppearDisappearAnimation
-import composableFunctions.CheckManager
-import composableFunctions.CheckValue
 import composableFunctions.LoadingIcon
 import composableFunctions.screen.CharacterList
 import composableFunctions.screen.ChatThread
@@ -32,10 +30,7 @@ import composableFunctions.window.ChatManagementWindow
 import composableFunctions.window.CreateCharacterWindow
 import composableFunctions.window.DeleteCharacterWindow
 import composableFunctions.window.SettingsWindow
-import games.five.FiveGame
-import games.land.LandGame
-import games.line.LineGame
-import games.pair.PairGame
+import games.GameArea
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -488,41 +483,9 @@ fun main() = application {
                 }
             }
 
-            val game = remember { CheckManager(
-                CheckValue(0, true),
-                CheckValue(1, false),
-                CheckValue(2, false),
-                CheckValue(3, false),
-                CheckValue(4, false),
-            ) }
-
-            Column(
-                modifier = Modifier
-                    .padding(start = biggerPadding)
-                    .align(Alignment.CenterStart)
-            ) {
-                Text(
-                    text = "▶",
-                    color = colorText,
-                    fontSize = hugeText,
-                    modifier = Modifier.clickable {
-                        val checked = game.getChecked() ?: return@clickable
-
-                        if (checked < 4) game.check(checked + 1) else game.check(0)
-                    }
-                )
-
-                Crossfade(
-                    game.getChecked(),
-                ) { checked ->
-                    when (checked) {
-                        1 -> LineGame()
-                        2 -> PairGame()
-                        3 -> FiveGame()
-                        4 -> LandGame()
-                    }
-                }
-            }
+            GameArea(
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
         }
     }
 }

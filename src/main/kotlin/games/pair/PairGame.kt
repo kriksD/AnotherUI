@@ -29,7 +29,8 @@ import tinyIconSize
 
 @Composable
 fun PairGame(
-    modifier: Modifier = Modifier
+    isSettingsOpen: Boolean = false,
+    modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
 

@@ -24,7 +24,8 @@ import tinyIconSize
 
 @Composable
 fun FiveGame(
-    modifier: Modifier = Modifier
+    isSettingsOpen: Boolean = false,
+    modifier: Modifier = Modifier,
 ) {
     var score by remember { mutableStateOf(0) }
     var field by remember { mutableStateOf(Field(8, 8)) }
