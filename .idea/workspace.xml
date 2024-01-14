@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fix in LineGame.kt">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Changed minimum size of the field in the games from 8 to 4. Fixed a bug in LandGame.kt">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -246,14 +247,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Waiting games">
-      <option name="closed" value="true" />
-      <created>1699899480395</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1699899480395</updated>
     </task>
     <task id="LOCAL-00024" summary="Rearranged pieces in LineGame.kt">
       <option name="closed" value="true" />
@@ -551,7 +544,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705269193144</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Changed minimum size of the field in the games from 8 to 4. Fixed a bug in LandGame.kt">
+      <option name="closed" value="true" />
+      <created>1705269615181</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1705269615182</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -581,7 +582,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Avatar downloading" />
     <MESSAGE value="At least working AI for the land game" />
     <MESSAGE value="Small changes" />
     <MESSAGE value="Added an ability to mark characters as favorites" />
@@ -606,7 +606,8 @@
     <MESSAGE value="Changes to LandGame.kt AI" />
     <MESSAGE value="A lot of small changes and fixes" />
     <MESSAGE value="Fix in LineGame.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix in LineGame.kt" />
+    <MESSAGE value="Changed minimum size of the field in the games from 8 to 4. Fixed a bug in LandGame.kt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed minimum size of the field in the games from 8 to 4. Fixed a bug in LandGame.kt" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

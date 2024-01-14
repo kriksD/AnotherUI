@@ -39,6 +39,10 @@ class Field(
             symbolsQueue += symbols + symbols
         }
 
+        if (symbolCount % 2 == 1) {
+            symbolsQueue.add(' ')
+        }
+
         return symbolsQueue.shuffled()
     }
 
