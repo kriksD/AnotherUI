@@ -4,27 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Changes to LandGame.kt AI">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="A lot of small changes and fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/tokenizer/gpt2-merges.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/tokenizer/gpt2-vocab.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/kobold/KoboldAIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/KoboldAIClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/stablediffusion/StableDiffusionWebUIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/stablediffusion/StableDiffusionWebUIClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/DescriptionSlider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/DescriptionSlider.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/five/FiveGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/five/FiveGame.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/land/LandGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/land/LandGame.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/land/Minimax.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/land/Minimax.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/line/LineGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/line/LineGame.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/pair/Field.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/pair/Field.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/pair/PairGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/pair/PairGame.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/GPT2ByteEncoderDecoder.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/GPT2Tokinizer.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/GlobalTokenizer.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/tikenizerFunctions.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,14 +247,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Some little changes">
-      <option name="closed" value="true" />
-      <created>1699475136639</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1699475136639</updated>
     </task>
     <task id="LOCAL-00022" summary="Fixed conditions in messages">
       <option name="closed" value="true" />
@@ -570,7 +544,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703951021653</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="A lot of small changes and fixes">
+      <option name="closed" value="true" />
+      <created>1705266161209</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1705266161209</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -600,7 +582,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="A new almost-working game" />
     <MESSAGE value="Added alternate greetings" />
     <MESSAGE value="Avatar downloading" />
     <MESSAGE value="At least working AI for the land game" />
@@ -625,7 +606,8 @@
     <MESSAGE value="Added normalizeResults option to the Settings.kt" />
     <MESSAGE value="Fixed icons on messages a little" />
     <MESSAGE value="Changes to LandGame.kt AI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes to LandGame.kt AI" />
+    <MESSAGE value="A lot of small changes and fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="A lot of small changes and fixes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

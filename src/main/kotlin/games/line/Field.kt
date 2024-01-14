@@ -64,7 +64,7 @@ class Field(
                 if (cells[x][y]) count++
             }
 
-            if (count == width) {
+            if (count == height) {
                 repeat(height) {
                     finishedRows.add(x)
                 }
@@ -82,7 +82,7 @@ class Field(
                 if (cells[x][y]) count++
             }
 
-            if (count == height) {
+            if (count == width) {
                 repeat(width) {
                     finishedColumns.add(y)
                 }
