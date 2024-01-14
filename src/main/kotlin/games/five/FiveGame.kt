@@ -16,6 +16,7 @@ import colorBackgroundLighter
 import colorBackgroundSecond
 import colorText
 import composableFunctions.AppearDisappearAnimation
+import composableFunctions.DescriptionSlider
 import gameCellSize
 import normalText
 import padding
@@ -28,7 +29,9 @@ fun FiveGame(
     modifier: Modifier = Modifier,
 ) {
     var score by remember { mutableStateOf(0) }
-    var field by remember { mutableStateOf(Field(8, 8)) }
+    var currentWidth by remember { mutableStateOf(8) }
+    var currentHeight by remember { mutableStateOf(8) }
+    var field by remember { mutableStateOf(Field(currentWidth, currentHeight)) }
     var fiveExists by remember { mutableStateOf(field.fiveExists()) }
 
     var selected1 by remember { mutableStateOf<IntOffset?>(null) }
@@ -41,6 +44,52 @@ fun FiveGame(
         verticalArrangement = Arrangement.spacedBy(padding),
         modifier = modifier,
     ) {
+        AppearDisappearAnimation(
+            visible = isSettingsOpen,
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.1F)
+            ) {
+                Row {
+                    DescriptionSlider(
+                        name = "Width",
+                        value = currentWidth.toFloat(),
+                        onValueChange = {
+                            currentWidth = it.toInt()
+                        },
+                        onValueChangeFinished = {
+                            currentWidth = it.toInt()
+
+                            score = 0
+                            field = Field(currentWidth, currentHeight)
+                            fiveExists = field.fiveExists()
+                        },
+                        valueRange = 8F..16F,
+                        intStep = 1,
+                        modifier = Modifier.weight(1F),
+                    )
+
+                    DescriptionSlider(
+                        name = "Height",
+                        value = currentHeight.toFloat(),
+                        onValueChange = {
+                            currentHeight = it.toInt()
+                        },
+                        onValueChangeFinished = {
+                            currentHeight = it.toInt()
+
+                            score = 0
+                            field = Field(currentWidth, currentHeight)
+                            fiveExists = field.fiveExists()
+                        },
+                        valueRange = 8F..16F,
+                        intStep = 1,
+                        modifier = Modifier.weight(1F),
+                    )
+                }
+            }
+        }
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding),
             verticalAlignment = Alignment.CenterVertically,
@@ -53,7 +102,7 @@ fun FiveGame(
                     .size(tinyIconSize)
                     .clickable {
                         score = 0
-                        field = Field(8, 8)
+                        field = Field(currentWidth, currentHeight)
                         fiveExists = field.fiveExists()
                     },
                 tint = colorText

@@ -10,7 +10,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.skia.EncodedImageFormat
 import org.jetbrains.skiko.toImage
-import style
 import java.awt.image.BufferedImage
 import java.io.File
 import java.util.*
@@ -22,22 +21,24 @@ class ACharacter(
     image: ImageBitmap = getImageBitmap("data/DummyCharacter.webp") ?: emptyImageBitmap,
 ) {
     var image: ImageBitmap = run {
-        val newSize = if (image.width / image.height > 400 / 600) {
+        /*val newSize = if (image.width / image.height > 400 / 600) {
             calculateScaledDownSize(image.width, image.height, Int.MAX_VALUE, style.image_height * 2)
         } else {
             calculateScaledDownSize(image.width, image.height, style.image_width * 2, Int.MAX_VALUE)
         }
 
-        image.scaleAndCropImage(newSize.first, newSize.second)
+        image.scaleAndCropImage(newSize.first, newSize.second)*/
+        image
     }
         set(value) {
-            val newSize = if (image.width / image.height > 400 / 600) {
-                calculateScaledDownSize(image.width, image.height, Int.MAX_VALUE, 600)
+            /*val newSize = if (image.width / image.height > 400 / 600) {
+                calculateScaledDownSize(image.width, image.height, Int.MAX_VALUE, style.image_height * 2)
             } else {
-                calculateScaledDownSize(image.width, image.height, 600, Int.MAX_VALUE)
+                calculateScaledDownSize(image.width, image.height, style.image_width * 2, Int.MAX_VALUE)
             }
 
-            field = value.scaleAndCropImage(newSize.first, newSize.second)
+            field = value.scaleAndCropImage(newSize.first, newSize.second)*/
+            field = value
         }
 
     private fun ImageBitmap.scaleAndCropImage(width: Int, height: Int): ImageBitmap {

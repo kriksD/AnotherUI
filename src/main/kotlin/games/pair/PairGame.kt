@@ -16,6 +16,7 @@ import colorBackgroundLighter
 import colorBackgroundSecond
 import colorText
 import composableFunctions.AppearDisappearAnimation
+import composableFunctions.DescriptionSlider
 import gameCellSize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -35,7 +36,9 @@ fun PairGame(
     val coroutineScope = rememberCoroutineScope()
 
     var score by remember { mutableStateOf(0) }
-    var field by remember { mutableStateOf(Field(8, 8)) }
+    var currentWidth by remember { mutableStateOf(8) }
+    var currentHeight by remember { mutableStateOf(8) }
+    var field by remember { mutableStateOf(Field(currentWidth, currentHeight)) }
     var selected1 by remember { mutableStateOf<IntOffset?>(null) }
     var selected2 by remember { mutableStateOf<IntOffset?>(null) }
 
@@ -43,6 +46,50 @@ fun PairGame(
         verticalArrangement = Arrangement.spacedBy(padding),
         modifier = modifier,
     ) {
+        AppearDisappearAnimation(
+            visible = isSettingsOpen,
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.1F)
+            ) {
+                Row {
+                    DescriptionSlider(
+                        name = "Width",
+                        value = currentWidth.toFloat(),
+                        onValueChange = {
+                            currentWidth = it.toInt()
+                        },
+                        onValueChangeFinished = {
+                            currentWidth = it.toInt()
+
+                            score = 0
+                            field = Field(currentWidth, currentHeight)
+                        },
+                        valueRange = 8F..16F,
+                        intStep = 1,
+                        modifier = Modifier.weight(1F),
+                    )
+
+                    DescriptionSlider(
+                        name = "Height",
+                        value = currentHeight.toFloat(),
+                        onValueChange = {
+                            currentHeight = it.toInt()
+                        },
+                        onValueChangeFinished = {
+                            currentHeight = it.toInt()
+
+                            score = 0
+                            field = Field(currentWidth, currentHeight)
+                        },
+                        valueRange = 8F..16F,
+                        intStep = 1,
+                        modifier = Modifier.weight(1F),
+                    )
+                }
+            }
+        }
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding),
             verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +102,7 @@ fun PairGame(
                     .size(tinyIconSize)
                     .clickable {
                         score = 0
-                        field = Field(8, 8)
+                        field = Field(currentWidth, currentHeight)
                     },
                 tint = colorText
             )

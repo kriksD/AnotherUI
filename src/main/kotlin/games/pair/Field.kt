@@ -9,7 +9,7 @@ class Field(
     val height: Int,
 ) {
     val cells = run {
-        val symbolsQueue = (symbolSet + symbolSet).shuffled()
+        val symbolsQueue = makeSymbolSet()
         var symbolIndex = 0
         val newCells = mutableStateListOf<SnapshotStateList<Cell>>()
 
@@ -23,6 +23,23 @@ class Field(
         }
 
         newCells
+    }
+
+    private fun makeSymbolSet(): List<Char> {
+        val symbolCount = width * height
+        val symbolsQueue = mutableListOf<Char>()
+
+        repeat((symbolCount / 2) / symbolSet.size) {
+            symbolsQueue += symbolSet + symbolSet
+        }
+
+        val remainingSymbols = (symbolCount / 2) % symbolSet.size
+        if (remainingSymbols > 0) {
+            val symbols = symbolSet.shuffled().take(remainingSymbols)
+            symbolsQueue += symbols + symbols
+        }
+
+        return symbolsQueue.shuffled()
     }
 
     fun check(x1: Int, y1: Int, x2: Int, y2: Int): Int {

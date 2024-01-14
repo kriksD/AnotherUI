@@ -56,10 +56,11 @@ import copyAndGetImage
 import corners
 import emptyImageBitmap
 import getImageBitmap
-import gpt2Tokenizer.GlobalTokenizer
 import imageHeight
 import imageWidth
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import loadAllImages
 import longAnimationDuration
 import normalAnimationDuration
@@ -1337,14 +1338,16 @@ private fun CharacterScreen(
                     .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(padding),
             ) {
-                fun countTokens(): Int {
-                    return GlobalTokenizer.countTokens(description) +
-                            GlobalTokenizer.countTokens(scenario) +
-                            GlobalTokenizer.countTokens(chatExamples) +
-                            GlobalTokenizer.countTokens(personality)
-                }
+                var tokens by remember { mutableStateOf(0) }
 
-                var tokens by remember { mutableStateOf(countTokens()) }
+                LaunchedEffect(description, scenario, chatExamples, personality) {
+                    withContext(Dispatchers.IO) {
+                        tokens = KoboldAIClient.countTokens(description) +
+                                KoboldAIClient.countTokens(scenario) +
+                                KoboldAIClient.countTokens(chatExamples) +
+                                KoboldAIClient.countTokens(personality)
+                    }
+                }
 
                 Row {
                     var toolTip by remember { mutableStateOf(false) }
@@ -1429,7 +1432,6 @@ private fun CharacterScreen(
                     onValueChange = {
                         greeting = it
                         char.jsonData.first_mes = it
-                        tokens = countTokens()
                         onCharacterRedacted.invoke()
                         println(char.image.width)
                         println(char.image.height)
@@ -1445,7 +1447,6 @@ private fun CharacterScreen(
                     onValueChange = {
                         description = it
                         char.jsonData.description = it
-                        tokens = countTokens()
                         onCharacterRedacted.invoke()
                     },
                     modifier = Modifier
@@ -1458,7 +1459,6 @@ private fun CharacterScreen(
                     onValueChange = {
                         personality = it
                         char.jsonData.personality = it
-                        tokens = countTokens()
                         onCharacterRedacted.invoke()
                     },
                     singleLine = true,
@@ -1470,7 +1470,6 @@ private fun CharacterScreen(
                     onValueChange = {
                         scenario = it
                         char.jsonData.scenario = it
-                        tokens = countTokens()
                         onCharacterRedacted.invoke()
                     },
                     singleLine = true,
@@ -1482,7 +1481,6 @@ private fun CharacterScreen(
                     onValueChange = {
                         chatExamples = it
                         char.jsonData.mes_example = it
-                        tokens = countTokens()
                         onCharacterRedacted.invoke()
                     },
                     modifier = Modifier
@@ -1523,7 +1521,15 @@ private fun TextFieldWithTokens(
                     color = colorTextSecond
                 )
                 if (showTokens) {
-                    Text(" ${GlobalTokenizer.countTokens(text)} Tokens", fontSize = smallText, color = colorTextSecond)
+                    var tokens by remember { mutableStateOf(-1) }
+
+                    LaunchedEffect(text) {
+                        withContext(Dispatchers.IO) {
+                            tokens = KoboldAIClient.countTokens(text)
+                        }
+                    }
+
+                    Text(" ${if (tokens == -1) "<couldn't count>" else tokens.toString()} Tokens", fontSize = smallText, color = colorTextSecond)
                 }
             }
         }

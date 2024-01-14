@@ -5,7 +5,6 @@ import character.ACharacter
 import client.dropRest
 import colorConnection
 import colorNoConnection
-import gpt2Tokenizer.GlobalTokenizer
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.okhttp.*
@@ -68,6 +67,8 @@ object KoboldAIClient {
     }
 
     suspend fun countTokens(text: String): Int {
+        if (text.isEmpty()) return 0
+
         @Serializable data class Body(val prompt: String)
         @Serializable data class Result(val value: Int)
 
@@ -95,7 +96,7 @@ object KoboldAIClient {
             val printJson = Json { prettyPrint = true }
 
             println("===== PROMPT =====")
-            println("Tokens: ${GlobalTokenizer.countTokens(prompt.prompt)}")
+            println("Tokens: ${countTokens(prompt.prompt)}")
             println("${printJson.encodeToString(prompt)}\n\n")
 
             val message = generateAll(prompt)

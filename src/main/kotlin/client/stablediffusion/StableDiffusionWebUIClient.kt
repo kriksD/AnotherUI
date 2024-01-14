@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.toAwtImage
 import colorConnection
 import colorNoConnection
 import getImageBitmap
-import gpt2Tokenizer.GlobalTokenizer
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
@@ -104,7 +103,6 @@ object StableDiffusionWebUIClient {
             val printJson = Json { prettyPrint = true }
 
             println("===== PROMPT =====")
-            println("Tokens: ${GlobalTokenizer.countTokens(prompt.prompt)}")
             println("${printJson.encodeToString(prompt)}\n\n")
 
             val imageBytes = generateImage(prompt)

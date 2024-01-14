@@ -4,35 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="A lot of things. New code, fixes in the old code, some new features, instruct models, and so on. It's so big mess that I don't know when to commit anymore. But it works, so...">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ChatThread2.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" afterDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Changes to LandGame.kt AI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.webp" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/chats/Another-Chan/1683670685849.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/user/user.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/user/user.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ChatManagementWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ChatManagementWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ChatThread.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/SettingsWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AChat2.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AChat2.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AChat2Serializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AChat2Serializer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AMessage2.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AMessage2.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AMessage2Serializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AMessage2Serializer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/AdditionalMessageInfo2.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/ChatLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/ChatLoader.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/ChatConverter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/ChatConverter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/LegacyChat2.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/chat/newChat/converter/LegacyChat2.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/GeneratedData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/GeneratedData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/ImagePrompt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/stablediffusion/ImagePrompt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/KoboldAIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/KoboldAIClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/Prompt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/Prompt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/PromptByproduct.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/PromptByproduct.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/PromptManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/PromptManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/StableDiffusionWebUIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/stablediffusion/StableDiffusionWebUIClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/clientFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/clientFunctions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/tokenizer/gpt2-merges.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/tokenizer/gpt2-vocab.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/kobold/KoboldAIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/KoboldAIClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/stablediffusion/StableDiffusionWebUIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/stablediffusion/StableDiffusionWebUIClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/DescriptionSlider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/DescriptionSlider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/five/FiveGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/five/FiveGame.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/land/LandGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/land/LandGame.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/land/Minimax.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/land/Minimax.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/line/LineGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/line/LineGame.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/pair/Field.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/pair/Field.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/games/pair/PairGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/games/pair/PairGame.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/GPT2ByteEncoderDecoder.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/GPT2Tokinizer.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/GlobalTokenizer.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gpt2Tokenizer/tikenizerFunctions.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,12 +44,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="AnotherUI" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -111,7 +97,8 @@
     &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/myProgs/IntellijIDEAprogs/AnotherUI/data/chats/sdsd&quot;,
+    &quot;last.edited.regexp&quot;: &quot;dawfawf\nawfawfawf\n\nwafawfawf\nwafawf\nawfwaf\n\n\nawfawf&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/myProgs/IntellijIDEAprogs/AnotherUI/src/main/resources&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
@@ -120,15 +107,18 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\data\chats\sdsd" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\resources" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\games" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\composableFunctions\window" />
       <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin" />
-      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\prompt" />
-      <recent name="D:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\ExifInterface" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\data\chats\sdsd" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\client\kobold" />
-      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin" />
-      <recent name="D:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\games\land" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\games\pair" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\games\line" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\games\five" />
+      <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\composableFunctions" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="client.stablediffusion" />
@@ -138,6 +128,8 @@
       <recent name="properties.settings" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="properties.settings" />
+      <recent name="client.utilities" />
       <recent name="character.chat.newChat.converter" />
       <recent name="character.chat.newChat" />
       <recent name="character" />
@@ -274,39 +266,311 @@
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
     </task>
-    <task id="LOCAL-00012" summary="Added possibility to swipe messages using arrow keys.">
+    <task id="LOCAL-00021" summary="Some little changes">
       <option name="closed" value="true" />
-      <created>1691513751912</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
+      <created>1699475136639</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1691513751912</updated>
+      <updated>1699475136639</updated>
     </task>
-    <task id="LOCAL-00013" summary="A small 'fix' of character loading">
+    <task id="LOCAL-00022" summary="Fixed conditions in messages">
       <option name="closed" value="true" />
-      <created>1694380835569</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
+      <created>1699489929462</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
       <option name="project" value="LOCAL" />
-      <updated>1694380835569</updated>
+      <updated>1699489929462</updated>
     </task>
-    <task id="LOCAL-00014" summary="A small fix of tokenizer (however, I plan to remove this tokenizer)">
+    <task id="LOCAL-00023" summary="Waiting games">
       <option name="closed" value="true" />
-      <created>1694382464655</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
+      <created>1699899480395</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
       <option name="project" value="LOCAL" />
-      <updated>1694382464655</updated>
+      <updated>1699899480395</updated>
     </task>
-    <task id="LOCAL-00015" summary="A lot of things. New code, fixes in the old code, some new features, instruct models, and so on. It's so big mess that I don't know when to commit anymore. But it works, so...">
+    <task id="LOCAL-00024" summary="Rearranged pieces in LineGame.kt">
       <option name="closed" value="true" />
-      <created>1697299460298</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
+      <created>1699904703355</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
       <option name="project" value="LOCAL" />
-      <updated>1697299460298</updated>
+      <updated>1699904703355</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00025" summary="Fix of checking full rows in LineGame.kt">
+      <option name="closed" value="true" />
+      <created>1699909983410</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1699909983411</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Some small fixes and advancements with generating">
+      <option name="closed" value="true" />
+      <created>1700068993278</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1700068993278</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Random character and search">
+      <option name="closed" value="true" />
+      <created>1700070196229</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1700070196229</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Rearranged generating settings. Added min_p sampling">
+      <option name="closed" value="true" />
+      <created>1700074181220</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1700074181220</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Added seed setting (but it kinda doesn't work?...)">
+      <option name="closed" value="true" />
+      <created>1700076252288</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1700076252288</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Fixed conditions for icons on messages">
+      <option name="closed" value="true" />
+      <created>1700096943767</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1700096943767</updated>
+    </task>
+    <task id="LOCAL-00031" summary="New option in settings and character deletion">
+      <option name="closed" value="true" />
+      <created>1700140164425</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1700140164425</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Small fixes">
+      <option name="closed" value="true" />
+      <created>1700246019326</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1700246019326</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Added system prefix setting">
+      <option name="closed" value="true" />
+      <created>1700323128020</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1700323128020</updated>
+    </task>
+    <task id="LOCAL-00034" summary="A new almost-working game">
+      <option name="closed" value="true" />
+      <created>1700519199342</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1700519199342</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Added alternate greetings">
+      <option name="closed" value="true" />
+      <created>1700577987643</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1700577987643</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Avatar downloading">
+      <option name="closed" value="true" />
+      <created>1700581880659</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1700581880659</updated>
+    </task>
+    <task id="LOCAL-00037" summary="At least working AI for the land game">
+      <option name="closed" value="true" />
+      <created>1700596122530</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1700596122530</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Small changes">
+      <option name="closed" value="true" />
+      <created>1700687446086</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1700687446086</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Added an ability to mark characters as favorites">
+      <option name="closed" value="true" />
+      <created>1700941174092</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1700941174092</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Added deletion of meta for characters">
+      <option name="closed" value="true" />
+      <created>1700956145094</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1700956145094</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Cropped images to save RAM">
+      <option name="closed" value="true" />
+      <created>1701035709164</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1701035709164</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Fixed cropped images">
+      <option name="closed" value="true" />
+      <created>1701272167615</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1701272167615</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Added sampler order to the settings">
+      <option name="closed" value="true" />
+      <created>1701444807719</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1701444807719</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Max temperature changed from 2 to 4">
+      <option name="closed" value="true" />
+      <created>1701698881403</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1701698881403</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Small changes to the Land Game">
+      <option name="closed" value="true" />
+      <created>1701716418803</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1701716418803</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Made proper serializers for Settings.kt. Added presets">
+      <option name="closed" value="true" />
+      <created>1701974825011</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1701974825011</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Little fix">
+      <option name="closed" value="true" />
+      <created>1702046501738</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1702046501738</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Fix for koboldcpp 1.52.1">
+      <option name="closed" value="true" />
+      <created>1702678842276</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1702678842276</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Small fixes with string formatting">
+      <option name="closed" value="true" />
+      <created>1702683213016</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1702683213016</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Small changes to the LandGame">
+      <option name="closed" value="true" />
+      <created>1702994932678</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1702994932678</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Improved instruct formatting">
+      <option name="closed" value="true" />
+      <created>1703077467620</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1703077467621</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Fix of formatting">
+      <option name="closed" value="true" />
+      <created>1703093204805</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1703093204805</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Fix of formatting X2">
+      <option name="closed" value="true" />
+      <created>1703094512112</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1703094512112</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Fix of formatting X3">
+      <option name="closed" value="true" />
+      <created>1703116186819</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1703116186819</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Added settings for LandGame.kt">
+      <option name="closed" value="true" />
+      <created>1703947575582</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1703947575583</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Added normalizeResults option to the Settings.kt">
+      <option name="closed" value="true" />
+      <created>1703948018065</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1703948018065</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Fixed icons on messages a little">
+      <option name="closed" value="true" />
+      <created>1703948428214</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1703948428214</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Changes to LandGame.kt AI">
+      <option name="closed" value="true" />
+      <created>1703951021653</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1703951021653</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -336,22 +600,32 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Profile images of characters in CharactersList.kt fix." />
-    <MESSAGE value="Chat saving fix. It couldn't save when the folder &quot;data/chats&quot; doesn't exist." />
-    <MESSAGE value="Fix of fix (added Grid.kt that supposed to be there). Removed check for end of text by tokenizer since there is no universal tokenizer, and it could work wrong with different models." />
-    <MESSAGE value="Animation duration changes." />
-    <MESSAGE value="Changed HTTP engine from CIO to OkHttp due to lack of support of HTTP/2 in CIO. It needed for Koboldcpp." />
-    <MESSAGE value="Fixed bug when none image is chose." />
-    <MESSAGE value="Added a new settings for using username instead of &quot;You&quot;." />
-    <MESSAGE value="Oops..." />
-    <MESSAGE value="Small fix. Now it won't cut off the things it shouldn't cut off." />
-    <MESSAGE value="Added experimental feature Changeable Context (temporary name). It has a lot of bugs." />
-    <MESSAGE value="Added possibility to load the character avatar with drag-n-drop." />
-    <MESSAGE value="Added possibility to swipe messages using arrow keys." />
-    <MESSAGE value="A small 'fix' of character loading" />
-    <MESSAGE value="A small fix of tokenizer (however, I plan to remove this tokenizer)" />
-    <MESSAGE value="A lot of things. New code, fixes in the old code, some new features, instruct models, and so on. It's so big mess that I don't know when to commit anymore. But it works, so..." />
-    <option name="LAST_COMMIT_MESSAGE" value="A lot of things. New code, fixes in the old code, some new features, instruct models, and so on. It's so big mess that I don't know when to commit anymore. But it works, so..." />
+    <MESSAGE value="A new almost-working game" />
+    <MESSAGE value="Added alternate greetings" />
+    <MESSAGE value="Avatar downloading" />
+    <MESSAGE value="At least working AI for the land game" />
+    <MESSAGE value="Small changes" />
+    <MESSAGE value="Added an ability to mark characters as favorites" />
+    <MESSAGE value="Added deletion of meta for characters" />
+    <MESSAGE value="Cropped images to save RAM" />
+    <MESSAGE value="Fixed cropped images" />
+    <MESSAGE value="Added sampler order to the settings" />
+    <MESSAGE value="Max temperature changed from 2 to 4" />
+    <MESSAGE value="Small changes to the Land Game" />
+    <MESSAGE value="Made proper serializers for Settings.kt. Added presets" />
+    <MESSAGE value="Little fix" />
+    <MESSAGE value="Fix for koboldcpp 1.52.1" />
+    <MESSAGE value="Small fixes with string formatting" />
+    <MESSAGE value="Small changes to the LandGame" />
+    <MESSAGE value="Improved instruct formatting" />
+    <MESSAGE value="Fix of formatting" />
+    <MESSAGE value="Fix of formatting X2" />
+    <MESSAGE value="Fix of formatting X3" />
+    <MESSAGE value="Added settings for LandGame.kt" />
+    <MESSAGE value="Added normalizeResults option to the Settings.kt" />
+    <MESSAGE value="Fixed icons on messages a little" />
+    <MESSAGE value="Changes to LandGame.kt AI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes to LandGame.kt AI" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

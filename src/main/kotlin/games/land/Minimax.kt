@@ -39,7 +39,6 @@ class TempEvaluator(
 
             fullScore += (maximumDistance - calculateDistance(fieldPos, otherBasePos)) / maximumDistance
         }
-        println("distance: $fullScore")
 
         return fullScore
     }
@@ -80,7 +79,6 @@ class TempEvaluator(
                 fullScore += 0.6
             }
         }
-        println("cells: $fullScore")
 
         return fullScore
     }

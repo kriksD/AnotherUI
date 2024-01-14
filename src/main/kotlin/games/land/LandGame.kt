@@ -40,9 +40,9 @@ fun LandGame(
         Team(TeamType.Black, 0),
         Team(TeamType.White, 0)
     ) }
-    var currentWidth by remember { mutableStateOf(8F) }
-    var currentHeight by remember { mutableStateOf(8F) }
-    var field by remember { mutableStateOf(Field(currentWidth.toInt(), currentHeight.toInt(), teams)) }
+    var currentWidth by remember { mutableStateOf(8) }
+    var currentHeight by remember { mutableStateOf(8) }
+    var field by remember { mutableStateOf(Field(currentWidth, currentHeight, teams)) }
     var areActionsGoing by remember { mutableStateOf(false) }
     var onlyBots by remember { mutableStateOf(false) }
 
@@ -59,12 +59,13 @@ fun LandGame(
                 Row {
                     DescriptionSlider(
                         name = "Width",
-                        value = currentWidth,
+                        value = currentWidth.toFloat(),
                         onValueChange = {
-                            currentWidth = it
+                            currentWidth = it.toInt()
                         },
                         onValueChangeFinished = {
-                            field = Field(currentWidth.toInt(), currentHeight.toInt(), teams)
+                            currentWidth = it.toInt()
+                            field = Field(currentWidth, currentHeight, teams)
                         },
                         valueRange = 8F..16F,
                         intStep = 1,
@@ -73,12 +74,13 @@ fun LandGame(
 
                     DescriptionSlider(
                         name = "Height",
-                        value = currentHeight,
+                        value = currentHeight.toFloat(),
                         onValueChange = {
-                            currentHeight = it
+                            currentHeight = it.toInt()
                         },
                         onValueChangeFinished = {
-                            field = Field(currentWidth.toInt(), currentHeight.toInt(), teams)
+                            currentHeight = it.toInt()
+                            field = Field(currentWidth, currentHeight, teams)
                         },
                         valueRange = 8F..16F,
                         intStep = 1,
@@ -112,7 +114,7 @@ fun LandGame(
                         teams.add(Team(TeamType.Red, 0))
                         teams.add(Team(TeamType.Black, 0))
                         teams.add(Team(TeamType.White, 0))
-                        field = Field(currentWidth.toInt(), currentHeight.toInt(), teams)
+                        field = Field(currentWidth, currentHeight, teams)
                     },
                 tint = colorText
             )
