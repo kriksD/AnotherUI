@@ -65,7 +65,7 @@ fun LineGame(
                             field = Field(currentWidth, currentHeight)
                             nextPiece = Piece.createRandom()
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )
@@ -83,7 +83,7 @@ fun LineGame(
                             field = Field(currentWidth, currentHeight)
                             nextPiece = Piece.createRandom()
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )

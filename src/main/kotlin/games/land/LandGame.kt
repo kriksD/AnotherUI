@@ -67,7 +67,7 @@ fun LandGame(
                             currentWidth = it.toInt()
                             field = Field(currentWidth, currentHeight, teams)
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )
@@ -82,7 +82,7 @@ fun LandGame(
                             currentHeight = it.toInt()
                             field = Field(currentWidth, currentHeight, teams)
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )
@@ -156,7 +156,7 @@ fun LandGame(
                         }
 
                         while (
-                            teams.find { it.type == TeamType.Teal }!!.score == 0 || onlyBots
+                            (teams.find { it.type == TeamType.Teal }!!.score == 0 || onlyBots)
                             && teams.count { it.score != 0 } >= 2
                         ) {
                             teams.filter {

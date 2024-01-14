@@ -64,7 +64,7 @@ fun FiveGame(
                             field = Field(currentWidth, currentHeight)
                             fiveExists = field.fiveExists()
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )
@@ -82,7 +82,7 @@ fun FiveGame(
                             field = Field(currentWidth, currentHeight)
                             fiveExists = field.fiveExists()
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )

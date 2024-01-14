@@ -65,7 +65,7 @@ fun PairGame(
                             score = 0
                             field = Field(currentWidth, currentHeight)
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )
@@ -82,7 +82,7 @@ fun PairGame(
                             score = 0
                             field = Field(currentWidth, currentHeight)
                         },
-                        valueRange = 8F..16F,
+                        valueRange = 4F..16F,
                         intStep = 1,
                         modifier = Modifier.weight(1F),
                     )

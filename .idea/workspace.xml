@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="A lot of small changes and fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fix in LineGame.kt">
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -247,14 +246,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Fixed conditions in messages">
-      <option name="closed" value="true" />
-      <created>1699489929462</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1699489929462</updated>
     </task>
     <task id="LOCAL-00023" summary="Waiting games">
       <option name="closed" value="true" />
@@ -552,7 +543,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705266161209</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Fix in LineGame.kt">
+      <option name="closed" value="true" />
+      <created>1705269193144</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1705269193144</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -582,7 +581,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Added alternate greetings" />
     <MESSAGE value="Avatar downloading" />
     <MESSAGE value="At least working AI for the land game" />
     <MESSAGE value="Small changes" />
@@ -607,7 +605,8 @@
     <MESSAGE value="Fixed icons on messages a little" />
     <MESSAGE value="Changes to LandGame.kt AI" />
     <MESSAGE value="A lot of small changes and fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="A lot of small changes and fixes" />
+    <MESSAGE value="Fix in LineGame.kt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix in LineGame.kt" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
