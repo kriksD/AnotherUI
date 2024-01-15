@@ -1,6 +1,5 @@
 package properties.settings
 
-import ViewType
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
@@ -22,7 +21,6 @@ class SettingsSerializer : KSerializer<Settings> {
         element<Boolean>("stable_diffusion_api_enabled")
         element<Boolean>("profile_images_enabled")
         element<String>("background")
-        element<ViewType>("characters_list_view")
         element<GeneratingSettings>("generating")
         element<PromptSettings>("prompt_settings")
         element<ImageGeneratingSettings>("image_generating")
@@ -43,11 +41,10 @@ class SettingsSerializer : KSerializer<Settings> {
                 4 -> settings.stableDiffusionApiEnabled = decodeBooleanElement(descriptor, 4)
                 5 -> settings.profileImagesEnabled = decodeBooleanElement(descriptor, 5)
                 6 -> settings.background = decodeStringElement(descriptor, 6)
-                7 -> settings.charactersListView = ViewType.valueOf(decodeStringElement(descriptor, 7))
-                8 -> settings.generating = decodeSerializableElement(descriptor, 8, GeneratingSettings.serializer())
-                9 -> settings.promptSettings = decodeSerializableElement(descriptor, 9, PromptSettings.serializer())
-                10 -> settings.imageGenerating = decodeSerializableElement(descriptor, 10, ImageGeneratingSettings.serializer())
-                11 -> settings.normalizeResults = decodeBooleanElement(descriptor, 11)
+                7 -> settings.generating = decodeSerializableElement(descriptor, 8, GeneratingSettings.serializer())
+                8 -> settings.promptSettings = decodeSerializableElement(descriptor, 9, PromptSettings.serializer())
+                9 -> settings.imageGenerating = decodeSerializableElement(descriptor, 10, ImageGeneratingSettings.serializer())
+                10 -> settings.normalizeResults = decodeBooleanElement(descriptor, 11)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -64,10 +61,9 @@ class SettingsSerializer : KSerializer<Settings> {
         encodeBooleanElement(descriptor, 4, value.stableDiffusionApiEnabled)
         encodeBooleanElement(descriptor, 5, value.profileImagesEnabled)
         encodeStringElement(descriptor, 6, value.background)
-        encodeStringElement(descriptor, 7, value.charactersListView.name)
-        encodeSerializableElement(descriptor, 8, GeneratingSettings.serializer(), value.generating)
-        encodeSerializableElement(descriptor, 9, PromptSettings.serializer(), value.promptSettings)
-        encodeSerializableElement(descriptor, 10, ImageGeneratingSettings.serializer(), value.imageGenerating)
-        encodeBooleanElement(descriptor, 11, value.normalizeResults)
+        encodeSerializableElement(descriptor, 7, GeneratingSettings.serializer(), value.generating)
+        encodeSerializableElement(descriptor, 8, PromptSettings.serializer(), value.promptSettings)
+        encodeSerializableElement(descriptor, 9, ImageGeneratingSettings.serializer(), value.imageGenerating)
+        encodeBooleanElement(descriptor, 10, value.normalizeResults)
     }
 }

@@ -1,9 +1,11 @@
 package character
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import emptyImageBitmap
 import getImageBitmap
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
@@ -18,9 +20,9 @@ class ACharacter(
     val fileName: String,
     val jsonData: CharacterInfo,
     val metaData: CharacterMetaData,
-    image: ImageBitmap = getImageBitmap("data/DummyCharacter.webp") ?: emptyImageBitmap,
+    image: ImageBitmap? = null,
 ) {
-    var image: ImageBitmap = run {
+    /*var image: ImageBitmap? = run {
         /*val newSize = if (image.width / image.height > 400 / 600) {
             calculateScaledDownSize(image.width, image.height, Int.MAX_VALUE, style.image_height * 2)
         } else {
@@ -39,7 +41,9 @@ class ACharacter(
 
             field = value.scaleAndCropImage(newSize.first, newSize.second)*/
             field = value
-        }
+        }*/
+
+    var image: ImageBitmap? by mutableStateOf(image)
 
     private fun ImageBitmap.scaleAndCropImage(width: Int, height: Int): ImageBitmap {
         val bufferedImage = this.toAwtImage()
@@ -112,7 +116,7 @@ class ACharacter(
     }
 
     private fun saveImage(image: ImageBitmap? = null) {
-        val imageToSave = image ?: this.image
+        val imageToSave = image ?: this.image ?: return
         val data = imageToSave.toAwtImage().toImage().encodeToData(EncodedImageFormat.WEBP, 95)
         data?.let {
             File("data/characters/$fileName.webp").writeBytes(it.bytes)
@@ -131,5 +135,14 @@ class ACharacter(
         File("data/characters/$fileName.webp").delete()
         File("data/characters/$fileName.json").delete()
         File("data/characters/${fileName}_meta.json").delete()
+    }
+
+    fun loadImage() {
+        if (image != null) return
+        image = getImageBitmap("data/characters/$fileName.webp")
+    }
+
+    fun unloadImage() {
+        image = null
     }
 }

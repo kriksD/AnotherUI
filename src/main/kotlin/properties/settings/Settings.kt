@@ -1,6 +1,5 @@
 package properties.settings
 
-import ViewType
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,7 +15,6 @@ class Settings(
     profileImagesEnabled: Boolean = true,
     normalizeResults: Boolean = true,
     background: String = "bg1.png",
-    charactersListView: ViewType = ViewType.Grid,
     generating: GeneratingSettings = GeneratingSettings(),
     promptSettings: PromptSettings = PromptSettings(),
     imageGenerating: ImageGeneratingSettings = ImageGeneratingSettings(),
@@ -29,7 +27,6 @@ class Settings(
     var profileImagesEnabled: Boolean by mutableStateOf(profileImagesEnabled)
     var normalizeResults: Boolean by mutableStateOf(normalizeResults)
     var background: String by mutableStateOf(background)
-    var charactersListView: ViewType by mutableStateOf(charactersListView)
     var generating: GeneratingSettings by mutableStateOf(generating)
     var promptSettings: PromptSettings by mutableStateOf(promptSettings)
     var imageGenerating: ImageGeneratingSettings by mutableStateOf(imageGenerating)
@@ -44,7 +41,6 @@ class Settings(
             profileImagesEnabled,
             normalizeResults,
             background,
-            charactersListView,
             generating.copy(),
             promptSettings.copy(),
             imageGenerating.copy(),

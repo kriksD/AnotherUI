@@ -46,10 +46,6 @@ enum class OpenWindow {
     Settings, ChatsManaging, CreateCharacter, DeleteCharacter,
 }
 
-enum class ViewType {
-    List, Grid,
-}
-
 fun main() = application {
     var firstTimeSettings by remember { mutableStateOf(true) }
     if (firstTimeSettings) {
@@ -255,11 +251,12 @@ fun main() = application {
                             CharacterList(
                                 modifier = Modifier.fillMaxWidth(0.5F).weight(1F),
                                 characters,
-                                onCharacterClick = {
-                                    headerText = it.jsonData.name
-                                    currentCharacter = it
-                                    chats.load(it)
-                                    chats.selectIfNotSelected(it)
+                                onCharacterClick = { char ->
+                                    headerText = char.jsonData.name
+                                    currentCharacter = char
+                                    characters.forEach { if (char.fileName != it.fileName) it.unloadImage() }
+                                    chats.load(char)
+                                    chats.selectIfNotSelected(char)
                                     screen = Screen.Chat
                                 },
                                 onNewCharacter = {

@@ -39,9 +39,9 @@ fun loadAllCharacters(): List<ACharacter>? {
             val metaFile = File("data/characters/${charFile.nameWithoutExtension}_meta.json")
             val metaData = readCharacterMetaData(metaFile)
 
-            val image = getImageBitmap(charFile) ?: return@mapNotNull null
+            //val image = getImageBitmap(charFile) ?: return@mapNotNull null
 
-            ACharacter(charFile.nameWithoutExtension, jsonCharacter, metaData, image)
+            ACharacter(charFile.nameWithoutExtension, jsonCharacter, metaData)
 
         } catch (e: Exception) {
             println("${charFile.name} : ${e.message}")

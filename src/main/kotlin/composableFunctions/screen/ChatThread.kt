@@ -679,7 +679,7 @@ private fun MessageView(
                         settings.profileImagesEnabled,
                     ) {
                         Image(
-                            newImage,
+                            newImage ?: emptyImageBitmap,
                             contentDescription = "profile image",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier

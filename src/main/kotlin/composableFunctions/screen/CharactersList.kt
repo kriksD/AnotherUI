@@ -1,6 +1,5 @@
 package composableFunctions.screen
 
-import ViewType
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
@@ -14,18 +13,14 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.layout.ContentScale
 import character.ACharacter
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpOffset
@@ -39,21 +34,19 @@ import colorBackgroundSecondLighter
 import colorBorder
 import colorText
 import colorTextSecond
-import composableFunctions.ADropDownMenuItem
-import composableFunctions.ADropdownMenu
-import composableFunctions.AppearDisappearAnimation
-import composableFunctions.Grid
+import composableFunctions.*
 import corners
+import emptyImageBitmap
 import iconSize
 import imageHeight
 import imageWidth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import menuWidth
 import normalAnimationDuration
 import normalText
 import padding
-import properties.Properties
 import scrollbarThickness
-import settings
 import shortAnimationDuration
 import smallBorder
 import smallIconSize
@@ -69,7 +62,6 @@ fun CharacterList(
     onNewCharacter: () -> Unit,
     onDelete: (ACharacter) -> Unit,
 ) {
-    var view by remember { mutableStateOf(settings.charactersListView) }
     var searchSequence by remember { mutableStateOf("") }
     var favoriteFilter by remember { mutableStateOf(false) }
 
@@ -81,7 +73,7 @@ fun CharacterList(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row (
+            Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(padding),
             ) {
@@ -149,184 +141,76 @@ fun CharacterList(
                     )
                 }
             }
-
-            ViewControls(
-                view = view,
-                onChange = {
-                    view = it
-                    settings.charactersListView = it
-                    Properties.saveSettings()
-                },
-            )
         }
 
-        Crossfade(
-            view,
-            animationSpec = tween(normalAnimationDuration),
-        ) { v ->
-            when (v) {
-                ViewType.List -> {
-                    Row {
-                        val scrollState = rememberScrollState()
-                        Column(
-                            modifier = Modifier
-                                .weight(1F)
-                                .verticalScroll(scrollState),
-                        ) {
-                            list.filter {
-                                it.jsonData.name.contains(searchSequence, ignoreCase = true)
-                                        && if (favoriteFilter) it.metaData.favorite else true
-                            }.forEach {
-                                CharacterCardList(
-                                    it,
-                                    Modifier.clickable {
-                                        onCharacterClick.invoke(it)
-                                    },
-                                )
-                            }
-                        }
+        Row {
+            val scrollState = rememberScrollState()
+            var parentCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
 
-                        AppearDisappearAnimation(
-                            scrollState.canScrollBackward || scrollState.canScrollForward,
-                            normalAnimationDuration,
-                        ) {
-                            VerticalScrollbar(
-                                ScrollbarAdapter(scrollState),
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .background(colorBackground, LocalScrollbarStyle.current.shape),
-                                style = LocalScrollbarStyle.current.copy(
-                                    thickness = scrollbarThickness,
-                                    unhoverColor = colorBackgroundSecondLighter,
-                                    hoverColor = colorBackgroundSecond,
-                                ),
-                            )
-                        }
+            Grid(
+                columns = 4,
+                items = list
+                    .filter {
+                        it.jsonData.name.contains(searchSequence, ignoreCase = true)
+                                && if (favoriteFilter) it.metaData.favorite else true
                     }
+                    .ifEmpty { listOf(0) },
+                modifier = Modifier
+                    .weight(1F)
+                    .verticalScroll(scrollState)
+                    .onGloballyPositioned { c ->
+                        parentCoordinates = c
+                    },
+            ) { char ->
+                if (list.isEmpty()) {
+                    CreateCharacterCardGrid(
+                        Modifier.clickable {
+                            onNewCharacter.invoke()
+                        }
+                    )
                 }
-                ViewType.Grid -> {
-                    Row {
-                        val scrollState = rememberScrollState()
-                        Grid(
-                            columns = 4,
-                            items = list
-                                .filter {
-                                    it.jsonData.name.contains(searchSequence, ignoreCase = true)
-                                            && if (favoriteFilter) it.metaData.favorite else true
-                                }
-                                .ifEmpty { listOf(0) },
-                            modifier = Modifier
-                                .weight(1F)
-                                .verticalScroll(scrollState),
-                        ) {
-                            if (list.isEmpty()) {
-                                CreateCharacterCardGrid(
-                                    Modifier.clickable {
-                                        onNewCharacter.invoke()
-                                    }
-                                )
-                            }
 
-                            if (it is ACharacter) {
-                                CharacterCardGrid(
-                                    character =  it,
-                                    onDelete = onDelete,
-                                    modifier = Modifier.clickable {
-                                        onCharacterClick.invoke(it)
-                                    },
-                                )
-                            }
-                        }
+                if (char is ACharacter) {
+                    var coordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
+                    var isOnScreen by remember { mutableStateOf(false) }
 
-                        AppearDisappearAnimation(
-                            scrollState.canScrollBackward || scrollState.canScrollForward,
-                            normalAnimationDuration,
-                        ) {
-                            VerticalScrollbar(
-                                rememberScrollbarAdapter(scrollState),
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .background(colorBackground, LocalScrollbarStyle.current.shape),
-                                style = LocalScrollbarStyle.current.copy(
-                                    thickness = scrollbarThickness,
-                                    unhoverColor = colorBackgroundSecondLighter,
-                                    hoverColor = colorBackgroundSecond,
-                                ),
-                            )
-                        }
+                    LaunchedEffect(scrollState.value) {
+                        isOnScreen = coordinates?.boundsInWindow()?.overlaps(
+                            parentCoordinates?.boundsInWindow() ?: return@LaunchedEffect
+                        ) ?: false
                     }
+
+                    CharacterCardGrid(
+                        character = char,
+                        loadImage = isOnScreen,
+                        onDelete = onDelete,
+                        modifier = Modifier
+                            .clickable {
+                                onCharacterClick.invoke(char)
+                            }
+                            .onGloballyPositioned { c ->
+                                coordinates = c
+                            },
+                    )
                 }
             }
-        }
-    }
-}
 
-@Composable
-private fun ViewControls(
-    view: ViewType,
-    onChange: (ViewType) -> Unit = {},
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(padding),
-    ) {
-        Icon(
-            painterResource("dehaze.svg"),
-            "show characters in list",
-            tint = if (view == ViewType.List) colorTextSecond else colorText,
-            modifier = Modifier
-                .padding(padding)
-                .width(smallIconSize)
-                .aspectRatio(1F)
-                .clickable(view != ViewType.List) {
-                    onChange.invoke(ViewType.List)
-                }
-        )
-
-        Icon(
-            painterResource("view_cozy2.svg"),
-            "show characters in grid",
-            tint = if (view == ViewType.Grid) colorTextSecond else colorText,
-            modifier = Modifier
-                .padding(padding)
-                .width(smallIconSize)
-                .aspectRatio(1F)
-                .clickable(view != ViewType.Grid) {
-                    onChange.invoke(ViewType.Grid)
-                }
-        )
-    }
-}
-
-@Composable
-private fun CharacterCardList(
-    character: ACharacter,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier
-            .padding(padding)
-            .background(SolidColor(colorBackgroundLighter), RoundedCornerShape(corners), transparencySecond)
-            .border(smallBorder, colorBorder, RoundedCornerShape(corners))
-            .fillMaxWidth(),
-    ) {
-        Image(
-            character.image,
-            contentDescription = "profile image of ${character.jsonData.name}",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(imageWidth, imageHeight)
-                .padding(padding)
-                .background(colorBackground, RoundedCornerShape(corners))
-                .border(smallBorder, colorBorder, RoundedCornerShape(corners))
-                .clip(RoundedCornerShape(corners)),
-        )
-        Column(
-            modifier = Modifier.padding(padding)
-        ) {
-            Text(character.jsonData.name, fontSize = bigText, color = colorText)
-            Text(character.jsonData.personality, fontSize = normalText, color = colorText)
+            AppearDisappearAnimation(
+                scrollState.canScrollBackward || scrollState.canScrollForward,
+                normalAnimationDuration,
+            ) {
+                VerticalScrollbar(
+                    rememberScrollbarAdapter(scrollState),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .background(colorBackground, LocalScrollbarStyle.current.shape),
+                    style = LocalScrollbarStyle.current.copy(
+                        thickness = scrollbarThickness,
+                        unhoverColor = colorBackgroundSecondLighter,
+                        hoverColor = colorBackgroundSecond,
+                    ),
+                )
+            }
         }
     }
 }
@@ -334,6 +218,7 @@ private fun CharacterCardList(
 @Composable
 private fun CharacterCardGrid(
     character: ACharacter,
+    loadImage: Boolean,
     onDelete: (ACharacter) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -356,6 +241,21 @@ private fun CharacterCardGrid(
         )
     }
 
+    var isLoading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(loadImage) {
+        withContext(Dispatchers.IO) {
+            if (loadImage) {
+                isLoading = true
+                character.loadImage()
+                isLoading = false
+
+            } else {
+                character.unloadImage()
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .padding(padding)
@@ -373,12 +273,19 @@ private fun CharacterCardGrid(
                 .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                 .clip(RoundedCornerShape(corners)),
         ) {
-            Image(
-                character.image,
-                contentDescription = "profile image of ${character.jsonData.name}",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-            )
+            if (isLoading) {
+                LoadingIcon(
+                    contentDescription = "loading profile image of ${character.jsonData.name}",
+                    modifier = Modifier.size(iconSize).align(Alignment.Center)
+                )
+            } else {
+                Image(
+                    character.image ?: emptyImageBitmap,
+                    contentDescription = "profile image of ${character.jsonData.name}",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
 
             var favorite by remember { mutableStateOf(character.metaData.favorite) }
             Crossfade(

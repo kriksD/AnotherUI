@@ -1355,7 +1355,7 @@ private fun CharacterScreen(
 
                     Crossfade(targetState = char.image, animationSpec = tween(500)) { newImage ->
                         Image(
-                            newImage,
+                            newImage ?: emptyImageBitmap,
                             contentDescription = "profile image of ${char.jsonData.name}",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
@@ -1433,8 +1433,6 @@ private fun CharacterScreen(
                         greeting = it
                         char.jsonData.first_mes = it
                         onCharacterRedacted.invoke()
-                        println(char.image.width)
-                        println(char.image.height)
                     },
                     showTokens = false,
                     modifier = Modifier
