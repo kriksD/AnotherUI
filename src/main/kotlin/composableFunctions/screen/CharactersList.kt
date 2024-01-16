@@ -172,17 +172,28 @@ fun CharacterList(
 
                 if (char is ACharacter) {
                     var coordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
-                    var isOnScreen by remember { mutableStateOf(false) }
+                    var isLoadingImage by remember { mutableStateOf(false) }
 
-                    LaunchedEffect(scrollState.value) {
-                        isOnScreen = coordinates?.boundsInWindow()?.overlaps(
+                    LaunchedEffect(scrollState.value, favoriteFilter, searchSequence) {
+                        val isOnScreen = coordinates?.boundsInWindow()?.overlaps(
                             parentCoordinates?.boundsInWindow() ?: return@LaunchedEffect
                         ) ?: false
+
+                        withContext(Dispatchers.IO) {
+                            if (isOnScreen) {
+                                isLoadingImage = true
+                                char.loadImage()
+                                isLoadingImage = false
+
+                            } else {
+                                char.unloadImage()
+                            }
+                        }
                     }
 
                     CharacterCardGrid(
                         character = char,
-                        loadImage = isOnScreen,
+                        isLoadingImage = isLoadingImage,
                         onDelete = onDelete,
                         modifier = Modifier
                             .clickable {
@@ -218,7 +229,7 @@ fun CharacterList(
 @Composable
 private fun CharacterCardGrid(
     character: ACharacter,
-    loadImage: Boolean,
+    isLoadingImage: Boolean,
     onDelete: (ACharacter) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -241,21 +252,6 @@ private fun CharacterCardGrid(
         )
     }
 
-    var isLoading by remember { mutableStateOf(false) }
-
-    LaunchedEffect(loadImage) {
-        withContext(Dispatchers.IO) {
-            if (loadImage) {
-                isLoading = true
-                character.loadImage()
-                isLoading = false
-
-            } else {
-                character.unloadImage()
-            }
-        }
-    }
-
     Column(
         modifier = modifier
             .padding(padding)
@@ -273,7 +269,7 @@ private fun CharacterCardGrid(
                 .border(smallBorder, colorBorder, RoundedCornerShape(corners))
                 .clip(RoundedCornerShape(corners)),
         ) {
-            if (isLoading) {
+            if (isLoadingImage) {
                 LoadingIcon(
                     contentDescription = "loading profile image of ${character.jsonData.name}",
                     modifier = Modifier.size(iconSize).align(Alignment.Center)
