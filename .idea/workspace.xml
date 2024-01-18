@@ -4,9 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fix of image loading">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Remade generating settings into two columns instead of three">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/preset/Presets.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/preset/SettingsPresets.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/preset/SettingsPresetsSerializer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/properties/settings/generating/PresetsTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/DescriptionSlider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/DescriptionSlider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/Properties.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/Properties.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/GeneratingSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/GeneratingSettingsSerializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettingsSerializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/ImageGeneratingSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/imageGenerating/ImageGeneratingSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/ImageGeneratingSettingsSerializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/imageGenerating/ImageGeneratingSettingsSerializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/PromptSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/prompt/PromptSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/PromptSettingsSerializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/prompt/PromptSettingsSerializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsContainer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsContainer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsSerializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsSerializer.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +59,7 @@
         <option value="Kotlin Object" />
         <option value="Kotlin File" />
         <option value="Kotlin Enum" />
+        <option value="JUnit5 Test Class" />
         <option value="Kotlin Data Class" />
         <option value="Kotlin Class" />
       </list>
@@ -74,21 +93,33 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
     &quot;Gradle.AnotherUI [createDistributable].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Build AnotherUI.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GeneratingPresetsTest.test generating setting preset creating.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GeneratingPresetsTest.test generating setting preset deleting.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GeneratingPresetsTest.test generating setting preset saving.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PresetsTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Tests in 'AnotherUI.test'.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-18&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last.edited.regexp&quot;: &quot;dawfawf\nawfawfawf\n\nwafawfawf\nwafawf\nawfwaf\n\n\nawfawf&quot;,
     &quot;last_opened_file_path&quot;: &quot;E:/myProgs/IntellijIDEAprogs/AnotherUI/src/main/resources&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2678161&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.kotlinCompiler&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -106,12 +137,18 @@
       <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\games\five" />
       <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\kotlin\composableFunctions" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="client.stablediffusion" />
-      <recent name="prompt" />
-      <recent name="character.chat" />
-      <recent name="character.chat.legacyChat" />
+      <recent name="properties.settings.preset" />
       <recent name="properties.settings" />
+      <recent name="properties.settings.prompt" />
+      <recent name="properties.settings.imageGenerating" />
+      <recent name="properties.settings.generating" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="properties.settings.generating" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="properties.settings" />
@@ -121,27 +158,101 @@
       <recent name="character" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.AnotherUI [createDistributable]">
-    <configuration name="AnotherUI [createDistributable]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Kotlin.MainKt">
+    <configuration name="GeneratingPresetsTest.test generating setting preset creating" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="createDistributable" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;properties.settings.generating.GeneratingPresetsTest.test generating setting preset creating&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GeneratingPresetsTest.test generating setting preset deleting" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;properties.settings.generating.GeneratingPresetsTest.test generating setting preset deleting&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GeneratingPresetsTest.test generating setting preset saving" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;properties.settings.generating.GeneratingPresetsTest.test generating setting preset saving&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PresetsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;properties.settings.generating.PresetsTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
@@ -153,19 +264,26 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.AnotherUI [createDistributable]" />
+      <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset creating" />
+      <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
+      <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
+      <item itemvalue="Gradle.PresetsTest" />
       <item itemvalue="Kotlin.MainKt" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.PresetsTest" />
+        <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
+        <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
+        <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset creating" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
         <option value="jdk-17.0.9-corretto-17.0.9-e1d2075fd9a7-f66d43ae" />
         <option value="jdk-18.0.2-corretto-18.0.2-e1d2075fd9a7-1a4b3494" />
       </set>
@@ -259,14 +377,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Random character and search">
-      <option name="closed" value="true" />
-      <created>1700070196229</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1700070196229</updated>
     </task>
     <task id="LOCAL-00028" summary="Rearranged generating settings. Added min_p sampling">
       <option name="closed" value="true" />
@@ -564,7 +674,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705417888787</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Remade generating settings into two columns instead of three">
+      <option name="closed" value="true" />
+      <created>1705596805511</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1705596805511</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -594,7 +712,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Added deletion of meta for characters" />
     <MESSAGE value="Cropped images to save RAM" />
     <MESSAGE value="Fixed cropped images" />
     <MESSAGE value="Added sampler order to the settings" />
@@ -619,7 +736,8 @@
     <MESSAGE value="Fixed a bug in PairGame.kt" />
     <MESSAGE value="Reworked image loading for characters. Removed list view option for CharactersList.kt" />
     <MESSAGE value="Fix of image loading" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix of image loading" />
+    <MESSAGE value="Remade generating settings into two columns instead of three" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remade generating settings into two columns instead of three" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

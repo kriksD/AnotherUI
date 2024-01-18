@@ -32,6 +32,10 @@ fun DescriptionSlider(
 ) {
     var sliderValue by remember { mutableStateOf(value) }
 
+    LaunchedEffect(value) {
+        sliderValue = value
+    }
+
     Column(
         modifier = modifier
     ) {

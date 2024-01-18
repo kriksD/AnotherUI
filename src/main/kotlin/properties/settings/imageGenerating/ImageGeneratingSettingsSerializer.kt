@@ -1,4 +1,4 @@
-package properties.settings
+package properties.settings.imageGenerating
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException

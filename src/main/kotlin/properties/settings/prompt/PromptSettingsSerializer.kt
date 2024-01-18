@@ -1,4 +1,4 @@
-package properties.settings
+package properties.settings.prompt
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException

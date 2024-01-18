@@ -1,4 +1,4 @@
-package properties.settings
+package properties.settings.generating
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf

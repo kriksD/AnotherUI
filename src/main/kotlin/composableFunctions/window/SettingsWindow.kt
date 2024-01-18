@@ -69,6 +69,7 @@ import padding
 import prompt.PromptType
 import prompt.samplerName
 import properties.Properties
+import properties.settings.preset.Presets
 import settings
 import smallBorder
 import smallText
@@ -225,9 +226,19 @@ private fun AIScreen(
     ) {
         item { ConnectionCheck() }
         item { UsualDivider() }
-        item { SettingsPreset() }
+        item { PresetControls(
+            name = "Generating settings presets:",
+            presets = Properties.getPresets().generatingPresets,
+            valueToSave = settings.generating,
+        ) }
         item { UsualDivider() }
         item { Generating() }
+        item { UsualDivider() }
+        item { PresetControls(
+            name = "Prompt presets:",
+            presets = Properties.getPresets().promptPresets,
+            valueToSave = settings.promptSettings,
+        ) }
         item { UsualDivider() }
         item { Prompt() }
         item { UsualDivider() }
@@ -327,30 +338,34 @@ private fun ConnectionCheck() {
 }
 
 @Composable
-private fun SettingsPreset() {
+private fun <T> PresetControls(
+    name: String,
+    presets: Presets<T>,
+    valueToSave: T,
+) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(padding),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            "Presets:",
+            name,
             color = colorText,
             fontSize = normalText,
         )
 
-        var editedPresetName by remember { mutableStateOf(settings.presetName ?: "<custom>") }
+        var editedPresetName by remember { mutableStateOf(presets.selectedPresetNameForDisplay) }
 
         Menu(
-            settings.presetName ?: "<custom>",
-            listOf("<custom>") + Properties.settingsPresets().mapNotNull { it.presetName },
+            presets.selectedPresetNameForDisplay,
+            listOf("<custom>") + presets.presetNames,
             onSelect = {
                 if (it == "<custom>") {
-                    settings.presetName = null
+                    presets.selectPreset(null)
                     editedPresetName = "<custom>"
                     return@Menu
                 }
 
-                Properties.selectPreset(it as String)
+                presets.selectPreset(it as String)
                 editedPresetName = it
             },
             itemContent = { item, type ->
@@ -374,7 +389,7 @@ private fun SettingsPreset() {
                 } else {
                     Text(
                         item as String,
-                        color = if (item == settings.presetName || (settings.presetName == null && item == "<custom>")) colorTextSecond else colorText,
+                        color = if (item == presets.selectedPresetName || (presets.selectedPresetName == null && item == "<custom>")) colorTextSecond else colorText,
                         fontSize = normalText,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -388,24 +403,16 @@ private fun SettingsPreset() {
 
         IconWithToolTip(
             painterResource("save.svg"),
-            contentDescription = "Save as new preset",
-            toolTip = "Save as new preset",
+            contentDescription = "Save preset",
+            toolTip = "Save preset",
             tint = colorText,
             modifier = Modifier.size(tinyIconSize).clickable {
-                if (editedPresetName != "<custom>" && editedPresetName.isNotBlank()) {
-                    Properties.createPreset(editedPresetName)
-                    settings.presetName = editedPresetName
+                if (editedPresetName != presets.selectedPresetName) {
+                    presets.createPreset(editedPresetName)
+                } else {
+                    presets.saveSelectedPreset(valueToSave)
+                    editedPresetName = presets.selectedPresetNameForDisplay
                 }
-            },
-        )
-
-        IconWithToolTip(
-            painterResource("save_as.svg"),
-            contentDescription = "Save changes",
-            toolTip = "Save changes",
-            tint = colorText,
-            modifier = Modifier.size(tinyIconSize).clickable {
-                settings.presetName?.let { Properties.saveCurrentPreset() }
             },
         )
 
@@ -415,10 +422,8 @@ private fun SettingsPreset() {
             toolTip = "Delete preset",
             tint = colorText,
             modifier = Modifier.size(tinyIconSize).clickable {
-                settings.presetName?.let {
-                    Properties.deletePreset(it)
-                    settings.presetName = null
-                }
+                presets.deletePreset(editedPresetName)
+                editedPresetName = presets.selectedPresetNameForDisplay
             },
         )
     }
@@ -750,6 +755,12 @@ private fun StableDiffusionScreen(
         modifier = modifier
     ) {
         item { SDConnectionCheck() }
+        item { UsualDivider() }
+        item { PresetControls(
+            name = "Image generating settings presets:",
+            presets = Properties.getPresets().imageGeneratingPresets,
+            valueToSave = settings.imageGenerating,
+        ) }
         item { UsualDivider() }
         item { SDGenerating() }
         item { UsualDivider() }

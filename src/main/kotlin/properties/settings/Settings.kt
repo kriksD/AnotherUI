@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.serialization.*
+import properties.settings.generating.GeneratingSettings
+import properties.settings.imageGenerating.ImageGeneratingSettings
+import properties.settings.prompt.PromptSettings
 
 @Serializable(with = SettingsSerializer::class)
 class Settings(
-    presetName: String? = null,
     language: String = "en",
     link: String = "http://localhost:5000",
     stableDiffusionLink: String = "http://127.0.0.1:7860",
@@ -19,7 +21,6 @@ class Settings(
     promptSettings: PromptSettings = PromptSettings(),
     imageGenerating: ImageGeneratingSettings = ImageGeneratingSettings(),
 ) {
-    var presetName: String? by mutableStateOf(presetName)
     var language: String by mutableStateOf(language)
     var link: String by mutableStateOf(link)
     var stableDiffusionLink: String by mutableStateOf(stableDiffusionLink)
@@ -33,7 +34,6 @@ class Settings(
 
     fun copy(): Settings {
         return Settings(
-            presetName,
             language,
             link,
             stableDiffusionLink,

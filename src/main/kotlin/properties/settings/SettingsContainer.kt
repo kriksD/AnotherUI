@@ -1,18 +1,16 @@
 package properties.settings
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import properties.settings.preset.SettingsPresets
 import java.io.File
 
 class SettingsContainer {
     var settings: Settings by mutableStateOf(Settings())
-    private val presets: SnapshotStateList<Settings> = mutableStateListOf()
-    val presetsList: List<Settings> get() = presets
+    var presets: SettingsPresets by mutableStateOf(SettingsPresets())
 
     private val json = Json {
         prettyPrint = true
@@ -20,19 +18,19 @@ class SettingsContainer {
         ignoreUnknownKeys = true
     }
 
-    private val file = File("data/settings/settings.json")
-    private val presetsFolder = File("data/settings/presets")
+    private val settingsFile = File("data/settings/settings.json")
+    private val presetsFile = File("data/settings/presets.json")
 
     fun load() {
-        presetsFolder.mkdirs()
+        File("data/settings").mkdirs()
         loadSettings()
         loadPresets()
     }
 
     private fun loadSettings() {
-        settings = if (file.exists()) {
+        settings = if (settingsFile.exists()) {
             try {
-                json.decodeFromString<Settings>(file.readText())
+                json.decodeFromString<Settings>(settingsFile.readText())
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -42,50 +40,26 @@ class SettingsContainer {
     }
 
     private fun loadPresets() {
-        if (!presetsFolder.exists()) return
-
-        presetsFolder.listFiles()?.forEach {
-            if (it.extension != "json") return@forEach
-
+        presets = if (presetsFile.exists()) {
             try {
-                val preset = json.decodeFromString<Settings>(it.readText())
-                presets.add(preset)
+                json.decodeFromString<SettingsPresets>(presetsFile.readText())
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                SettingsPresets()
             }
-        }
+        } else { SettingsPresets() }
+
+        presets.load()
+        presets.onSelect()
+
+        presets.generatingPresets.selectedPreset?.let { settings.generating = it.copy() }
+        presets.imageGeneratingPresets.selectedPreset?.let { settings.imageGenerating = it.copy() }
+        presets.promptPresets.selectedPreset?.let { settings.promptSettings = it.copy() }
     }
 
     fun save() {
-        file.writeText(json.encodeToString(settings))
-    }
-
-    fun createPreset(name: String) {
-        val presetFile = File("data/settings/presets/$name.json")
-        settings.presetName = name
-        presets.add(settings)
-        presetFile.writeText(json.encodeToString(settings))
-    }
-
-    fun saveCurrentPreset() {
-        if (settings.presetName == null) return
-
-        val presetFile = File("data/settings/presets/${settings.presetName}.json")
-        presetFile.writeText(json.encodeToString(settings))
-        presets.indexOfFirst { it.presetName == settings.presetName }.let {
-            if (it != -1) presets[it] = settings
-        }
-    }
-
-    fun deletePreset(name: String) {
-        val presetFile = File("data/settings/presets/$name.json")
-        presetFile.delete()
-        presets.removeIf { it.presetName == name }
-        if (settings.presetName == name) { settings.presetName = null }
-    }
-
-    fun selectPreset(name: String) {
-        settings = presets.first { it.presetName == name }.copy()
+        settingsFile.writeText(json.encodeToString(settings))
+        presetsFile.writeText(json.encodeToString(presets))
     }
 }

@@ -1,4 +1,4 @@
-package properties.settings
+package properties.settings.prompt
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

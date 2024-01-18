@@ -1,4 +1,4 @@
-package properties.settings
+package properties.settings.imageGenerating
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

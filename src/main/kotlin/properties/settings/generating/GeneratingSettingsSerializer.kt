@@ -1,4 +1,4 @@
-package properties.settings
+package properties.settings.generating
 
 import androidx.compose.runtime.toMutableStateList
 import kotlinx.serialization.KSerializer
