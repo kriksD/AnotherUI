@@ -39,6 +39,19 @@ class GeneratingSettings(
     var samplerOrder: SnapshotStateList<Int> by mutableStateOf(samplerOrder)
     var seed: Int by mutableStateOf(seed)
 
+    val maxContextLengthValueRange get() = 512F..16384F
+    val maxLengthValueRange get() = 16F..1024F
+    val repPenValueRange get() = 1F..1.5F
+    val repPenRangeValueRange get() = 0F..16384F
+    val repPenSlopeValueRange get() = 0.1F..10F
+    val temperatureValueRange get() = 0.1F..4.0F
+    val tfsValueRange get() = 0.0F..1.0F
+    val topAValueRange get() = 0.0F..1.0F
+    val topKValueRange get() = 0F..100F
+    val topPValueRange get() = 0.0F..1.0F
+    val minPValueRange get() = 0.0F..1.0F
+    val typicalValueRange get() = 0.0F..1.0F
+
     fun copy(): GeneratingSettings {
         return GeneratingSettings(
             maxContextLength,

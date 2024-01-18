@@ -4,24 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fixed a bug in LandGame.kt">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fix of image loading">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.webp" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/style.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/style.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/user/user.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/user/user.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsSerializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsSerializer.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,24 +72,25 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build AnotherUI.executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "android.gradle.sync.needed": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last.edited.regexp": "dawfawf\nawfawfawf\n\nwafawfawf\nwafawf\nawfwaf\n\n\nawfawf",
-    "last_opened_file_path": "E:/myProgs/IntellijIDEAprogs/AnotherUI/src/main/resources",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.AnotherUI [createDistributable].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build AnotherUI.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last.edited.regexp&quot;: &quot;dawfawf\nawfawfawf\n\nwafawfawf\nwafawf\nawfwaf\n\n\nawfawf&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/myProgs/IntellijIDEAprogs/AnotherUI/src/main/resources&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\resources" />
@@ -135,7 +121,7 @@
       <recent name="character" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.MainKt">
+  <component name="RunManager" selected="Gradle.AnotherUI [createDistributable]">
     <configuration name="AnotherUI [createDistributable]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -172,8 +158,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.AnotherUI [createDistributable]" />
+        <item itemvalue="Kotlin.MainKt" />
       </list>
     </recent_temporary>
   </component>
@@ -273,22 +259,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Fix of checking full rows in LineGame.kt">
-      <option name="closed" value="true" />
-      <created>1699909983410</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1699909983411</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Some small fixes and advancements with generating">
-      <option name="closed" value="true" />
-      <created>1700068993278</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1700068993278</updated>
     </task>
     <task id="LOCAL-00027" summary="Random character and search">
       <option name="closed" value="true" />
@@ -578,7 +548,23 @@
       <option name="project" value="LOCAL" />
       <updated>1705270247775</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Reworked image loading for characters. Removed list view option for CharactersList.kt">
+      <option name="closed" value="true" />
+      <created>1705356390793</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1705356390793</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Fix of image loading">
+      <option name="closed" value="true" />
+      <created>1705417888787</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1705417888787</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -608,8 +594,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Small changes" />
-    <MESSAGE value="Added an ability to mark characters as favorites" />
     <MESSAGE value="Added deletion of meta for characters" />
     <MESSAGE value="Cropped images to save RAM" />
     <MESSAGE value="Fixed cropped images" />
@@ -633,7 +617,9 @@
     <MESSAGE value="Fix in LineGame.kt" />
     <MESSAGE value="Changed minimum size of the field in the games from 8 to 4. Fixed a bug in LandGame.kt" />
     <MESSAGE value="Fixed a bug in PairGame.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug in PairGame.kt" />
+    <MESSAGE value="Reworked image loading for characters. Removed list view option for CharactersList.kt" />
+    <MESSAGE value="Fix of image loading" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix of image loading" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

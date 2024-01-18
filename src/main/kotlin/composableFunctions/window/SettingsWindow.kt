@@ -433,20 +433,11 @@ private fun Generating() {
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
             DescriptionSlider(
-                name = "Temperature",
-                value = settings.generating.temperature,
-                onValueChange = { settings.generating.temperature = it },
-                onValueChangeFinished = { settings.generating.temperature = it },
-                valueRange = 0.1F..4F,
-                modifier = Modifier.weight(1F),
-            )
-
-            DescriptionSlider(
                 name = "Amount of generation",
                 value = settings.generating.maxLength.toFloat(),
                 onValueChange = { settings.generating.maxLength = it.toInt() },
                 onValueChangeFinished = { settings.generating.maxLength = it.toInt() },
-                valueRange = 16F..512F,
+                valueRange = settings.generating.maxLengthValueRange,
                 intStep = 8,
                 modifier = Modifier.weight(1F),
             )
@@ -456,7 +447,7 @@ private fun Generating() {
                 value = settings.generating.maxContextLength.toFloat(),
                 onValueChange = { settings.generating.maxContextLength = it.toInt() },
                 onValueChangeFinished = { settings.generating.maxContextLength = it.toInt() },
-                valueRange = 512F..16384F,
+                valueRange = settings.generating.maxContextLengthValueRange,
                 intStep = 64,
                 modifier = Modifier.weight(1F),
             )
@@ -466,20 +457,33 @@ private fun Generating() {
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
             DescriptionSlider(
+                name = "Temperature",
+                value = settings.generating.temperature,
+                onValueChange = { settings.generating.temperature = it },
+                onValueChangeFinished = { settings.generating.temperature = it },
+                valueRange = settings.generating.temperatureValueRange,
+                modifier = Modifier.weight(1F),
+            )
+
+            DescriptionSlider(
                 name = "Repetition Penalty",
                 value = settings.generating.repPen,
                 onValueChange = { settings.generating.repPen = it },
                 onValueChangeFinished = { settings.generating.repPen = it },
-                valueRange = 1F..1.5F,
+                valueRange = settings.generating.repPenValueRange,
                 modifier = Modifier.weight(1F),
             )
+        }
 
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
             DescriptionSlider(
                 name = "Repetition Penalty Range",
                 value = settings.generating.repPenRange.toFloat(),
                 onValueChange = { settings.generating.repPenRange = it.toInt() },
                 onValueChangeFinished = { settings.generating.repPenRange = it.toInt() },
-                valueRange = 0F..16384F,
+                valueRange = settings.generating.repPenRangeValueRange,
                 intStep = 64,
                 modifier = Modifier.weight(1F),
             )
@@ -489,7 +493,7 @@ private fun Generating() {
                 value = settings.generating.repPenSlope,
                 onValueChange = { settings.generating.repPenSlope = it },
                 onValueChangeFinished = { settings.generating.repPenSlope = it },
-                valueRange = 0.1F..10F,
+                valueRange = settings.generating.repPenSlopeValueRange,
                 modifier = Modifier.weight(1F),
             )
         }
@@ -502,6 +506,7 @@ private fun Generating() {
                 value = settings.generating.minP,
                 onValueChange = { settings.generating.minP = it },
                 onValueChangeFinished = { settings.generating.minP = it },
+                valueRange = settings.generating.minPValueRange,
                 modifier = Modifier.weight(1F),
             )
 
@@ -510,17 +515,8 @@ private fun Generating() {
                 value = settings.generating.topP,
                 onValueChange = { settings.generating.topP = it },
                 onValueChangeFinished = { settings.generating.topP = it },
+                valueRange = settings.generating.topPValueRange,
                 modifier = Modifier.weight(1F),
-            )
-
-            DescriptionSlider(
-                name = "Top K Sampling",
-                value = settings.generating.topK.toFloat(),
-                onValueChange = { settings.generating.topK = it.toInt() },
-                onValueChangeFinished = { settings.generating.topK = it.toInt() },
-                valueRange = 0F..100F,
-                intStep = 1,
-                modifier = Modifier.weight(1F)
             )
         }
 
@@ -528,18 +524,34 @@ private fun Generating() {
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
             DescriptionSlider(
+                name = "Top K Sampling",
+                value = settings.generating.topK.toFloat(),
+                onValueChange = { settings.generating.topK = it.toInt() },
+                onValueChangeFinished = { settings.generating.topK = it.toInt() },
+                valueRange = settings.generating.topKValueRange,
+                intStep = 1,
+                modifier = Modifier.weight(1F)
+            )
+
+            DescriptionSlider(
                 name = "Top A Sampling",
                 value = settings.generating.topA,
                 onValueChange = { settings.generating.topA = it },
                 onValueChangeFinished = { settings.generating.topA = it },
+                valueRange = settings.generating.topAValueRange,
                 modifier = Modifier.weight(1F),
             )
+        }
 
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
             DescriptionSlider(
                 name = "Typical Sampling",
                 value = settings.generating.typical,
                 onValueChange = { settings.generating.typical = it },
                 onValueChangeFinished = { settings.generating.typical = it },
+                valueRange = settings.generating.typicalValueRange,
                 modifier = Modifier.weight(1F),
             )
 
@@ -548,6 +560,7 @@ private fun Generating() {
                 value = settings.generating.tfs,
                 onValueChange = { settings.generating.tfs = it },
                 onValueChangeFinished = { settings.generating.tfs = it },
+                valueRange = settings.generating.tfsValueRange,
                 modifier = Modifier.weight(1F),
             )
         }
