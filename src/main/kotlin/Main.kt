@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import character.*
-import character.chat.newChat.ChatLoader
+import chat.newChat.ChatLoader
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.AppearDisappearAnimation

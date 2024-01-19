@@ -1,14 +1,14 @@
 package character
 
 import androidx.compose.ui.graphics.ImageBitmap
-import character.chat.aChat.AChat
-import character.chat.Chat
-import character.chat.Message
-import character.chat.legacyChat.LegacyChat
-import character.chat.ChatInfo
-import character.chat.aChat.AMessage
-import character.chat.aChat.AdditionalMessageInfo
-import character.chat.legacyChat.LegacyMessage
+import chat.aChat.AChat
+import chat.Chat
+import chat.Message
+import chat.legacyChat.LegacyChat
+import chat.ChatInfo
+import chat.aChat.AMessage
+import chat.aChat.AdditionalMessageInfo
+import chat.legacyChat.LegacyMessage
 import client.utilities.ImageLoaderClient
 import getImageBitmap
 import kotlinx.serialization.decodeFromString

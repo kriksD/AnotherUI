@@ -1,7 +1,7 @@
-package character.chat.aChat
+package chat.aChat
 
-import character.chat.BasicMessageInfo
-import character.chat.Message
+import chat.BasicMessageInfo
+import chat.Message
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

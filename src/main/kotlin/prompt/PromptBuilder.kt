@@ -1,8 +1,8 @@
 package prompt
 
 import character.ACharacter
-import character.chat.newChat.AChat2
-import character.chat.newChat.AMessage2
+import chat.newChat.AChat2
+import chat.newChat.AMessage2
 import client.kobold.KoboldAIClient
 import client.format
 import settings

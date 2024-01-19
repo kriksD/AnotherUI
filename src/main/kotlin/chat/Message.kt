@@ -1,4 +1,4 @@
-package character.chat
+package chat
 
 import user
 

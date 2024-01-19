@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import character.ACharacter
-import character.chat.newChat.AChat2
-import character.chat.newChat.AMessage2
+import chat.newChat.AChat2
+import chat.newChat.AMessage2
 import client.kobold.KoboldAIClient
 import client.stablediffusion.ImagePrompt
 import client.stablediffusion.StableDiffusionWebUIClient

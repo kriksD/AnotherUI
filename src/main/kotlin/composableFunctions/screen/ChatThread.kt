@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import bigText
 import character.ACharacter
-import character.chat.newChat.AChat2
-import character.chat.newChat.AMessage2
+import chat.newChat.AChat2
+import chat.newChat.AMessage2
 import client.*
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient

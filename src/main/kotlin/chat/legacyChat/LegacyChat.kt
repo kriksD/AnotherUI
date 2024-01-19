@@ -1,9 +1,9 @@
-package character.chat.legacyChat
+package chat.legacyChat
 
 import androidx.compose.ui.graphics.ImageBitmap
-import character.chat.Chat
-import character.chat.ChatInfo
-import character.chat.Message
+import chat.Chat
+import chat.ChatInfo
+import chat.Message
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File

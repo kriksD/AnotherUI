@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.SolidColor
 import bigText
 import biggerPadding
 import border
-import character.chat.newChat.AChat2
+import chat.newChat.AChat2
 import colorBackgroundLighter
 import colorBackgroundSecond
 import colorBorder

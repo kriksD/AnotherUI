@@ -1,8 +1,8 @@
-package character.chat.newChat
+package chat.newChat
 
 import androidx.compose.runtime.*
 import character.ACharacter
-import character.chat.newChat.converter.ChatConverter
+import chat.newChat.converter.ChatConverter
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.io.File

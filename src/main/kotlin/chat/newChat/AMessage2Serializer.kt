@@ -1,4 +1,4 @@
-package character.chat.newChat
+package chat.newChat
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList

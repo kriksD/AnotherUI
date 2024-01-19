@@ -1,4 +1,4 @@
-package character.chat.newChat.converter
+package chat.newChat.converter
 
 data class LegacyChat2 (
     val fileName: String,

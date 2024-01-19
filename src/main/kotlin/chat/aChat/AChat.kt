@@ -1,9 +1,9 @@
-package character.chat.aChat
+package chat.aChat
 
 import androidx.compose.ui.graphics.ImageBitmap
-import character.chat.Chat
-import character.chat.ChatInfo
-import character.chat.Message
+import chat.Chat
+import chat.ChatInfo
+import chat.Message
 import encodeToWebP
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

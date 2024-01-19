@@ -1,4 +1,4 @@
-package character.chat.aChat
+package chat.aChat
 
 import kotlinx.serialization.Serializable
 
