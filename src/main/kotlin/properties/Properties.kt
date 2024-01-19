@@ -3,6 +3,7 @@ package properties
 import androidx.compose.ui.graphics.ImageBitmap
 import properties.settings.Settings
 import properties.settings.SettingsContainer
+import properties.settings.preset.Presets
 import properties.settings.preset.SettingsPresets
 
 object Properties {
@@ -13,6 +14,7 @@ object Properties {
     fun getProfileImage(): ImageBitmap? = userContainer.getProfileImage()
     fun loadUser() { userContainer.load() }
     fun saveUser() { userContainer.save() }
+    fun getUserPreset(): Presets<User> = userContainer.presets
 
     private val languageContainer: LanguageContainer = LanguageContainer()
     fun language(): Language = languageContainer.language

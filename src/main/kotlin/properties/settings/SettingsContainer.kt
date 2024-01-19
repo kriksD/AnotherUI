@@ -52,10 +52,6 @@ class SettingsContainer {
 
         presets.load()
         presets.onSelect()
-
-        presets.generatingPresets.selectedPreset?.let { settings.generating = it.copy() }
-        presets.imageGeneratingPresets.selectedPreset?.let { settings.imageGenerating = it.copy() }
-        presets.promptPresets.selectedPreset?.let { settings.promptSettings = it.copy() }
     }
 
     fun save() {

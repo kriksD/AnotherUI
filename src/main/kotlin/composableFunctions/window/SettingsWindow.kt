@@ -1188,6 +1188,14 @@ private fun UserSettings(
     LazyColumn(
         modifier = modifier
     ) {
+        item { PresetControls(
+            name = "User presets:",
+            presets = Properties.getUserPreset(),
+            valueToSave = user,
+        ) }
+
+        item { UsualDivider() }
+
         item {
             User(
                 image = image,
@@ -1204,9 +1212,7 @@ private fun UserSettings(
             )
         }
 
-        item {
-            UsualDivider()
-        }
+        item { UsualDivider() }
 
         item {
             Text("All profile images:", color = colorText, fontSize = bigText)
@@ -1262,13 +1268,10 @@ private fun User(
         )
 
         Column {
-            var yourName by remember { mutableStateOf(user.name) }
-
             Text("Your name:", color = colorText, fontSize = normalText)
             OutlinedTextField(
-                yourName,
+                user.name,
                 onValueChange = {
-                    yourName = it
                     user.name = it
                 },
                 textStyle = TextStyle(
@@ -1282,6 +1285,15 @@ private fun User(
                 placeholder = { Text("Type yor name...", color = colorTextSecond) },
                 singleLine = true,
                 maxLines = 1,
+            )
+
+            TextFieldWithTokens(
+                name = "Your description:",
+                text = user.description ?: "",
+                onValueChange = {
+                    user.description = it.ifBlank { null }
+                },
+                modifier = Modifier.height(80.dp),
             )
         }
     }
