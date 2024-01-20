@@ -14,6 +14,7 @@ class PromptSettings(
         {{persona}}
         {{personality}}
         {{scenario}}
+        {{userDescription}}
         {{messageExample}}
         {{chat}}
     """.trimIndent(),

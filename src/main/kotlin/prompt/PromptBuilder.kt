@@ -22,6 +22,7 @@ class PromptBuilder {
         {{persona}}
         {{personality}}
         {{scenario}}
+        {{userDescription}}
         {{messageExample}}
         {{chat}}
     """.trimIndent()
@@ -144,6 +145,13 @@ class PromptBuilder {
             )
         }
 
+        user.description?.let { ud ->
+            prompt = prompt.replace(
+                "{{userDescription}}",
+                if (ud.isNotEmpty()) "${user.name}'s description: ${ud.format(character)}" else ""
+            )
+        }
+
         character.jsonData.mes_example.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
@@ -156,7 +164,6 @@ class PromptBuilder {
         val currentTokenCount = KoboldAIClient.countTokens(prompt)
         if (currentTokenCount == -1) return null
         var tokensLeft = maxContextLength - currentTokenCount - 32
-        println("tokensLeft: $tokensLeft")
         var messagesPrompt = ""
         val lastIndex = if (regenerate) mergedMessages.lastIndex - 1 else mergedMessages.lastIndex
 
@@ -224,6 +231,13 @@ class PromptBuilder {
             )
         }
 
+        user.description?.let { ud ->
+            prompt = prompt.replace(
+                "{{userDescription}}",
+                if (ud.isNotEmpty()) "${user.name}'s description: ${ud.format(character)}" else ""
+            )
+        }
+
         character.jsonData.mes_example.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
@@ -236,7 +250,6 @@ class PromptBuilder {
         val currentTokenCount = KoboldAIClient.countTokens(prompt)
         if (currentTokenCount == -1) return null
         var tokensLeft = maxContextLength - currentTokenCount - 32
-        println("tokensLeft: $tokensLeft")
         var messagesPrompt = ""
         val lastIndex = if (regenerate) mergedMessages.lastIndex - 1 else mergedMessages.lastIndex
 

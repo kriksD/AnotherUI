@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Remade presets to fix bugs. Made three separate PresetControls for GeneratingSettings.kt, ImageGeneratingSettings.kt, and PromptSettings.kt">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added presets for User.kt">
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/characters/Another-Chan.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/characters/Another-Chan.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/prompt/PromptSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/prompt/PromptSettings.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,10 +58,10 @@
         <option value="Kotlin Object" />
         <option value="Kotlin File" />
         <option value="Kotlin Enum" />
-        <option value="JUnit5 Test Class" />
         <option value="Kotlin Data Class" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -146,14 +148,15 @@
       <recent name="properties.settings.generating" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="prompt" />
       <recent name="properties.settings.generating" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="properties" />
       <recent name="properties.settings" />
       <recent name="client.utilities" />
       <recent name="character.chat.newChat.converter" />
       <recent name="character.chat.newChat" />
-      <recent name="character" />
     </key>
   </component>
   <component name="RunManager" selected="Kotlin.MainKt">
@@ -268,9 +271,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Gradle.PresetsTest" />
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
       </list>
@@ -373,22 +376,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00029" summary="Added seed setting (but it kinda doesn't work?...)">
-      <option name="closed" value="true" />
-      <created>1700076252288</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1700076252288</updated>
-    </task>
-    <task id="LOCAL-00030" summary="Fixed conditions for icons on messages">
-      <option name="closed" value="true" />
-      <created>1700096943767</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1700096943767</updated>
     </task>
     <task id="LOCAL-00031" summary="New option in settings and character deletion">
       <option name="closed" value="true" />
@@ -678,7 +665,23 @@
       <option name="project" value="LOCAL" />
       <updated>1705615823765</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Moved the chat directory out of character directory">
+      <option name="closed" value="true" />
+      <created>1705694247129</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1705694247129</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Added presets for User.kt">
+      <option name="closed" value="true" />
+      <created>1705699414354</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1705699414354</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -708,8 +711,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fixed cropped images" />
-    <MESSAGE value="Added sampler order to the settings" />
     <MESSAGE value="Max temperature changed from 2 to 4" />
     <MESSAGE value="Small changes to the Land Game" />
     <MESSAGE value="Made proper serializers for Settings.kt. Added presets" />
@@ -733,7 +734,9 @@
     <MESSAGE value="Fix of image loading" />
     <MESSAGE value="Remade generating settings into two columns instead of three" />
     <MESSAGE value="Remade presets to fix bugs. Made three separate PresetControls for GeneratingSettings.kt, ImageGeneratingSettings.kt, and PromptSettings.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remade presets to fix bugs. Made three separate PresetControls for GeneratingSettings.kt, ImageGeneratingSettings.kt, and PromptSettings.kt" />
+    <MESSAGE value="Moved the chat directory out of character directory" />
+    <MESSAGE value="Added presets for User.kt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added presets for User.kt" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
