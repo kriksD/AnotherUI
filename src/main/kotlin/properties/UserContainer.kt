@@ -28,9 +28,9 @@ class UserContainer {
     )
 
     fun getProfileImage(): ImageBitmap? {
-        if (currentProfileImage.name != user.profile_image_file) {
-            getImageBitmap("${profileImagesFolder.path}/${user.profile_image_file}")?.let { img ->
-                currentProfileImage.name = user.profile_image_file
+        if (currentProfileImage.name != user.profileImageFile) {
+            getImageBitmap("${profileImagesFolder.path}/${user.profileImageFile}")?.let { img ->
+                currentProfileImage.name = user.profileImageFile
                 currentProfileImage.image = img
             }
         }

@@ -1183,7 +1183,7 @@ private fun UserSettings(
     var image by remember { mutableStateOf(Properties.getProfileImage() ?: emptyImageBitmap) }
     val profileImagesFolder by remember { mutableStateOf(File("data/user/profile images")) }
     val list = remember { profileImagesFolder.loadAllImages().toState() }
-    var selected by remember { mutableStateOf(user.profile_image_file) }
+    var selected by remember { mutableStateOf(user.profileImageFile) }
 
     LazyColumn(
         modifier = modifier
@@ -1205,7 +1205,7 @@ private fun UserSettings(
                         copyAndGetImage(it, profileImagesFolder)?.let { img ->
                             list[img.first] = img.second
                             selected = img.first
-                            user.profile_image_file = img.first
+                            user.profileImageFile = img.first
                         }
                     }
                 }
@@ -1221,7 +1221,7 @@ private fun UserSettings(
                 selected,
                 onSelected = { name ->
                     selected = name
-                    user.profile_image_file = name
+                    user.profileImageFile = name
                     Properties.getProfileImage()?.let { img ->
                         image = img
                     }
@@ -1289,9 +1289,9 @@ private fun User(
 
             TextFieldWithTokens(
                 name = "Your description:",
-                text = user.description ?: "",
+                text = user.description,
                 onValueChange = {
-                    user.description = it.ifBlank { null }
+                    user.description = it
                 },
                 modifier = Modifier.height(80.dp),
             )

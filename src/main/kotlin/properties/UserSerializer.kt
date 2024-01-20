@@ -1,9 +1,7 @@
 package properties
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
@@ -19,7 +17,6 @@ class UserSerializer : KSerializer<User> {
         element<String>("profile_image_file")
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     override fun deserialize(decoder: Decoder): User = decoder.decodeStructure(descriptor) {
         val settings = User()
 
@@ -27,8 +24,8 @@ class UserSerializer : KSerializer<User> {
             when (val index = decodeElementIndex(descriptor)) {
                 -1 -> break
                 0 -> settings.name = decodeStringElement(descriptor, index)
-                1 -> settings.description = decodeNullableSerializableElement(descriptor, index, String.serializer())
-                2 -> settings.profile_image_file = decodeStringElement(descriptor, index)
+                1 -> settings.description = decodeStringElement(descriptor, index)
+                2 -> settings.profileImageFile = decodeStringElement(descriptor, index)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -36,10 +33,9 @@ class UserSerializer : KSerializer<User> {
         return@decodeStructure settings
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: User) = encoder.encodeStructure(descriptor) {
         encodeStringElement(descriptor, 0, value.name)
-        encodeNullableSerializableElement(descriptor, 1, String.serializer(), value.description)
-        encodeStringElement(descriptor, 2, value.profile_image_file)
+        encodeStringElement(descriptor, 1, value.description)
+        encodeStringElement(descriptor, 2, value.profileImageFile)
     }
 }

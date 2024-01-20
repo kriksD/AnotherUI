@@ -115,7 +115,7 @@ class PromptBuilder {
 
             prompt = prompt.replace(
                 "{{systemPrompt}}",
-                if (spr.isNotEmpty())
+                if (spr.isNotBlank())
                     if (systemInstruct.contains("{{prompt}}"))
                         systemInstruct.replace("{{prompt}}", spr.format(character))
                     else
@@ -127,35 +127,33 @@ class PromptBuilder {
         character.jsonData.description.let { des ->
             prompt = prompt.replace(
                 "{{persona}}",
-                if (des.isNotEmpty()) "${character.jsonData.name}'s Persona: ${des.format(character)}" else ""
+                if (des.isNotBlank()) "${character.jsonData.name}'s Persona: ${des.format(character)}" else ""
             )
         }
 
         character.jsonData.personality.let { per ->
             prompt = prompt.replace(
                 "{{personality}}",
-                if (per.isNotEmpty()) "Personality: ${per.format(character)}" else ""
+                if (per.isNotBlank()) "Personality: ${per.format(character)}" else ""
             )
         }
 
         character.jsonData.scenario.let { sce ->
             prompt = prompt.replace(
                 "{{scenario}}",
-                if (sce.isNotEmpty()) "Scenario: ${sce.format(character)}" else ""
+                if (sce.isNotBlank()) "Scenario: ${sce.format(character)}" else ""
             )
         }
 
-        user.description?.let { ud ->
-            prompt = prompt.replace(
-                "{{userDescription}}",
-                if (ud.isNotEmpty()) "${user.name}'s description: ${ud.format(character)}" else ""
-            )
-        }
+        prompt = prompt.replace(
+            "{{userDescription}}",
+            if (user.description.isNotBlank()) "${user.name}'s description: ${user.description.format(character)}" else ""
+        )
 
         character.jsonData.mes_example.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
-                if (mex.isNotEmpty()) mex.format(character) else ""
+                if (mex.isNotBlank()) mex.format(character) else ""
             )
         }
 
@@ -195,7 +193,7 @@ class PromptBuilder {
             val instruct = (if (forUser) settings.promptSettings.userInstruct else settings.promptSettings.modelInstruct)
                 .replace("\\n", "\n")
                 .substringBefore("{{prompt}}")
-                .trimEnd { it == '\n' || it == ' ' }
+                .trimEnd { it == ' ' }
                 .format(character)
 
             prompt += "\n$instruct"
@@ -213,35 +211,33 @@ class PromptBuilder {
         character.jsonData.description.let { des ->
             prompt = prompt.replace(
                 "{{persona}}",
-                if (des.isNotEmpty()) "${character.jsonData.name}'s Persona: ${des.format(character)}" else ""
+                if (des.isNotBlank()) "${character.jsonData.name}'s Persona: ${des.format(character)}" else ""
             )
         }
 
         character.jsonData.personality.let { per ->
             prompt = prompt.replace(
                 "{{personality}}",
-                if (per.isNotEmpty()) "Personality: ${per.format(character)}" else ""
+                if (per.isNotBlank()) "Personality: ${per.format(character)}" else ""
             )
         }
 
         character.jsonData.scenario.let { sce ->
             prompt = prompt.replace(
                 "{{scenario}}",
-                if (sce.isNotEmpty()) "Scenario: ${sce.format(character)}" else ""
+                if (sce.isNotBlank()) "Scenario: ${sce.format(character)}" else ""
             )
         }
 
-        user.description?.let { ud ->
-            prompt = prompt.replace(
-                "{{userDescription}}",
-                if (ud.isNotEmpty()) "${user.name}'s description: ${ud.format(character)}" else ""
-            )
-        }
+        prompt = prompt.replace(
+            "{{userDescription}}",
+            if (user.description.isNotBlank()) "${user.name}'s description: ${user.description.format(character)}" else ""
+        )
 
         character.jsonData.mes_example.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
-                if (mex.isNotEmpty()) mex.format(character) else ""
+                if (mex.isNotBlank()) mex.format(character) else ""
             )
         }
 

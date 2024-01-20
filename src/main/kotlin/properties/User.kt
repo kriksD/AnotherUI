@@ -8,14 +8,14 @@ import kotlinx.serialization.Serializable
 @Serializable(with = UserSerializer::class)
 class User(
     name: String = "You",
-    description: String? = null,
-    profile_image_file: String = "DummyCharacter.webp",
+    description: String = "",
+    profileImageFile: String = "DummyCharacter.webp",
 ) {
     var name: String by mutableStateOf(name)
-    var description: String? by mutableStateOf(description)
-    var profile_image_file: String by mutableStateOf(profile_image_file)
+    var description: String by mutableStateOf(description)
+    var profileImageFile: String by mutableStateOf(profileImageFile)
 
     fun copy(): User {
-        return User(name, description, profile_image_file)
+        return User(name, description, profileImageFile)
     }
 }
