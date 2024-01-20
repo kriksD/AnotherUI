@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added presets for User.kt">
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" afterDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Small fixes in PromptBuilder.kt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/prompt/PromptSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/prompt/PromptSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/kobold/KoboldAIClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/kobold/KoboldAIClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -377,30 +376,6 @@
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
     </task>
-    <task id="LOCAL-00031" summary="New option in settings and character deletion">
-      <option name="closed" value="true" />
-      <created>1700140164425</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1700140164425</updated>
-    </task>
-    <task id="LOCAL-00032" summary="Small fixes">
-      <option name="closed" value="true" />
-      <created>1700246019326</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1700246019326</updated>
-    </task>
-    <task id="LOCAL-00033" summary="Added system prefix setting">
-      <option name="closed" value="true" />
-      <created>1700323128020</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1700323128020</updated>
-    </task>
     <task id="LOCAL-00034" summary="A new almost-working game">
       <option name="closed" value="true" />
       <created>1700519199342</created>
@@ -681,7 +656,31 @@
       <option name="project" value="LOCAL" />
       <updated>1705699414354</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Added user description to the prompt">
+      <option name="closed" value="true" />
+      <created>1705715048264</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1705715048265</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Fixed a crash with character creating">
+      <option name="closed" value="true" />
+      <created>1705715891145</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1705715891145</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Small fixes in PromptBuilder.kt">
+      <option name="closed" value="true" />
+      <created>1705718115422</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1705718115422</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -711,9 +710,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Max temperature changed from 2 to 4" />
-    <MESSAGE value="Small changes to the Land Game" />
-    <MESSAGE value="Made proper serializers for Settings.kt. Added presets" />
     <MESSAGE value="Little fix" />
     <MESSAGE value="Fix for koboldcpp 1.52.1" />
     <MESSAGE value="Small fixes with string formatting" />
@@ -736,7 +732,10 @@
     <MESSAGE value="Remade presets to fix bugs. Made three separate PresetControls for GeneratingSettings.kt, ImageGeneratingSettings.kt, and PromptSettings.kt" />
     <MESSAGE value="Moved the chat directory out of character directory" />
     <MESSAGE value="Added presets for User.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added presets for User.kt" />
+    <MESSAGE value="Added user description to the prompt" />
+    <MESSAGE value="Fixed a crash with character creating" />
+    <MESSAGE value="Small fixes in PromptBuilder.kt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small fixes in PromptBuilder.kt" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

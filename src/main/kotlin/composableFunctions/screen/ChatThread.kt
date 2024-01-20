@@ -593,6 +593,8 @@ private fun SendIcons(
     onLoadImage: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Crossfade(
         targetState = isGenerating,
         animationSpec = tween(shortAnimationDuration),
@@ -625,13 +627,30 @@ private fun SendIcons(
             }
 
         } else {
-            LoadingIcon(
-                contentDescription = "send message",
-                tint = colorTextSecond,
+            Box(
                 modifier = modifier
                     .width(70.dp)
                     .fillMaxHeight()
-            )
+            ) {
+                LoadingIcon(
+                    contentDescription = "send message",
+                    tint = colorTextSecond,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            coroutineScope.launch {
+                                KoboldAIClient.abort()
+                            }
+                        }
+                        .size(tinyIconSize)
+                        .padding(padding)
+                        .background(colorTextError)
+                        .align(Alignment.Center),
+                )
+            }
         }
     }
 }

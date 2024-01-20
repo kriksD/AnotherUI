@@ -129,8 +129,24 @@ object KoboldAIClient {
             Json.decodeFromString<PromptResult>(result.body()).results.firstOrNull()?.text
 
         } catch (e: Exception) {
-            println(e)
+            e.printStackTrace()
             null
+        }
+    }
+
+    suspend fun abort() {
+        try {
+            val result = client.post("${createLink().replace("/v1", "/extra")}/abort") {
+                contentType(ContentType.Application.Json)
+                timeout {
+                    requestTimeoutMillis = 600_000
+                    socketTimeoutMillis = 600_000
+                }
+            }
+            connectionStatus = result.status.value != 404
+
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
