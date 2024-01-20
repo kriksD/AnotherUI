@@ -116,13 +116,16 @@ class ACharacter(
     }
 
     private fun saveImage(image: ImageBitmap? = null) {
-        val imageToSave = image ?: this.image ?: return
+        val imageToSave = image ?: this.image ?: run {
+            val dummyFile = File("data/DummyCharacter.webp")
+            dummyFile.copyTo(File("data/characters/$fileName.webp"), overwrite = true)
+
+            return
+        }
+
         val data = imageToSave.toAwtImage().toImage().encodeToData(EncodedImageFormat.WEBP, 95)
         data?.let {
             File("data/characters/$fileName.webp").writeBytes(it.bytes)
-        } ?: run {
-            val dummyFile = File("data/DummyCharacter.webp")
-            dummyFile.copyTo(File("data/characters/$fileName.webp"), overwrite = true)
         }
     }
 
