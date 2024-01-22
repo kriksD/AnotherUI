@@ -25,6 +25,7 @@ class SettingsSerializer : KSerializer<Settings> {
         element<PromptSettings>("prompt_settings")
         element<ImageGeneratingSettings>("image_generating")
         element<Boolean>("normalize_results")
+        element<Boolean>("token_streaming")
     }
 
     override fun deserialize(decoder: Decoder): Settings = decoder.decodeStructure(descriptor) {
@@ -43,6 +44,7 @@ class SettingsSerializer : KSerializer<Settings> {
                 7 -> settings.promptSettings = decodeSerializableElement(descriptor, index, PromptSettings.serializer())
                 8 -> settings.imageGenerating = decodeSerializableElement(descriptor, index, ImageGeneratingSettings.serializer())
                 9 -> settings.normalizeResults = decodeBooleanElement(descriptor, index)
+                10 -> settings.tokenStreaming = decodeBooleanElement(descriptor, index)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -61,5 +63,6 @@ class SettingsSerializer : KSerializer<Settings> {
         encodeSerializableElement(descriptor, 7, PromptSettings.serializer(), value.promptSettings)
         encodeSerializableElement(descriptor, 8, ImageGeneratingSettings.serializer(), value.imageGenerating)
         encodeBooleanElement(descriptor, 9, value.normalizeResults)
+        encodeBooleanElement(descriptor, 10, value.tokenStreaming)
     }
 }

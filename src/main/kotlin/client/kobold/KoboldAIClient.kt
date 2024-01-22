@@ -73,7 +73,7 @@ object KoboldAIClient {
         @Serializable data class Result(val value: Int)
 
         try {
-            val result = client.post("${createLink().replace("/v1", "/extra")}/tokencount") {
+            val result = client.post("${createLink(extra = true)}/tokencount") {
                 contentType(ContentType.Application.Json)
                 setBody(Json.encodeToString(Body(text)))
             }
@@ -134,9 +134,28 @@ object KoboldAIClient {
         }
     }
 
+    suspend fun check(): String? {
+        return try {
+            val result = client.get("${createLink(extra = true)}/generate/check") {
+                contentType(ContentType.Application.Json)
+                timeout {
+                    requestTimeoutMillis = 600_000
+                    socketTimeoutMillis = 600_000
+                }
+            }
+            connectionStatus = result.status.value != 404
+
+            Json.decodeFromString<PromptResult>(result.body()).results.firstOrNull()?.text
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     suspend fun abort() {
         try {
-            val result = client.post("${createLink().replace("/v1", "/extra")}/abort") {
+            val result = client.post("${createLink(extra = true)}/abort") {
                 contentType(ContentType.Application.Json)
                 timeout {
                     requestTimeoutMillis = 600_000
@@ -150,8 +169,8 @@ object KoboldAIClient {
         }
     }
 
-    private fun createLink(): String {
+    private fun createLink(extra: Boolean = false): String {
         val link = settings.link.removeSuffix("/").removeSuffix("/api").removeSuffix("/new_ui")
-        return "${if (link.startsWith("http")) "" else "http://"}$link/api/v1"
+        return "${if (link.startsWith("http")) "" else "http://"}$link/api/${if (extra) "extra" else "v1"}"
     }
 }

@@ -991,13 +991,19 @@ private fun AppearanceSettings(
     ) {
         item {
             CheckboxText(
-                "profile images enabled",
+                "Token streaming",
+                settings.tokenStreaming,
+                onChange = { settings.tokenStreaming = it }
+            )
+
+            CheckboxText(
+                "Profile images",
                 settings.profileImagesEnabled,
                 onChange = { settings.profileImagesEnabled = it }
             )
 
             CheckboxText(
-                "normalize results",
+                "Normalize results",
                 settings.normalizeResults,
                 onChange = { settings.normalizeResults = it }
             )

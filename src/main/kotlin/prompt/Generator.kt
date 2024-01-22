@@ -13,9 +13,13 @@ import client.kobold.KoboldAIClient
 import client.stablediffusion.ImagePrompt
 import client.stablediffusion.StableDiffusionWebUIClient
 import client.trimCorrectly
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import settings
 import showsImageString
 import user
+import java.lang.Long.max
 
 class Generator(
     val chat: AChat2,
@@ -39,7 +43,7 @@ class Generator(
         userMessage: String? = null,
         userImage: ImageBitmap? = null,
         withImage: Boolean = false
-    ) {
+    ) = coroutineScope {
         isGenerating = true
 
         userMessage?.let { um ->
@@ -56,13 +60,28 @@ class Generator(
             .type(settings.promptSettings.type)
             .build()
 
-        val message = chat.addMessage(generatingText, character.jsonData.name, false)
+        val message = chat.addMessage("", character.jsonData.name, false)
+
+        if (settings.tokenStreaming) {
+            launch {
+                delay(250)
+
+                while (isGenerating) {
+                    KoboldAIClient.check()?.let {
+                        runTextAnimation(message, 0, it)
+                        if (it.isEmpty()) delay(1000)
+                    }
+                }
+            }
+        } else {
+            message.updateSwipe(0, generatingText)
+        }
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             chat.removeLast()
             isGenerating = false
             showErrorKobold()
-            return
+            return@coroutineScope
         }
 
         message.updateSwipe(0, result.trimCorrectly())
@@ -119,10 +138,10 @@ class Generator(
 
     suspend fun completeMessage(
         withImage: Boolean = false
-    ) {
+    ) = coroutineScope {
         isGenerating = true
 
-        val message = chat.messages.lastOrNull() ?: return
+        val message = chat.messages.lastOrNull() ?: return@coroutineScope
         generatingSwipeIndex = message.swipeId.value
         val oldContent = message.content
 
@@ -135,14 +154,29 @@ class Generator(
             .complete()
             .build()
 
-        val generatingContent = "${message.content} $generatingText"
-        message.updateSwipe(generatingSwipeIndex, generatingContent)
+        if (settings.tokenStreaming) {
+            launch {
+                delay(250)
+                val oldMessage = message.swipes[generatingSwipeIndex]
+
+                while (isGenerating) {
+                    KoboldAIClient.check()?.let {
+                        println(1111)
+                        runTextAnimation(message, generatingSwipeIndex, oldMessage + it)
+                        if (it.isEmpty()) delay(1000)
+                    }
+                }
+            }
+        } else {
+            val generatingContent = "${message.content} $generatingText"
+            message.updateSwipe(generatingSwipeIndex, generatingContent)
+        }
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             message.updateSwipe(generatingSwipeIndex, oldContent)
             isGenerating = false
             showErrorKobold()
-            return
+            return@coroutineScope
         }
 
         val newContent = "$oldContent$result"
@@ -160,14 +194,12 @@ class Generator(
 
     suspend fun regenerateMessage(
         withImage: Boolean = false
-    ) {
+    ) = coroutineScope {
         isGenerating = true
 
-        val message = chat.messages.lastOrNull()?: return
+        val message = chat.messages.lastOrNull()?: return@coroutineScope
         generatingSwipeIndex = message.swipeId.value
         val oldContent = message.content
-
-        message.updateSwipe(generatingSwipeIndex, generatingText)
 
         val prompt = PromptBuilder()
             .pattern(settings.promptSettings.pattern)
@@ -178,11 +210,28 @@ class Generator(
             .regenerate()
             .build()
 
+        if (settings.tokenStreaming) {
+            message.updateSwipe(generatingSwipeIndex, "")
+
+            launch {
+                delay(250)
+
+                while (isGenerating) {
+                    KoboldAIClient.check()?.let {
+                        runTextAnimation(message, generatingSwipeIndex, it)
+                        if (it.isEmpty()) delay(1000)
+                    }
+                }
+            }
+        } else {
+            message.updateSwipe(generatingSwipeIndex, generatingText)
+        }
+
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             message.updateSwipe(generatingSwipeIndex, oldContent)
             isGenerating = false
             showErrorKobold()
-            return
+            return@coroutineScope
         }
 
         message.updateSwipe(generatingSwipeIndex, result.trimCorrectly())
@@ -199,10 +248,10 @@ class Generator(
 
     suspend fun generateNextSwipe(
         withImage: Boolean = false
-    ) {
+    ) = coroutineScope {
         isGenerating = true
 
-        val message = chat.messages.lastOrNull() ?: return
+        val message = chat.messages.lastOrNull() ?: return@coroutineScope
         message.swipes.add(generatingText)
         message.swipeId.value = message.swipes.lastIndex
         generatingSwipeIndex = message.swipeId.value
@@ -216,12 +265,27 @@ class Generator(
             .regenerate()
             .build()
 
+        if (settings.tokenStreaming) {
+            message.updateSwipe(generatingSwipeIndex, "")
+
+            launch {
+                delay(250)
+
+                while (isGenerating) {
+                    KoboldAIClient.check()?.let {
+                        runTextAnimation(message, generatingSwipeIndex, it)
+                        if (it.isEmpty()) delay(1000)
+                    }
+                }
+            }
+        }
+
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             message.swipes.removeLast()
             message.swipeId.value = message.swipes.lastIndex
             isGenerating = false
             showErrorKobold()
-            return
+            return@coroutineScope
         }
 
         message.updateSwipe(generatingSwipeIndex, result.trimCorrectly())
@@ -260,6 +324,23 @@ class Generator(
                 showErrorStableDiffusion()
                 null
             }
+    }
+
+    private suspend fun runTextAnimation(
+        message: AMessage2,
+        swipeIndex: Int,
+        newContent: String,
+        duration: Long = 1000,
+    ) {
+        val trimmedContent = newContent.removePrefix(message.swipes[swipeIndex]).ifEmpty { return }
+        val interval = max(1, duration / trimmedContent.length)
+
+        trimmedContent.forEach {
+            if (isGenerating) {
+                message.updateSwipe(swipeIndex, "${message.swipes[swipeIndex]}$it")
+                delay(interval)
+            }
+        }
     }
 
     private suspend fun showErrorKobold() {

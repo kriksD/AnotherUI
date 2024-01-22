@@ -14,6 +14,7 @@ class Settings(
     link: String = "http://localhost:5000",
     stableDiffusionLink: String = "http://127.0.0.1:7860",
     stableDiffusionApiEnabled: Boolean = false,
+    tokenStreaming: Boolean = false,
     profileImagesEnabled: Boolean = true,
     normalizeResults: Boolean = true,
     background: String = "bg1.png",
@@ -25,6 +26,7 @@ class Settings(
     var link: String by mutableStateOf(link)
     var stableDiffusionLink: String by mutableStateOf(stableDiffusionLink)
     var stableDiffusionApiEnabled: Boolean by mutableStateOf(stableDiffusionApiEnabled)
+    var tokenStreaming: Boolean by mutableStateOf(tokenStreaming)
     var profileImagesEnabled: Boolean by mutableStateOf(profileImagesEnabled)
     var normalizeResults: Boolean by mutableStateOf(normalizeResults)
     var background: String by mutableStateOf(background)
@@ -38,6 +40,7 @@ class Settings(
             link,
             stableDiffusionLink,
             stableDiffusionApiEnabled,
+            tokenStreaming,
             profileImagesEnabled,
             normalizeResults,
             background,
