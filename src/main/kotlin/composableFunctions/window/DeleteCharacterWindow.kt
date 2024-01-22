@@ -25,6 +25,7 @@ import transparency
 
 @Composable
 fun DeleteCharacterWindow(
+    characterName: String,
     onAccept: (Boolean) -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier,
@@ -39,7 +40,7 @@ fun DeleteCharacterWindow(
     ) {
         CloseLine(
             modifier = Modifier.fillMaxWidth(),
-            name = "Delete character?",
+            name = "Delete \"$characterName\" character?",
             description = "cancel the character deletion",
             onClose = onCancel
         )
@@ -47,7 +48,7 @@ fun DeleteCharacterWindow(
         UsualDivider()
 
         Text(
-            text = "Are you sure you want to delete this character?",
+            text = "Are you sure you want to delete \"$characterName\" character?",
             color = colorText,
             fontSize = normalText,
         )
@@ -55,7 +56,7 @@ fun DeleteCharacterWindow(
         var withChats by remember { mutableStateOf(false) }
 
         CheckboxText(
-            "with chats",
+            "Delete chats",
             withChats,
             onChange = { withChats = it },
         )
@@ -67,14 +68,14 @@ fun DeleteCharacterWindow(
                 onClick = onCancel,
                 colors = ButtonDefaults.buttonColors(colorBackgroundSecondLighter),
             ) {
-                Text("cancel", color = colorText, fontSize = normalText)
+                Text("Cancel", color = colorText, fontSize = normalText)
             }
 
             Button(
                 onClick = { onAccept(withChats) },
                 colors = ButtonDefaults.buttonColors(colorBackgroundSecondLighter),
             ) {
-                Text("delete", color = colorText, fontSize = normalText)
+                Text("Delete", color = colorText, fontSize = normalText)
             }
         }
     }

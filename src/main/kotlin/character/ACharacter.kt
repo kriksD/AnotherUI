@@ -91,7 +91,7 @@ class ACharacter(
         val file = File("data/characters/$fileName.webp")
         val jsonFile = File("data/characters/$fileName.json")
 
-        jsonData.edit_date = Calendar.getInstance().timeInMillis
+        jsonData.editDate = Calendar.getInstance().timeInMillis
         val json = Json { explicitNulls = false }
         val jsonNormal = json.encodeToString(jsonData)
         val jsonForWebP = jsonNormal
@@ -130,6 +130,12 @@ class ACharacter(
     }
 
     fun saveMeta() {
+        val json = Json {
+            prettyPrint = true
+            ignoreUnknownKeys = true
+            encodeDefaults = true
+        }
+
         val metaFile = File("data/characters/${fileName}_meta.json")
         metaFile.writeText(json.encodeToString(metaData))
     }

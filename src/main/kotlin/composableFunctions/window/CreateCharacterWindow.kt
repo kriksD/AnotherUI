@@ -19,7 +19,6 @@ import androidx.compose.ui.text.TextStyle
 import bigText
 import biggerPadding
 import border
-import character.*
 import colorBackground
 import colorBackgroundLighter
 import colorBackgroundSecondLighter
@@ -37,15 +36,15 @@ import padding
 import smallBorder
 import smallText
 import transparency
+import java.net.URI
 
 @Composable
 fun CreateCharacterWindow(
     window: ComposeWindow,
-    onDone: (ACharacter) -> Unit,
-    onDoneMultiple: (List<ACharacter>) -> Unit,
+    onCreate: (String) -> Unit,
+    onLoad: (File?) -> Unit,
+    onLoadMultiple: (List<File?>) -> Unit,
     onClose: () -> Unit,
-    onLoadFail: () -> Unit,
-    onLoadMultipleFail: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -67,17 +66,15 @@ fun CreateCharacterWindow(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(8F),
-            onLoadFail = onLoadFail,
-            onLoadMultipleFail = onLoadMultipleFail,
-            onDone = onDone,
-            onDoneMultiple = onDoneMultiple,
+            onLoad = onLoad,
+            onLoadMultiple = onLoadMultiple,
         )
         Text("OR", color = colorText, fontSize = bigText, modifier = Modifier.align(Alignment.CenterHorizontally))
         CreateArea(
             modifier = Modifier
                 .fillMaxWidth(0.8F)
                 .align(Alignment.CenterHorizontally),
-            onDone = onDone,
+            onCreate = onCreate,
         )
     }
 }
@@ -86,10 +83,8 @@ fun CreateCharacterWindow(
 @Composable
 private fun LoadArea(
     window: ComposeWindow,
-    onDone: (ACharacter) -> Unit,
-    onDoneMultiple: (List<ACharacter>) -> Unit,
-    onLoadFail: () -> Unit,
-    onLoadMultipleFail: (List<String>) -> Unit,
+    onLoad: (File?) -> Unit,
+    onLoadMultiple: (List<File?>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -101,16 +96,7 @@ private fun LoadArea(
             .border(smallBorder, colorBorder, RoundedCornerShape(corners))
             .clickable {
                 val file = openFileDialog(window, "", listOf(".webp", ".json"), false).firstOrNull()
-
-                file?.let { f ->
-                    coroutineScope.launch {
-                        loadNewCharacter(f)?.let {
-                            onDone.invoke(it)
-
-                        } ?: onLoadFail.invoke()
-                    }
-
-                } ?: onLoadFail.invoke()
+                onLoad.invoke(file)
             }
             .onExternalDrag(
                 onDragStart = { externalDragValue ->
@@ -127,27 +113,17 @@ private fun LoadArea(
 
                         coroutineScope.launch {
                             if (paths.size == 1) {
-                                loadNewCharacter(File(paths.first().removePrefix("file:/")))?.let { nc ->
-                                    onDone(nc)
-                                } ?: onLoadFail()
+                                onLoad(File(URI(paths.first())))
                             }
 
                             if (paths.size > 1) {
-                                val loaded = mutableListOf<ACharacter>()
-                                val failed = mutableListOf<String>()
+                                val files = mutableListOf<File>()
 
                                 paths.forEach { p ->
-                                    loadNewCharacter(File(p.removePrefix("file:/")))?.let { nc ->
-                                        loaded.add(nc)
-
-                                    } ?: failed.add(p)
+                                    files.add(File(URI(p)))
                                 }
 
-                                if (failed.isNotEmpty()) {
-                                    onLoadMultipleFail(failed)
-                                }
-
-                                onDoneMultiple(loaded)
+                                onLoadMultiple(files)
                             }
                         }
                     }
@@ -167,7 +143,7 @@ private fun LoadArea(
 
 @Composable
 private fun CreateArea(
-    onDone: (ACharacter) -> Unit = {},
+    onCreate: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var characterName by remember { mutableStateOf("") }
@@ -204,8 +180,8 @@ private fun CreateArea(
 
         Button(
             onClick = {
-                if (characterName.isNotEmpty()) {
-                    onDone.invoke(createNewCharacter(characterName))
+                if (characterName.isNotBlank()) {
+                    onCreate.invoke(characterName)
                 }
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = colorBackgroundSecondLighter),

@@ -90,6 +90,7 @@ fun File.loadAllImages(): Map<String, ImageBitmap> {
         try {
             list[f.name] = getImageBitmap(f) ?: continue
         } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -159,14 +160,14 @@ fun String.runCommand(workingDir: File): String? {
  */
 fun uniqueName(baseName: String, extension: String, folder: File): String {
     var i = 0
-    while (File("${folder.absolutePath}/$baseName${if (i > 0) i else ""}.$extension").exists()) { i++ }
-    return "$baseName${if (i > 0) i else ""}"
+    while (File("${folder.absolutePath}/${baseName}${if (i > 0) "_" else ""}${if (i > 0) i else ""}.$extension").exists()) { i++ }
+    return "${baseName}${if (i > 0) "_" else ""}${if (i > 0) i else ""}"
 }
 
 fun uniqueName(name: String, list: List<String>): String {
     var i = 0
-    while ("$name${if (i > 0) i else ""}" in list) { i++ }
-    return "$name${if (i > 0) i else ""}"
+    while ("${name}${if (i > 0) "_" else ""}${if (i > 0) i else ""}" in list) { i++ }
+    return "${name}${if (i > 0) "_" else ""}${if (i > 0) i else ""}"
 }
 
 /**
@@ -178,15 +179,27 @@ fun uniqueName(name: String, list: List<String>): String {
  */
 fun uniqueNameIncludingZero(baseName: String, extension: String, folder: File): String {
     var i = 0
-    while (File("${folder.absolutePath}/$baseName$i.$extension").exists()) { i++ }
-    return "$baseName$i"
+    while (File("${folder.absolutePath}/${baseName}${if (i > 0) "_" else ""}$i.$extension").exists()) { i++ }
+    return "${baseName}${if (i > 0) "_" else ""}$i"
 }
 
 fun uniqueNameIncludingZero(name: String, list: List<String>): String {
     var i = 0
-    while ("$name$i" in list) { i++ }
-    return "$name$i"
+    while ("${name}${if (i > 0) "_" else ""}$i" in list) { i++ }
+    return "${name}${if (i > 0) "_" else ""}$i"
 }
+
+fun String.toFileName(): String = this
+    .replace(" ", "_")
+    .replace("<", "")
+    .replace(">", "")
+    .replace(":", "")
+    .replace("\"", "")
+    .replace("/", "")
+    .replace("\\", "")
+    .replace("|", "")
+    .replace("?", "")
+    .replace("*", "")
 
 fun <K, V> Map<K, V>.toState(): SnapshotStateMap<K, V> {
     val newList = mutableStateMapOf<K, V>()

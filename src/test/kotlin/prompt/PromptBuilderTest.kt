@@ -64,8 +64,8 @@ class PromptBuilderTest {
             name = "test_model",
             description = "test_description",
             personality = "test_personality",
-            first_mes = "test_first_mes",
-            mes_example = "test_mes_example",
+            firstMessage = "test_first_mes",
+            messageExample = "test_mes_example",
             scenario = "test_scenario",
         ),
         metaData = CharacterMetaData(

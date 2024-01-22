@@ -26,7 +26,6 @@ class ImageLoaderClient {
                 }
             }
 
-            println(result.status.value)
             if (result.status.value !in 200..299) return null
 
             val imageBytes = result.bodyAsChannel().toByteArray()
@@ -36,7 +35,7 @@ class ImageLoaderClient {
             getImageBitmap(decodedImageBytes)
 
         } catch (e: Exception) {
-            println(e)
+            e.printStackTrace()
             null
         }
     }

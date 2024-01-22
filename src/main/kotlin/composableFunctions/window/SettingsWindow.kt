@@ -1362,10 +1362,10 @@ private fun CharacterScreen(
     modifier: Modifier = Modifier,
 ) {
     character?.let { char ->
-        var greeting by remember { mutableStateOf(char.jsonData.first_mes) }
+        var greeting by remember { mutableStateOf(char.jsonData.firstMessage) }
         var description by remember { mutableStateOf(char.jsonData.description) }
         var scenario by remember { mutableStateOf(char.jsonData.scenario) }
-        var chatExamples by remember { mutableStateOf(char.jsonData.mes_example) }
+        var chatExamples by remember { mutableStateOf(char.jsonData.messageExample) }
         var personality by remember { mutableStateOf(char.jsonData.personality) }
 
         val scrollState = rememberScrollState()
@@ -1473,7 +1473,7 @@ private fun CharacterScreen(
                     "Greeting",
                     onValueChange = {
                         greeting = it
-                        char.jsonData.first_mes = it
+                        char.jsonData.firstMessage = it
                         onCharacterRedacted.invoke()
                     },
                     showTokens = false,
@@ -1520,7 +1520,7 @@ private fun CharacterScreen(
                     "Chat Examples",
                     onValueChange = {
                         chatExamples = it
-                        char.jsonData.mes_example = it
+                        char.jsonData.messageExample = it
                         onCharacterRedacted.invoke()
                     },
                     modifier = Modifier

@@ -166,7 +166,7 @@ class ChatLoaderOld {
     fun createNewLegacyChat(character: ACharacter): LegacyChat {
         val chatInfo = ChatInfo("You", character.jsonData.name, Calendar.getInstance().timeInMillis)
         val newChat = LegacyChat(chatInfo.create_date.toString(), character.fileName, chatInfo, mutableListOf())
-        newChat.addMessage(character.jsonData.first_mes)
+        newChat.addMessage(character.jsonData.firstMessage)
         character.jsonData.chat = newChat.fileName
 
         return newChat
@@ -175,7 +175,7 @@ class ChatLoaderOld {
     fun createNewChat(character: ACharacter): AChat {
         val chatInfo = ChatInfo("You", character.jsonData.name, Calendar.getInstance().timeInMillis)
         val newChat = AChat(chatInfo.create_date.toString(), character.fileName, chatInfo, mutableListOf())
-        newChat.addMessage(character.jsonData.first_mes)
+        newChat.addMessage(character.jsonData.firstMessage)
         character.jsonData.chat = newChat.fileName
 
         return newChat

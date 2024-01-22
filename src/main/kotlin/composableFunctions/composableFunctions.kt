@@ -17,15 +17,10 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import character.loadNewCharacter
 import colorText
 import hugeText
 import iconSize
 import java.awt.FileDialog
-import java.awt.datatransfer.DataFlavor
-import java.awt.dnd.DnDConstants
-import java.awt.dnd.DropTarget
-import java.awt.dnd.DropTargetDropEvent
 import java.io.File
 
 fun openFileDialog(window: ComposeWindow, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true): Set<File> {
@@ -46,24 +41,6 @@ fun openFileDialog(window: ComposeWindow, title: String, allowedExtensions: List
     }.files.toSet()
 }
 
-fun dragAndDropFile(
-    onDrop: (List<*>) -> Unit,
-): DropTarget {
-    return object : DropTarget() {
-        @Synchronized
-        override fun drop(evt: DropTargetDropEvent) {
-            try {
-                evt.acceptDrop(DnDConstants.ACTION_REFERENCE)
-                val droppedFiles = evt.transferable.getTransferData(DataFlavor.javaFileListFlavor) as List<*>
-                onDrop.invoke(droppedFiles)
-
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-        }
-    }
-}
-
 @Composable
 fun CloseLine(
     name: String,
@@ -78,7 +55,7 @@ fun CloseLine(
         Text(name, color = colorText, fontSize = hugeText)
         Icon(
             Icons.Default.Clear,
-            "cancel character creation",
+            description,
             tint = colorText,
             modifier = Modifier
                 .height(iconSize)

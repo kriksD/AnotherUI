@@ -4,8 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added abort button">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Remade ACharacter.kt">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfoSerializer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterLoader.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterMetaDataSerializer.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfoJson.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterMetaData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterMetaData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoaderOld.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoaderOld.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/ChatLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/ChatLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/utilities/ImageLoaderClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/utilities/ImageLoaderClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/composableFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/composableFunctions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/CreateCharacterWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/CreateCharacterWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/DeleteCharacterWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/DeleteCharacterWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/functions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/functions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,8 +77,8 @@
         <option value="Kotlin Enum" />
         <option value="Kotlin Data Class" />
         <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -136,6 +156,9 @@
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="character" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="properties.settings.preset" />
@@ -268,8 +291,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Gradle.PresetsTest" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
@@ -373,14 +396,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00035" summary="Added alternate greetings">
-      <option name="closed" value="true" />
-      <created>1700577987643</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1700577987643</updated>
     </task>
     <task id="LOCAL-00036" summary="Avatar downloading">
       <option name="closed" value="true" />
@@ -678,7 +693,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705762195374</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="Added token streaming using &quot;/api/extra/generate/check&quot; endpoint">
+      <option name="closed" value="true" />
+      <created>1705948177003</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1705948177003</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -708,8 +731,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fix for koboldcpp 1.52.1" />
-    <MESSAGE value="Small fixes with string formatting" />
     <MESSAGE value="Small changes to the LandGame" />
     <MESSAGE value="Improved instruct formatting" />
     <MESSAGE value="Fix of formatting" />
@@ -733,7 +754,9 @@
     <MESSAGE value="Fixed a crash with character creating" />
     <MESSAGE value="Small fixes in PromptBuilder.kt" />
     <MESSAGE value="Added abort button" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added abort button" />
+    <MESSAGE value="Added token streaming using &quot;/api/extra/generate/check&quot; endpoint" />
+    <MESSAGE value="Remade ACharacter.kt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remade ACharacter.kt" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

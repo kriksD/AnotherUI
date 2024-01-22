@@ -65,8 +65,7 @@ fun main() = application {
 
     val snackbarHostState by remember { mutableStateOf(SnackbarHostState()) }
 
-    val characters = remember { mutableStateListOf<ACharacter>() }
-    var currentCharacter by remember { mutableStateOf<ACharacter?>(null) }
+    val characters by remember { mutableStateOf(CharacterLoader()) }
     var isCharacterRedacted by remember { mutableStateOf(false) }
     var characterToDelete by remember { mutableStateOf<ACharacter?>(null) }
 
@@ -91,11 +90,11 @@ fun main() = application {
     if (firstTime) {
         LaunchedEffect(true) {
             withContext(Dispatchers.IO) {
-                loadAllCharacters()
-            }?.let { characters.addAll(it) }
+                characters.load()
+            }
 
             val chatLoaderTemp = ChatLoader()
-            characters.forEach { character ->
+            characters.list.forEach { character ->
                 chatLoaderTemp.load(character)
             }
 
@@ -119,7 +118,7 @@ fun main() = application {
                 Properties.saveUser()
                 Properties.saveStyle()
                 Properties.saveSettings()
-                currentCharacter?.let { char ->
+                characters.selected?.let { char ->
                     if (isCharacterRedacted) {
                         char.save()
                         isCharacterRedacted = false
@@ -130,7 +129,7 @@ fun main() = application {
                             val firstMessage = selected.messages.first()
 
                             if (!firstMessage.isUser) {
-                                firstMessage.updateSwipe(0, char.jsonData.first_mes)
+                                firstMessage.updateSwipe(0, char.jsonData.firstMessage)
                                 selected.save()
                             }
                         }
@@ -219,7 +218,7 @@ fun main() = application {
 
                             } else {
                                 headerText = "Characters"
-                                currentCharacter = null
+                                characters.selected = null
 
                                 KoboldAIClient.removeConnectionChangeCheck("chatThread")
                                 StableDiffusionWebUIClient.removeConnectionChangeCheck("chatThread")
@@ -250,11 +249,12 @@ fun main() = application {
                         Screen.Characters -> {
                             CharacterList(
                                 modifier = Modifier.fillMaxWidth(0.5F).weight(1F),
-                                characters,
+                                characters.list,
                                 onCharacterClick = { char ->
                                     headerText = char.jsonData.name
-                                    currentCharacter = char
-                                    characters.forEach { if (char.fileName != it.fileName) it.unloadImage() }
+                                    characters.selected = char
+                                    characters.list.forEach { if (char.fileName != it.fileName) it.unloadImage() }
+                                    characters.selected?.loadImage()
                                     chats.load(char)
                                     chats.selectIfNotSelected(char)
                                     screen = Screen.Chat
@@ -269,11 +269,11 @@ fun main() = application {
                             )
                         }
                         Screen.Chat -> {
-                            if (!reloadChatThread && chats.selected != null && currentCharacter != null) {
+                            if (!reloadChatThread && chats.selected != null && characters.selected != null) {
                                 ChatThread(
                                     modifier = Modifier.fillMaxWidth(0.5F).weight(1F),
                                     window = window,
-                                    character = currentCharacter ?: ACharacter("", CharacterInfo(name = ""), CharacterMetaData()),
+                                    character = characters.selected ?: ACharacter("", CharacterInfo(name = ""), CharacterMetaData()),
                                     chat = chats.selected ?: throw Exception("Chat not found"),
                                     snackbarHostState = snackbarHostState,
                                     onChatManage = {
@@ -286,11 +286,11 @@ fun main() = application {
                                         }
                                     },
                                     onNewChat = {
-                                        currentCharacter?.let { chats.createChat(it) }
+                                        characters.selected?.let { chats.createChat(it) }
                                         reloadChatThread = true
                                     },
                                     onSplit = { messageIndex ->
-                                        currentCharacter?.let { char ->
+                                        characters.selected?.let { char ->
                                             chats.selected?.let { selectedChat ->
                                                 val newChat = chats.createChat(char)
                                                 newChat.messages.clear()
@@ -330,7 +330,7 @@ fun main() = application {
                             .fillMaxWidth(0.45F)
                             .fillMaxHeight(0.7F)
                             .align(Alignment.Center),
-                        character = currentCharacter,
+                        character = characters.selected,
                         window = this@Window.window,
                         onBackgroundChange = { bg -> background = bg },
                         onClose = { closeWindow() },
@@ -344,7 +344,7 @@ fun main() = application {
                 isChatManagementOpen,
                 normalAnimationDuration,
             ) {
-                currentCharacter?.let {
+                characters.selected?.let {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -359,15 +359,15 @@ fun main() = application {
                             chats = chats.chats,
                             onChatSelected = { chat ->
                                 coroutineScope.launch { closeWindow() }
-                                currentCharacter?.jsonData?.chat = chat.fileName
-                                currentCharacter?.save()
-                                currentCharacter?.let { chats.selectChat(chat, it) }
+                                characters.selected?.jsonData?.chat = chat.fileName
+                                characters.selected?.save()
+                                characters.selected?.let { chats.selectChat(chat, it) }
                                 reloadChatThread = true
                             },
                             onDelete = { chat ->
                                 chat.delete()
                                 chats.removeChat(chat)
-                                currentCharacter?.let { chats.selectIfNotSelected(it) }
+                                characters.selected?.let { chats.selectIfNotSelected(it) }
                                 reloadChatThread = true
                             },
                             onClose = {
@@ -395,32 +395,56 @@ fun main() = application {
                             .align(Alignment.Center),
                         window = window,
                         onClose = { closeWindow() },
-                        onDone = { newCharacter ->
-                            characters.add(0, newCharacter)
+                        onCreate = { name ->
+                            characters.create(name)
 
                             saveSettings()
                             closeWindow()
                         },
-                        onDoneMultiple = {
-                            it.forEach { newCharacter ->
-                                characters.add(0, newCharacter)
-                            }
+                        onLoad = { file ->
+                            coroutineScope.launch {
+                                file?.let {
+                                    try {
+                                        characters.add(it)
+                                    } catch (e: Exception) {
+                                        snackbarHostState.currentSnackbarData?.dismiss()
+                                        snackbarHostState.showSnackbar(e.message ?: "Couldn't load character")
+                                        e.printStackTrace()
+                                    }
 
-                            saveSettings()
-                            closeWindow()
-                        },
-                        onLoadFail = {
-                            coroutineScope.launch {
-                                snackbarHostState.currentSnackbarData?.dismiss()
-                                snackbarHostState.showSnackbar("Couldn't load character")
+                                } ?: run {
+                                    snackbarHostState.currentSnackbarData?.dismiss()
+                                    snackbarHostState.showSnackbar("Couldn't load character")
+                                }
                             }
                         },
-                        onLoadMultipleFail = {
+                        onLoadMultiple = { files ->
                             coroutineScope.launch {
-                                snackbarHostState.currentSnackbarData?.dismiss()
-                                var listString = ""
-                                it.forEach { listString += it + "\n" }
-                                snackbarHostState.showSnackbar("Couldn't load multiple characters:\n$listString")
+                                val failed = mutableListOf<String>()
+
+                                files.forEach { file ->
+                                    file?.let {
+                                        try {
+                                            characters.add(it)
+                                        } catch (e: Exception) {
+                                            failed.add(file.name)
+                                            e.printStackTrace()
+                                        }
+                                    }
+                                }
+
+                                if (failed.isNotEmpty()) {
+                                    snackbarHostState.currentSnackbarData?.dismiss()
+                                    var listString = ""
+                                    failed.forEach { listString += it + "\n" }
+                                    snackbarHostState.showSnackbar(
+                                        "Couldn't load multiple characters:\n$listString",
+                                        duration = SnackbarDuration.Long,
+                                    )
+                                }
+
+                                saveSettings()
+                                closeWindow()
                             }
                         }
                     )
@@ -437,20 +461,15 @@ fun main() = application {
                         .background(colorBackground.copy(transparencyLight))
                 ) {
                     DeleteCharacterWindow(
+                        characterName = characterToDelete?.jsonData?.name ?: "<error>",
                         modifier = Modifier
                             .fillMaxWidth(0.3F)
                             .fillMaxHeight(0.4F)
                             .align(Alignment.Center),
                         onCancel = { closeWindow() },
-                        onAccept = { withChats ->
-                            if (withChats) {
-                                characterToDelete?.let {
-                                    File("data/chats/${it.fileName}").deleteRecursively()
-                                }
-                            }
-
+                        onAccept = { deleteChats ->
                             characterToDelete?.delete()
-                            characters.remove(characterToDelete)
+                            characterToDelete?.let { characters.remove(it, deleteChats) }
                             characterToDelete = null
 
                             closeWindow()

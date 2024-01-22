@@ -283,9 +283,8 @@ private fun CharacterCardGrid(
                 )
             }
 
-            var favorite by remember { mutableStateOf(character.metaData.favorite) }
             Crossfade(
-                favorite,
+                character.metaData.favorite,
                 animationSpec = tween(shortAnimationDuration),
                 modifier = Modifier.align(Alignment.TopEnd)
             ) { fav ->
@@ -297,8 +296,7 @@ private fun CharacterCardGrid(
                         .padding(biggerPadding)
                         .size(iconSize)
                         .clickable {
-                            favorite = !favorite
-                            character.metaData.favorite = favorite
+                            character.metaData.favorite = !character.metaData.favorite
                             character.saveMeta()
                         }
                 )

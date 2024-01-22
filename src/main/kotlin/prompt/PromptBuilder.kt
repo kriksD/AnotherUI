@@ -150,7 +150,7 @@ class PromptBuilder {
             if (user.description.isNotBlank()) "${user.name}'s description: ${user.description.format(character)}" else ""
         )
 
-        character.jsonData.mes_example.let { mex ->
+        character.jsonData.messageExample.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
                 if (mex.isNotBlank()) mex.format(character) else ""
@@ -234,7 +234,7 @@ class PromptBuilder {
             if (user.description.isNotBlank()) "${user.name}'s description: ${user.description.format(character)}" else ""
         )
 
-        character.jsonData.mes_example.let { mex ->
+        character.jsonData.messageExample.let { mex ->
             prompt = prompt.replace(
                 "{{messageExample}}",
                 if (mex.isNotBlank()) mex.format(character) else ""
