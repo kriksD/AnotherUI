@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.SolidColor
 import bigText
 import biggerPadding
 import border
-import chat.newChat.AChat2
+import chat.Chat
 import colorBackgroundLighter
 import colorBackgroundSecond
 import colorBorder
@@ -38,9 +38,9 @@ import transparency
 @Composable
 fun ChatManagementWindow(
     character: ACharacter,
-    chats: List<AChat2>,
-    onChatSelected: (AChat2) -> Unit = {},
-    onDelete: (AChat2) -> Unit = {},
+    chats: List<Chat>,
+    onChatSelected: (Chat) -> Unit = {},
+    onDelete: (Chat) -> Unit = {},
     onClose: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -82,7 +82,7 @@ fun ChatManagementWindow(
 
 @Composable
 fun ChatView(
-    chat: AChat2,
+    chat: Chat,
     selected: Boolean = false,
     onDelete: () -> Unit = {},
     modifier: Modifier = Modifier,

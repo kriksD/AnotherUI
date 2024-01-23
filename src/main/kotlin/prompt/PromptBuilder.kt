@@ -1,8 +1,8 @@
 package prompt
 
 import character.ACharacter
-import chat.newChat.AChat2
-import chat.newChat.AMessage2
+import chat.Chat
+import chat.Message
 import client.kobold.KoboldAIClient
 import client.format
 import settings
@@ -14,9 +14,9 @@ class PromptBuilder {
     private var regenerate: Boolean = false
     private var forUser: Boolean = false
     private var character: ACharacter? = null
-    private var chat: AChat2? = null
+    private var chat: Chat? = null
     private var systemPrompt: String? = null
-    private var additionalMessages: MutableList<AMessage2> = mutableListOf()
+    private var additionalMessages: MutableList<Message> = mutableListOf()
     private var pattern: String = """
         {{systemPrompt}}
         {{persona}}
@@ -52,7 +52,7 @@ class PromptBuilder {
         return this
     }
 
-    fun chat(chat: AChat2): PromptBuilder {
+    fun chat(chat: Chat): PromptBuilder {
         this.chat = chat
         return this
     }
@@ -62,7 +62,7 @@ class PromptBuilder {
         return this
     }
 
-    fun addAdditionalMessage(message: AMessage2): PromptBuilder {
+    fun addAdditionalMessage(message: Message): PromptBuilder {
         this.additionalMessages.add(message)
         return this
     }
@@ -104,7 +104,7 @@ class PromptBuilder {
         )
     }
 
-    private suspend fun makeInstructPrompt(character: ACharacter?, chat: AChat2?): String? {
+    private suspend fun makeInstructPrompt(character: ACharacter?, chat: Chat?): String? {
         character ?: return null
         chat ?: return null
 
@@ -202,7 +202,7 @@ class PromptBuilder {
         return prompt
     }
 
-    private suspend fun makeChatPrompt(character: ACharacter?, chat: AChat2?): String? {
+    private suspend fun makeChatPrompt(character: ACharacter?, chat: Chat?): String? {
         character ?: return null
         chat ?: return null
 

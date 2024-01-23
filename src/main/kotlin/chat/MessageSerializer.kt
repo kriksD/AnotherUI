@@ -1,4 +1,4 @@
-package chat.newChat
+package chat
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
@@ -15,8 +15,8 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
 
-class AMessage2Serializer : KSerializer<AMessage2> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.AChat2") {
+class MessageSerializer : KSerializer<Message> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Message") {
         element<String>("name")
         element<Boolean>("is_user")
         element<Long>("send_date")
@@ -27,7 +27,7 @@ class AMessage2Serializer : KSerializer<AMessage2> {
     private val swipeListSerializer = ListSerializer(String.serializer())
     private val imageListSerializer = MapSerializer(Int.serializer(), String.serializer())
 
-    override fun deserialize(decoder: Decoder): AMessage2 = decoder.decodeStructure(descriptor) {
+    override fun deserialize(decoder: Decoder): Message = decoder.decodeStructure(descriptor) {
         var name: String? = null
         var isUser: Boolean? = null
         var sendDate: Long? = null
@@ -48,7 +48,7 @@ class AMessage2Serializer : KSerializer<AMessage2> {
             }
         }
 
-        return@decodeStructure AMessage2(
+        return@decodeStructure Message(
             name ?: throw SerializationException("Missing field \"name\""),
             isUser ?: throw SerializationException("Missing field \"is_user\""),
             sendDate ?: throw SerializationException("Missing field \"send_date\""),
@@ -58,7 +58,7 @@ class AMessage2Serializer : KSerializer<AMessage2> {
         )
     }
 
-    override fun serialize(encoder: Encoder, value: AMessage2) = encoder.encodeStructure(descriptor) {
+    override fun serialize(encoder: Encoder, value: Message) = encoder.encodeStructure(descriptor) {
         encodeStringElement(descriptor, 0, value.name)
         encodeBooleanElement(descriptor, 1, value.isUser)
         encodeLongElement(descriptor, 2, value.sendDate)

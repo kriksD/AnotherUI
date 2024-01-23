@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import bigText
 import character.ACharacter
-import chat.newChat.AChat2
-import chat.newChat.AMessage2
+import chat.Chat
+import chat.Message
 import client.*
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
@@ -95,7 +95,7 @@ import transparencySecond
 fun ChatThread(
     window: ComposeWindow,
     character: ACharacter,
-    chat: AChat2,
+    chat: Chat,
     snackbarHostState: SnackbarHostState,
     onChatManage: () -> Unit = {},
     onNewChat: () -> Unit = {},
@@ -658,7 +658,7 @@ private fun SendIcons(
 @Composable
 private fun MessageView(
     character: ACharacter,
-    message: AMessage2,
+    message: Message,
     isEditAvailable: Boolean,
     isRegenerateAvailable: Boolean,
     isCompleteAvailable: Boolean,

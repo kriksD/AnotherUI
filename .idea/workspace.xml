@@ -4,9 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Remade ACharacter.kt">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fixed a bug with an unloaded image for newly created characters">
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/BasicMessageInfo.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/Chat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/Chat.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/ChatInfo.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoaderOld.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/Message.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/Message.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/aChat/AChat.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/aChat/AMessage.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/aChat/AdditionalMessageInfo.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/legacyChat/LegacyChat.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/legacyChat/LegacyMessage.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/AChat2.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/AChat2Serializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/ChatSerializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/AMessage2.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/AMessage2Serializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/MessageSerializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/ChatLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/converter/ChatConverter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/converter/LegacyChat2.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/converter/LegacyChatInfo.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/converter/LegacyMessage2.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/ChatManagementWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/ChatManagementWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -378,22 +401,6 @@
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
     </task>
-    <task id="LOCAL-00037" summary="At least working AI for the land game">
-      <option name="closed" value="true" />
-      <created>1700596122530</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1700596122530</updated>
-    </task>
-    <task id="LOCAL-00038" summary="Small changes">
-      <option name="closed" value="true" />
-      <created>1700687446086</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1700687446086</updated>
-    </task>
     <task id="LOCAL-00039" summary="Added an ability to mark characters as favorites">
       <option name="closed" value="true" />
       <created>1700941174092</created>
@@ -682,7 +689,23 @@
       <option name="project" value="LOCAL" />
       <updated>1705961384579</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Fixed a bug with an unloaded image for newly created characters">
+      <option name="closed" value="true" />
+      <created>1706002881145</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1706002881145</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Fixed a bug with an unloaded image for newly created characters">
+      <option name="closed" value="true" />
+      <created>1706002924663</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1706002924663</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -712,7 +735,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Small changes to the LandGame" />
     <MESSAGE value="Improved instruct formatting" />
     <MESSAGE value="Fix of formatting" />
     <MESSAGE value="Fix of formatting X2" />
@@ -737,7 +759,8 @@
     <MESSAGE value="Added abort button" />
     <MESSAGE value="Added token streaming using &quot;/api/extra/generate/check&quot; endpoint" />
     <MESSAGE value="Remade ACharacter.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remade ACharacter.kt" />
+    <MESSAGE value="Fixed a bug with an unloaded image for newly created characters" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug with an unloaded image for newly created characters" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

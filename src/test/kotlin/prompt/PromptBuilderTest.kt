@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import character.ACharacter
 import character.CharacterInfo
 import character.CharacterMetaData
-import chat.newChat.AChat2
-import chat.newChat.AMessage2
+import chat.Chat
+import chat.Message
 import properties.settings.prompt.PromptSettings
 
 class PromptBuilderTest {
@@ -29,26 +29,26 @@ class PromptBuilderTest {
         stopSequence = "<|model|>,<|user|>",
     )
 
-    val chat = AChat2(
+    val chat = Chat(
         fileName = "test",
         folderName = "test",
         createDate = 111,
         messages = mutableStateListOf(
-            AMessage2(
+            Message(
                 name = "test_model",
                 isUser = false,
                 sendDate = 222,
                 swipeId = mutableStateOf(0),
                 swipes = mutableStateListOf("test_message"),
             ),
-            AMessage2(
+            Message(
                 name = "test_user",
                 isUser = true,
                 sendDate = 333,
                 swipeId = mutableStateOf(0),
                 swipes = mutableStateListOf("test_message2"),
             ),
-            AMessage2(
+            Message(
                 name = "test_model",
                 isUser = false,
                 sendDate = 444,

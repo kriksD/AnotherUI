@@ -1,34 +1,40 @@
 package chat
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.ImageBitmap
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import saveWebPTo
+import uniqueNameIncludingZero
+import java.io.File
+import java.util.*
 
-interface Chat {
-    val fileName: String
-    val characterFileName: String
-    val chatInfo: ChatInfo
-    val messages: MutableList<Message>
-
-    fun addMessage(text: String, is_user: Boolean = false): Message {
-        val last = messages.lastOrNull()
-        if (last != null && !last.is_user) {
-            last.swipe_id = null
-            last.swipes = null
-        }
-
-        val newMessage = createNewMessage(text, is_user, !is_user)
+@Serializable(ChatSerializer::class)
+class Chat(
+    val fileName: String,
+    val folderName: String,
+    val createDate: Long,
+    val messages: SnapshotStateList<Message>,
+) {
+    fun addMessage(content: String, name: String, isUser: Boolean): Message {
+        val newMessage = createNewMessage(content, name, isUser)
         messages.add(newMessage)
         return newMessage
     }
 
-    fun createNewMessage(text: String, is_user: Boolean = false, withSwipes: Boolean = true): Message
+    private fun createNewMessage(content: String, name: String, isUser: Boolean): Message = Message(
+        name,
+        isUser,
+        Calendar.getInstance().timeInMillis,
+        mutableStateOf(0),
+        mutableStateListOf(content),
+    )
 
     fun removeLast() {
         messages.removeLast()
-        val last = messages.last()
-        if (!last.is_user) {
-            last.swipe_id = 0
-            last.swipes = mutableListOf(last.mes)
-        }
     }
 
     fun removeAfterInclusively(index: Int) {
@@ -43,21 +49,33 @@ interface Chat {
         messages.add(first)
     }
 
-    fun save()
+    private val json = Json { prettyPrint = true }
 
-    fun delete()
-
-    fun swipeLeft() { messages.last().swipeLeft() }
-
-    fun swipeRight() { messages.last().swipeRight() }
-
-    fun updateSwipe(index: Int, new: String) {
-        messages.last().updateSwipe(index, new)
+    fun save() {
+        File("data/chats/$folderName").mkdirs()
+        val chatJson = json.encodeToString(this)
+        val jsonFile = File("data/chats/$folderName/$fileName.json")
+        jsonFile.writeText(chatJson)
     }
 
-    fun image(messageIndex: Int, swipeIndex: Int = 0): ImageBitmap? = null
+    fun delete() {
+        messages.forEach { message ->
+            message.images.values.forEach {
+                val file = File(it)
+                if (file.exists()) file.delete()
+            }
+        }
 
-    fun updateImage(image: ImageBitmap, messageIndex: Int, swipeIndex: Int) {}
+        val file = File("data/chats/$folderName/$fileName.json")
+        if (file.exists()) file.delete()
+    }
 
-    fun updateImages(list: Map<String, ImageBitmap>) {}
+    fun saveImage(image: ImageBitmap): String {
+        val folder = File("data/chats/$folderName/images/${fileName}")
+        folder.mkdirs()
+        val imageFileName = uniqueNameIncludingZero("", "webp", folder)
+        val file = File("data/chats/$folderName/images/${fileName}/${imageFileName}.webp")
+        image.saveWebPTo(file)
+        return file.path
+    }
 }

@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import character.ACharacter
-import chat.newChat.AChat2
-import chat.newChat.AMessage2
+import chat.Chat
+import chat.Message
 import client.kobold.KoboldAIClient
 import client.stablediffusion.ImagePrompt
 import client.stablediffusion.StableDiffusionWebUIClient
@@ -22,7 +22,7 @@ import user
 import java.lang.Long.max
 
 class Generator(
-    val chat: AChat2,
+    val chat: Chat,
     val character: ACharacter,
     private val snackbarHostState: SnackbarHostState,
 ) {
@@ -114,7 +114,7 @@ class Generator(
 
         if (userMessage.isNotBlank()) {
             promptBuilder.addAdditionalMessage(
-                AMessage2(
+                Message(
                     name = user.name,
                     isUser = true,
                     swipeId = mutableStateOf(0),
@@ -300,7 +300,7 @@ class Generator(
         isGenerating = false
     }
 
-    private suspend fun addImage(message: AMessage2, image: ImageBitmap?) {
+    private suspend fun addImage(message: Message, image: ImageBitmap?) {
         if (image == null) return
 
         val imageDescription = StableDiffusionWebUIClient.interrogate(image) ?: run {
@@ -327,7 +327,7 @@ class Generator(
     }
 
     private suspend fun runTextAnimation(
-        message: AMessage2,
+        message: Message,
         swipeIndex: Int,
         newContent: String,
         duration: Long = 1000,

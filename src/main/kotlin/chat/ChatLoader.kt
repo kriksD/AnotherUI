@@ -1,19 +1,16 @@
-package chat.newChat
+package chat
 
 import androidx.compose.runtime.*
 import character.ACharacter
-import chat.newChat.converter.ChatConverter
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.io.File
 import java.util.*
 
 class ChatLoader {
-    private val converter: ChatConverter = ChatConverter()
-
-    private val chatList = mutableStateListOf<AChat2>()
+    private val chatList = mutableStateListOf<Chat>()
     val chats get() = chatList.toList()
-    var selected: AChat2? by mutableStateOf(null)
+    var selected: Chat? by mutableStateOf(null)
         private set
 
     fun load(character: ACharacter) {
@@ -24,31 +21,31 @@ class ChatLoader {
         if (!folder.exists()) return
 
         folder.listFiles()?.forEach { file ->
-            chatList.add(loadJson(file) ?: converter.loadChatFromOtherFormats(file) ?: return@forEach)
+            chatList.add(loadJson(file) ?: return@forEach)
         }
 
         selected = chatList.find { it.fileName == character.jsonData.chat } ?: chatList.lastOrNull()
     }
 
-    private fun loadJson(file: File): AChat2? {
+    private fun loadJson(file: File): Chat? {
         return try {
             if (!file.exists()) return null
             val jsonText = file.readText()
-            return Json.decodeFromString<AChat2>(jsonText)
+            return Json.decodeFromString<Chat>(jsonText)
 
         } catch (e: Exception) {
             null
         }
     }
 
-    fun createChat(character: ACharacter): AChat2 {
+    fun createChat(character: ACharacter): Chat {
         val dateCreate = Calendar.getInstance().timeInMillis
-        val newChat = AChat2(
+        val newChat = Chat(
             dateCreate.toString(),
             character.fileName,
             dateCreate,
             mutableStateListOf(
-                AMessage2(
+                Message(
                     character.jsonData.name,
                     false,
                     dateCreate,
@@ -66,14 +63,14 @@ class ChatLoader {
         return newChat
     }
 
-    fun removeChat(chat: AChat2) {
+    fun removeChat(chat: Chat) {
         if (selected == chat) {
             selected = null
         }
         chatList.remove(chat)
     }
 
-    fun selectChat(chat: AChat2, character: ACharacter) {
+    fun selectChat(chat: Chat, character: ACharacter) {
         selected = chat
         character.jsonData.chat = chat.fileName
         character.save()

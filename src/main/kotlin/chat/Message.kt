@@ -1,65 +1,94 @@
 package chat
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.ImageBitmap
+import getImageBitmap
+import kotlinx.serialization.Serializable
+import settings
 import user
+import java.io.File
 
-interface Message {
-    var name: String
-    var is_user: Boolean
-    var is_name: Boolean
-    val send_date: Long?
-    var mes: String
-    val chid: Int?
-    var swipe_id: Int?
-    var swipes: MutableList<String>?
+@Serializable(MessageSerializer::class)
+class Message(
+    var name: String,
+    var isUser: Boolean,
+    val sendDate: Long,
+    var swipeId: MutableState<Int>,
+    var swipes: SnapshotStateList<String>,
+    var images: MutableMap<Int, String> = mutableMapOf(),
+) {
+    val content get() = swipes[swipeId.value]
 
-    val string: String get() = "${if (is_user) user.name else name}: $mes"
+    val string: String get() = "${if (isUser) user.name else name}: $content"
 
-    val stringInstruct: String get() = "${if (is_user) "<|user|>" else "<|model|>"}$mes"
+    val stringInstruct: String get() = run {
+        val instruct = (if (isUser) settings.promptSettings.userInstruct else settings.promptSettings.modelInstruct)
+            .replace("\\n", "\n")
 
-    fun toJSON(): String
-
-    fun additionalInfoToJson(): String = ""
-
-    fun swipeLeft() {
-        if (swipe_id == null || swipe_id == 0 || swipes == null) return
-
-        swipe_id = swipe_id!!.dec()
-        mes = swipes!![swipe_id!!]
-    }
-
-    fun swipeRight() {
-        if (swipe_id == null || swipe_id!! >= swipes!!.size - 1 || swipes == null) return
-
-        swipe_id = swipe_id!!.inc()
-        mes = swipes!![swipe_id!!]
-    }
-
-    fun updateSwipe(index: Int, new: String) {
-        if (swipe_id == null || swipes == null) return
-
-        if (index > swipes!!.lastIndex) {
-            swipes?.add(new)
-            if (swipe_id!! == swipes!!.lastIndex - 1) {
-                swipe_id = swipes!!.lastIndex
-                mes = swipes!!.last()
-            }
-
+        if (instruct.contains("{{prompt}}")) {
+            instruct.replace("{{prompt}}", content)
         } else {
-            swipes!![index] = new
-            if (swipe_id == index) {
-                mes = swipes!![index]
-            }
+            "$instruct$content"
         }
     }
 
-    fun imageName(index: Int): String? = null
+    val lastStringInstruct: String get() = run {
+        val instruct = (if (isUser) settings.promptSettings.userInstruct else settings.promptSettings.modelInstruct)
+            .replace("\\n", "\n")
+            .replaceAfterLast("{{prompt}}", "")
 
-    fun updateImage(imageName: String, swipeIndex: Int) {}
+        if (instruct.contains("{{prompt}}")) {
+            instruct.replace("{{prompt}}", content)
+        } else {
+            "$instruct$content"
+        }
+    }
 
-    fun imageNames(): List<String> = emptyList()
+    fun swipeLeft() {
+        if (swipeId.value == 0) return
 
-    /**
-     * @return removed image names.
-     */
-    fun removeRestImages(): List<String> = emptyList()
+        swipeId.value = swipeId.value.dec()
+    }
+
+    fun swipeRight() {
+        if (swipeId.value >= swipes.lastIndex) return
+
+        swipeId.value = swipeId.value.inc()
+    }
+
+    fun updateSwipe(index: Int, new: String) {
+        if (index > swipes.lastIndex) {
+            swipes.add(new)
+            if (swipeId.value == swipes.lastIndex - 1) {
+                swipeId.value = swipes.lastIndex
+            }
+
+        } else {
+            swipes[index] = new
+        }
+    }
+
+    fun updateImage(swipeIndex: Int, path: String) {
+        images[swipeIndex]?.let {
+            val oldFile = File(it)
+            if (oldFile.exists()) oldFile.delete()
+        }
+
+        images[swipeIndex] = path
+    }
+
+    fun getImage(index: Int): ImageBitmap? {
+        return getImageBitmap(images[index] ?: return null)
+    }
+
+    fun copy(
+        name: String = this.name,
+        isUser: Boolean = this.isUser,
+        sendDate: Long = this.sendDate,
+        swipeId: Int = this.swipeId.value,
+        swipes: SnapshotStateList<String> = this.swipes,
+        images: MutableMap<Int, String> = this.images,
+    ) = Message(name, isUser, sendDate, mutableStateOf(swipeId), swipes, images)
 }
