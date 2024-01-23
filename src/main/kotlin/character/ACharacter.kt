@@ -119,6 +119,7 @@ class ACharacter(
         val imageToSave = image ?: this.image ?: run {
             val dummyFile = File("data/DummyCharacter.webp")
             dummyFile.copyTo(File("data/characters/$fileName.webp"), overwrite = true)
+            loadImage()
 
             return
         }

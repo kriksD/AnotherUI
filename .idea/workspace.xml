@@ -5,27 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Remade ACharacter.kt">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfoSerializer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterLoader.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterMetaDataSerializer.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfoJson.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterMetaData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterMetaData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/characterFunctions.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoaderOld.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoaderOld.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/ChatLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/newChat/ChatLoader.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/client/utilities/ImageLoaderClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/client/utilities/ImageLoaderClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/composableFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/composableFunctions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/CreateCharacterWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/CreateCharacterWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/DeleteCharacterWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/DeleteCharacterWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/functions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/functions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/prompt/PromptBuilderTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -397,14 +378,6 @@
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
     </task>
-    <task id="LOCAL-00036" summary="Avatar downloading">
-      <option name="closed" value="true" />
-      <created>1700581880659</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1700581880659</updated>
-    </task>
     <task id="LOCAL-00037" summary="At least working AI for the land game">
       <option name="closed" value="true" />
       <created>1700596122530</created>
@@ -701,7 +674,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705948177003</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Remade ACharacter.kt">
+      <option name="closed" value="true" />
+      <created>1705961384579</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1705961384579</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
