@@ -93,11 +93,6 @@ fun main() = application {
                 characters.load()
             }
 
-            val chatLoaderTemp = ChatLoader()
-            characters.list.forEach { character ->
-                chatLoaderTemp.load(character)
-            }
-
             firstTime = false
             screen = Screen.Characters
         }

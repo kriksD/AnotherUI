@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import character.ACharacter
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.res.painterResource
@@ -145,7 +146,7 @@ fun CharacterList(
 
         Row {
             val scrollState = rememberScrollState()
-            var parentCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
+            var parentCoordinates by remember { mutableStateOf<Rect?>(null) }
 
             Grid(
                 columns = 4,
@@ -159,7 +160,7 @@ fun CharacterList(
                     .weight(1F)
                     .verticalScroll(scrollState)
                     .onGloballyPositioned { c ->
-                        parentCoordinates = c
+                        parentCoordinates = c.boundsInWindow()
                     },
             ) { char ->
                 if (list.isEmpty()) {
@@ -171,13 +172,13 @@ fun CharacterList(
                 }
 
                 if (char is ACharacter) {
-                    var coordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
+                    var coordinates by remember { mutableStateOf<Rect?>(null) }
                     var isLoadingImage by remember { mutableStateOf(false) }
 
-                    LaunchedEffect(scrollState.value, favoriteFilter, searchSequence) {
-                        val isOnScreen = coordinates?.boundsInWindow()?.overlaps(
-                            parentCoordinates?.boundsInWindow() ?: return@LaunchedEffect
-                        ) ?: false
+                    LaunchedEffect(coordinates, parentCoordinates, favoriteFilter, searchSequence) {
+                        val isOnScreen = coordinates?.overlaps(
+                            parentCoordinates ?: return@LaunchedEffect
+                        ) ?: return@LaunchedEffect
 
                         withContext(Dispatchers.IO) {
                             if (isOnScreen) {
@@ -200,7 +201,7 @@ fun CharacterList(
                                 onCharacterClick.invoke(char)
                             }
                             .onGloballyPositioned { c ->
-                                coordinates = c
+                                coordinates = c.boundsInWindow()
                             },
                     )
                 }

@@ -161,7 +161,6 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        println(1111)
                         runTextAnimation(message, generatingSwipeIndex, oldMessage + it)
                         if (it.isEmpty()) delay(1000)
                     }

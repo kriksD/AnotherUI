@@ -75,7 +75,7 @@ class CharacterLoader {
 
     private fun readJsonCharacter(text: String): CharacterInfo? {
         return try {
-            Json.decodeFromString<CharacterInfo>(text)
+            json.decodeFromString<CharacterInfo>(text)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -86,12 +86,7 @@ class CharacterLoader {
     private fun readCharacterMetaData(file: File): CharacterMetaData {
         if (!file.exists() || file.extension != "json") return CharacterMetaData()
 
-        val text = file.readText()
-        val map = Json.parseToJsonElement(text).jsonObject.toMap()
-
-        return CharacterMetaData(
-            map["favorite"]?.jsonPrimitive?.booleanOrNull ?: false
-        )
+        return json.decodeFromString<CharacterMetaData>(file.readText())
     }
 
     fun create(name: String) {

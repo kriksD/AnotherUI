@@ -28,7 +28,10 @@ class ACharacter(
         val jsonFile = File("data/characters/$fileName.json")
 
         jsonData.editDate = Calendar.getInstance().timeInMillis
-        val json = Json { explicitNulls = false }
+        val json = Json {
+            prettyPrint = true
+            explicitNulls = false
+        }
         val jsonNormal = json.encodeToString(jsonData)
         val jsonForWebP = jsonNormal
             .replace("\"", "\\\"")
