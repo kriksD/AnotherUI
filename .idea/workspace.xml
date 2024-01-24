@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Removed old chat classes. Renamed AChat2.kt to Chat.kt">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/ACharacter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterLoader.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/CharactersList.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,8 +271,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.AnotherUI [createDistributable]" />
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.PresetsTest" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
@@ -381,14 +376,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00040" summary="Added deletion of meta for characters">
-      <option name="closed" value="true" />
-      <created>1700956145094</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1700956145094</updated>
     </task>
     <task id="LOCAL-00041" summary="Cropped images to save RAM">
       <option name="closed" value="true" />
@@ -686,7 +673,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706003319973</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading">
+      <option name="closed" value="true" />
+      <created>1706028484185</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1706028484185</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -716,7 +711,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fix of formatting" />
     <MESSAGE value="Fix of formatting X2" />
     <MESSAGE value="Fix of formatting X3" />
     <MESSAGE value="Added settings for LandGame.kt" />
@@ -741,7 +735,8 @@
     <MESSAGE value="Remade ACharacter.kt" />
     <MESSAGE value="Fixed a bug with an unloaded image for newly created characters" />
     <MESSAGE value="Removed old chat classes. Renamed AChat2.kt to Chat.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed old chat classes. Renamed AChat2.kt to Chat.kt" />
+    <MESSAGE value="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

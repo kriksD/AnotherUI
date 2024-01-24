@@ -120,8 +120,8 @@ object KoboldAIClient {
                 contentType(ContentType.Application.Json)
                 setBody(Json.encodeToString(prompt))
                 timeout {
-                    requestTimeoutMillis = 600_000
-                    socketTimeoutMillis = 600_000
+                    requestTimeoutMillis = 1_800_000
+                    socketTimeoutMillis = 1_800_000
                 }
             }
             connectionStatus = result.status.value != 404
@@ -138,10 +138,6 @@ object KoboldAIClient {
         return try {
             val result = client.get("${createLink(extra = true)}/generate/check") {
                 contentType(ContentType.Application.Json)
-                timeout {
-                    requestTimeoutMillis = 600_000
-                    socketTimeoutMillis = 600_000
-                }
             }
             connectionStatus = result.status.value != 404
 
