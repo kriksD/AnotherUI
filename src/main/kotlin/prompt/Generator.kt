@@ -26,6 +26,7 @@ class Generator(
     val character: ACharacter,
     private val snackbarHostState: SnackbarHostState,
 ) {
+    private val animationDuration = 3000L
     private val generatingText = "***`Generating...`***"
     private var _isGenerating by mutableStateOf(false)
     var isGenerating
@@ -45,6 +46,7 @@ class Generator(
         withImage: Boolean = false
     ) = coroutineScope {
         isGenerating = true
+        generatingSwipeIndex = 0
 
         userMessage?.let { um ->
             val message = chat.addMessage(um, user.name, true)
@@ -68,7 +70,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, 0, it)
+                        runTextAnimation(message, 0, it, animationDuration)
                         if (it.isEmpty()) delay(1000)
                     }
                 }
@@ -80,6 +82,7 @@ class Generator(
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             chat.removeLast()
             isGenerating = false
+            generatingSwipeIndex = -1
             showErrorKobold()
             return@coroutineScope
         }
@@ -94,6 +97,7 @@ class Generator(
         chat.save()
 
         isGenerating = false
+        generatingSwipeIndex = -1
     }
 
     /**
@@ -161,7 +165,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, generatingSwipeIndex, oldMessage + it)
+                        runTextAnimation(message, generatingSwipeIndex, oldMessage + it, animationDuration)
                         if (it.isEmpty()) delay(1000)
                     }
                 }
@@ -217,7 +221,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, generatingSwipeIndex, it)
+                        runTextAnimation(message, generatingSwipeIndex, it, animationDuration)
                         if (it.isEmpty()) delay(1000)
                     }
                 }
@@ -272,7 +276,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, generatingSwipeIndex, it)
+                        runTextAnimation(message, generatingSwipeIndex, it, animationDuration)
                         if (it.isEmpty()) delay(1000)
                     }
                 }
@@ -331,6 +335,8 @@ class Generator(
         newContent: String,
         duration: Long = 1000,
     ) {
+        if (swipeIndex <= -1) return
+
         val trimmedContent = newContent.removePrefix(message.swipes[swipeIndex]).ifEmpty { return }
         val interval = max(1, duration / trimmedContent.length)
 

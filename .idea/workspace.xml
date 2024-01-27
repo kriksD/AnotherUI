@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Increased timeout from 10 to 30 minutes for generate endpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,37 +89,37 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Gradle.AnotherUI [createDistributable].executor": "Run",
-    "Gradle.Build AnotherUI.executor": "Run",
-    "Gradle.GeneratingPresetsTest.test generating setting preset creating.executor": "Run",
-    "Gradle.GeneratingPresetsTest.test generating setting preset deleting.executor": "Run",
-    "Gradle.GeneratingPresetsTest.test generating setting preset saving.executor": "Run",
-    "Gradle.PresetsTest.executor": "Run",
-    "Gradle.Tests in 'AnotherUI.test'.executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "android.gradle.sync.needed": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "openjdk-18",
-    "kotlin-language-version-configured": "true",
-    "last.edited.regexp": "dawfawf\nawfawfawf\n\nwafawfawf\nwafawf\nawfwaf\n\n\nawfawf",
-    "last_opened_file_path": "E:/myProgs/IntellijIDEAprogs/AnotherUI/src/main/resources",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2678161",
-    "settings.editor.selected.configurable": "project.kotlinCompiler"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Gradle.AnotherUI [createDistributable].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build AnotherUI.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GeneratingPresetsTest.test generating setting preset creating.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GeneratingPresetsTest.test generating setting preset deleting.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GeneratingPresetsTest.test generating setting preset saving.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PresetsTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Tests in 'AnotherUI.test'.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-18&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last.edited.regexp&quot;: &quot;dawfawf\nawfawfawf\n\nwafawfawf\nwafawf\nawfwaf\n\n\nawfawf&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/myProgs/IntellijIDEAprogs/AnotherUI/src/main/resources&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2678161&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.kotlinCompiler&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\myProgs\IntellijIDEAprogs\AnotherUI\src\main\resources" />
@@ -271,8 +272,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Gradle.PresetsTest" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
@@ -376,14 +377,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00041" summary="Cropped images to save RAM">
-      <option name="closed" value="true" />
-      <created>1701035709164</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1701035709164</updated>
     </task>
     <task id="LOCAL-00042" summary="Fixed cropped images">
       <option name="closed" value="true" />
@@ -681,7 +674,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706028484185</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="Increased timeout from 10 to 30 minutes for generate endpoint">
+      <option name="closed" value="true" />
+      <created>1706118259944</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1706118259944</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -711,7 +712,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fix of formatting X2" />
     <MESSAGE value="Fix of formatting X3" />
     <MESSAGE value="Added settings for LandGame.kt" />
     <MESSAGE value="Added normalizeResults option to the Settings.kt" />
@@ -736,7 +736,8 @@
     <MESSAGE value="Fixed a bug with an unloaded image for newly created characters" />
     <MESSAGE value="Removed old chat classes. Renamed AChat2.kt to Chat.kt" />
     <MESSAGE value="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading" />
+    <MESSAGE value="Increased timeout from 10 to 30 minutes for generate endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="Increased timeout from 10 to 30 minutes for generate endpoint" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
