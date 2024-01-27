@@ -15,6 +15,7 @@ class GeneratingSettings(
     repPenRange: Int = 1024,
     repPenSlope: Float = 0.9F,
     temperature: Float = 0.65F,
+    dynatempRange: Float = 0.0F,
     tfs: Float = 0.65F,
     topA: Float = 0.9F,
     topK: Int = 0,
@@ -30,6 +31,7 @@ class GeneratingSettings(
     var repPenRange: Int by mutableStateOf(repPenRange)
     var repPenSlope: Float by mutableStateOf(repPenSlope)
     var temperature: Float by mutableStateOf(temperature)
+    var dynatempRange: Float by mutableStateOf(dynatempRange)
     var tfs: Float by mutableStateOf(tfs)
     var topA: Float by mutableStateOf(topA)
     var topK: Int by mutableStateOf(topK)
@@ -45,6 +47,7 @@ class GeneratingSettings(
     val repPenRangeValueRange get() = 0F..16384F
     val repPenSlopeValueRange get() = 0.1F..10F
     val temperatureValueRange get() = 0.1F..4.0F
+    val dynatempRangeValueRange get() = 0.0F..2.0F
     val tfsValueRange get() = 0.0F..1.0F
     val topAValueRange get() = 0.0F..1.0F
     val topKValueRange get() = 0F..100F
@@ -60,6 +63,7 @@ class GeneratingSettings(
             repPenRange,
             repPenSlope,
             temperature,
+            dynatempRange,
             tfs,
             topA,
             topK,

@@ -26,7 +26,6 @@ class Generator(
     val character: ACharacter,
     private val snackbarHostState: SnackbarHostState,
 ) {
-    private val animationDuration = 3000L
     private val generatingText = "***`Generating...`***"
     private var _isGenerating by mutableStateOf(false)
     var isGenerating
@@ -70,7 +69,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, 0, it, animationDuration)
+                        runTextAnimation(message, 0, it, settings.tokenStreamingDuration.toLong())
                         if (it.isEmpty()) delay(1000)
                     }
                 }
@@ -165,7 +164,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, generatingSwipeIndex, oldMessage + it, animationDuration)
+                        runTextAnimation(message, generatingSwipeIndex, oldMessage + it, settings.tokenStreamingDuration.toLong())
                         if (it.isEmpty()) delay(1000)
                     }
                 }
@@ -221,7 +220,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, generatingSwipeIndex, it, animationDuration)
+                        runTextAnimation(message, generatingSwipeIndex, it, settings.tokenStreamingDuration.toLong())
                         if (it.isEmpty()) delay(1000)
                     }
                 }
@@ -276,7 +275,7 @@ class Generator(
 
                 while (isGenerating) {
                     KoboldAIClient.check()?.let {
-                        runTextAnimation(message, generatingSwipeIndex, it, animationDuration)
+                        runTextAnimation(message, generatingSwipeIndex, it, settings.tokenStreamingDuration.toLong())
                         if (it.isEmpty()) delay(1000)
                     }
                 }

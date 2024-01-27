@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Increased timeout from 10 to 30 minutes for generate endpoint">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Small fixes in Generator.kt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/Generator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/window/SettingsWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/Settings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsSerializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/SettingsSerializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettingsSerializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettingsSerializer.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -378,14 +382,6 @@
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
     </task>
-    <task id="LOCAL-00042" summary="Fixed cropped images">
-      <option name="closed" value="true" />
-      <created>1701272167615</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1701272167615</updated>
-    </task>
     <task id="LOCAL-00043" summary="Added sampler order to the settings">
       <option name="closed" value="true" />
       <created>1701444807719</created>
@@ -682,7 +678,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706118259944</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="Small fixes in Generator.kt">
+      <option name="closed" value="true" />
+      <created>1706391089851</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1706391089851</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -712,7 +716,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fix of formatting X3" />
     <MESSAGE value="Added settings for LandGame.kt" />
     <MESSAGE value="Added normalizeResults option to the Settings.kt" />
     <MESSAGE value="Fixed icons on messages a little" />
@@ -737,7 +740,8 @@
     <MESSAGE value="Removed old chat classes. Renamed AChat2.kt to Chat.kt" />
     <MESSAGE value="Fixed lags when scrolling CharactersList.kt. Added a new bug when it stuck on characters loading" />
     <MESSAGE value="Increased timeout from 10 to 30 minutes for generate endpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="Increased timeout from 10 to 30 minutes for generate endpoint" />
+    <MESSAGE value="Small fixes in Generator.kt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small fixes in Generator.kt" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -29,6 +29,7 @@ class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
         element<Float>("typical")
         element<List<Int>>("sampler_order")
         element<Int>("seed")
+        element<Float>("dynatemp_range")
     }
 
     override fun deserialize(decoder: Decoder): GeneratingSettings = decoder.decodeStructure(descriptor) {
@@ -51,6 +52,7 @@ class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
                 11 -> generatingSettings.typical = decodeFloatElement(descriptor, 11)
                 12 -> generatingSettings.samplerOrder = decodeSerializableElement(descriptor, 12, ListSerializer(Int.serializer())).toMutableStateList()
                 13 -> generatingSettings.seed = decodeIntElement(descriptor, 13)
+                14 -> generatingSettings.dynatempRange = decodeFloatElement(descriptor, 14)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -73,5 +75,6 @@ class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
         encodeFloatElement(descriptor, 11, value.typical)
         encodeSerializableElement(descriptor, 12, ListSerializer(Int.serializer()), value.samplerOrder)
         encodeIntElement(descriptor, 13, value.seed)
+        encodeFloatElement(descriptor, 14, value.dynatempRange)
     }
 }

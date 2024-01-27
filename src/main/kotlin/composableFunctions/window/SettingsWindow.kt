@@ -471,11 +471,11 @@ private fun Generating() {
             )
 
             DescriptionSlider(
-                name = "Repetition Penalty",
-                value = settings.generating.repPen,
-                onValueChange = { settings.generating.repPen = it },
-                onValueChangeFinished = { settings.generating.repPen = it },
-                valueRange = settings.generating.repPenValueRange,
+                name = "Dynamic Temperature Range",
+                value = settings.generating.dynatempRange,
+                onValueChange = { settings.generating.dynatempRange = it },
+                onValueChangeFinished = { settings.generating.dynatempRange = it },
+                valueRange = settings.generating.dynatempRangeValueRange,
                 modifier = Modifier.weight(1F),
             )
         }
@@ -483,6 +483,15 @@ private fun Generating() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
+            DescriptionSlider(
+                name = "Repetition Penalty",
+                value = settings.generating.repPen,
+                onValueChange = { settings.generating.repPen = it },
+                onValueChangeFinished = { settings.generating.repPen = it },
+                valueRange = settings.generating.repPenValueRange,
+                modifier = Modifier.weight(1F),
+            )
+
             DescriptionSlider(
                 name = "Repetition Penalty Range",
                 value = settings.generating.repPenRange.toFloat(),
@@ -492,7 +501,11 @@ private fun Generating() {
                 intStep = 64,
                 modifier = Modifier.weight(1F),
             )
+        }
 
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
             DescriptionSlider(
                 name = "Rep Pen Slope",
                 value = settings.generating.repPenSlope,
@@ -501,6 +514,8 @@ private fun Generating() {
                 valueRange = settings.generating.repPenSlopeValueRange,
                 modifier = Modifier.weight(1F),
             )
+
+            Spacer(Modifier.weight(1F))
         }
 
         Row(
@@ -990,11 +1005,25 @@ private fun AppearanceSettings(
         modifier = modifier
     ) {
         item {
-            CheckboxText(
-                "Token streaming",
-                settings.tokenStreaming,
-                onChange = { settings.tokenStreaming = it }
-            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(padding),
+            ) {
+                CheckboxText(
+                    "Token streaming",
+                    settings.tokenStreaming,
+                    onChange = { settings.tokenStreaming = it }
+                )
+
+                DescriptionSlider(
+                    name = "Duration",
+                    value = settings.tokenStreamingDuration.toFloat(),
+                    onValueChange = { settings.tokenStreamingDuration = it.toInt() },
+                    onValueChangeFinished = { settings.tokenStreamingDuration = it.toInt() },
+                    valueRange = settings.tokenStreamingDurationValueRange,
+                    intStep = 100,
+                    modifier = Modifier.fillMaxWidth(0.4F),
+                )
+            }
 
             CheckboxText(
                 "Profile images",
