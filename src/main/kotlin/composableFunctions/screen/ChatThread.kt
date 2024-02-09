@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.input.pointer.PointerButton
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.ContentScale
@@ -128,14 +129,25 @@ fun ChatThread(
                 state = scrollState
             ) {
                 itemsIndexed(chat.messages) { index, message ->
-                    val messageModifier =
-                        if (isDeleting && index >= deletingIndex && index != 0) {
+                    var messageModifier by remember {
+                        mutableStateOf(
+                            Modifier
+                                .onPointerEvent(PointerEventType.Enter) {
+                                    if (isDeleting && index != 0) {
+                                        deletingIndex = index
+                                    }
+                                }
+                        )
+                    }
+
+                    LaunchedEffect(isDeleting, deletingIndex) {
+                        messageModifier = if (isDeleting && index >= deletingIndex && index != 0) {
                             Modifier
                                 .background(colorBackgroundDelete)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     deletingIndex = index
                                 }
-                                .onPointerEvent(PointerEventType.Release) {  // deleting clicks managing
+                                .onPointerEvent(PointerEventType.Release, PointerEventPass.Initial) {  // deleting clicks managing
                                     when (it.button) {
                                         PointerButton.Secondary -> {
                                             isDeleting = false
@@ -157,6 +169,7 @@ fun ChatThread(
                                     }
                                 }
                         }
+                    }
 
                     MessageView(
                         character = character,
@@ -284,7 +297,6 @@ fun ChatThread(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ChatControls(
     message: MutableState<TextFieldValue>,
@@ -831,6 +843,42 @@ private fun MessageContent(
                         val mainMessage = text.substringBeforeLast(showsImageString)
                         val root = parser.parse(mainMessage) as Document
                         MDDocument(root)
+
+                        /*val mainMessage = text.substringBeforeLast(showsImageString)
+                        Markdown(
+                            mainMessage,
+                            colors = markdownColor(
+                                text = colorText,
+                                codeText = colorCode,
+                                codeBackground = colorCodeBackground,
+                                inlineCodeBackground = colorCodeBackground,
+                                dividerColor = colorText,
+                            ),
+                            typography = markdownTypography(
+                                text = TextStyle(
+                                    fontSize = normalText,
+                                ),
+                                paragraph = TextStyle(
+                                    fontSize = normalText,
+                                ),
+                                code = TextStyle(
+                                    fontSize = normalText,
+                                    fontFamily = FontFamily.Monospace,
+                                ),
+                                quote = TextStyle(
+                                    fontSize = normalText,
+                                ),
+                                ordered = TextStyle(
+                                    fontSize = normalText,
+                                ),
+                                bullet = TextStyle(
+                                    fontSize = normalText,
+                                ),
+                                list = TextStyle(
+                                    fontSize = normalText,
+                                ),
+                            ),
+                        )*/
 
                         val imageMessageIndex = text.indexOf(showsImageString)
                         if (imageMessageIndex != -1) {

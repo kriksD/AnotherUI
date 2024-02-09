@@ -3,9 +3,9 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.20"
-    id("org.jetbrains.compose") version "1.4.0"
-    kotlin("plugin.serialization") version "1.8.20"
+    kotlin("jvm") version "1.9.22"
+    id("org.jetbrains.compose") version "1.5.12"
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 group = "me.longi"
@@ -25,6 +25,8 @@ dependencies {
     //implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation("org.commonmark:commonmark:0.21.0")
+    //implementation("com.mikepenz:multiplatform-markdown-renderer:0.12.0")
+    //implementation("com.mikepenz:multiplatform-markdown-renderer-jvm:0.12.0")
 
     implementation("io.ktor:ktor-client-core:2.2.4")
     implementation("io.ktor:ktor-client-cio:2.2.4")

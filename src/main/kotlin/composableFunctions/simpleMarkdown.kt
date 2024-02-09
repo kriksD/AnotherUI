@@ -1,7 +1,9 @@
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
@@ -58,12 +60,12 @@ fun MDDocument(document: Document) {
 @Composable
 fun MDHeading(heading: Heading, modifier: Modifier = Modifier) {
     val style = when (heading.level) {
-        1 -> MaterialTheme.typography.h1
-        2 -> MaterialTheme.typography.h2
-        3 -> MaterialTheme.typography.h3
-        4 -> MaterialTheme.typography.h4
-        5 -> MaterialTheme.typography.h5
-        6 -> MaterialTheme.typography.h6
+        1 -> MaterialTheme.typography.h1.copy(colorText)
+        2 -> MaterialTheme.typography.h2.copy(colorText)
+        3 -> MaterialTheme.typography.h3.copy(colorText)
+        4 -> MaterialTheme.typography.h4.copy(colorText)
+        5 -> MaterialTheme.typography.h5.copy(colorText)
+        6 -> MaterialTheme.typography.h6.copy(colorText)
         else -> {
             // Invalid header...
             MDBlockChildren(heading)
@@ -158,7 +160,7 @@ fun MDBlockQuote(blockQuote: BlockQuote, modifier: Modifier = Modifier) {
     Box(modifier = modifier
         .drawBehind {
             drawLine(
-                color = color,
+                color = colorText,
                 strokeWidth = 2f,
                 start = Offset(12.dp.value, 0f),
                 end = Offset(12.dp.value, size.height)
@@ -168,7 +170,7 @@ fun MDBlockQuote(blockQuote: BlockQuote, modifier: Modifier = Modifier) {
         val text = buildAnnotatedString {
             pushStyle(
                 MaterialTheme.typography.body1.toSpanStyle()
-                    .plus(SpanStyle(fontStyle = FontStyle.Italic))
+                    .plus(SpanStyle(color = colorText, fontStyle = FontStyle.Italic))
             )
             appendMarkdownChildren(blockQuote, MaterialTheme.colors)
             pop()
@@ -180,10 +182,10 @@ fun MDBlockQuote(blockQuote: BlockQuote, modifier: Modifier = Modifier) {
 @Composable
 fun MDFencedCodeBlock(fencedCodeBlock: FencedCodeBlock, modifier: Modifier = Modifier) {
     val padding = if (fencedCodeBlock.parent is Document) 8.dp else 0.dp
-    Box(modifier = modifier.padding(start = 8.dp, bottom = padding)) {
+    Box(modifier = modifier.background(colorCodeBackground, RoundedCornerShape(4.dp)).padding(start = 8.dp, bottom = padding)) {
         Text(
             text = fencedCodeBlock.literal,
-            style = TextStyle(fontFamily = FontFamily.Monospace),
+            style = TextStyle(fontFamily = FontFamily.Monospace, color = colorCode, fontSize = normalText),
             modifier = modifier
         )
     }

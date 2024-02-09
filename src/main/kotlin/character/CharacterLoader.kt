@@ -78,8 +78,13 @@ class CharacterLoader {
             json.decodeFromString<CharacterInfo>(text)
 
         } catch (e: Exception) {
-            e.printStackTrace()
-            null
+            try {
+                json.decodeFromString<ChubFixData>(text).data
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
         }
     }
 
