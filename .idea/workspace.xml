@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added dynatemp_range and tokenStreamingDuration options to the Settings.kt">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterInfoChubFixSerializer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Small improvements for markdown rendering. Fix of characters JSON from Chub.ai">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/character/CharacterLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/character/CharacterLoader.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/screen/ChatThread.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/simpleMarkdown.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/composableFunctions/simpleMarkdown.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -277,8 +272,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.AnotherUI [createDistributable]" />
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.PresetsTest" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
@@ -382,14 +377,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00044" summary="Max temperature changed from 2 to 4">
-      <option name="closed" value="true" />
-      <created>1701698881403</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1701698881403</updated>
     </task>
     <task id="LOCAL-00045" summary="Small changes to the Land Game">
       <option name="closed" value="true" />
@@ -687,7 +674,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706392535676</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Small improvements for markdown rendering. Fix of characters JSON from Chub.ai">
+      <option name="closed" value="true" />
+      <created>1707471910631</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1707471910631</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -717,7 +712,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fixed icons on messages a little" />
     <MESSAGE value="Changes to LandGame.kt AI" />
     <MESSAGE value="A lot of small changes and fixes" />
     <MESSAGE value="Fix in LineGame.kt" />
@@ -742,7 +736,8 @@
     <MESSAGE value="Small fixes in Generator.kt" />
     <MESSAGE value="Added dynatemp_range and tokenStreamingDuration options to the Settings.kt" />
     <MESSAGE value="Replaced markdown" />
-    <option name="LAST_COMMIT_MESSAGE" value="Replaced markdown" />
+    <MESSAGE value="Small improvements for markdown rendering. Fix of characters JSON from Chub.ai" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small improvements for markdown rendering. Fix of characters JSON from Chub.ai" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -69,7 +69,7 @@ fun main() = application {
     var isCharacterRedacted by remember { mutableStateOf(false) }
     var characterToDelete by remember { mutableStateOf<ACharacter?>(null) }
 
-    val chats = remember { ChatLoader() }
+    val chats by remember { mutableStateOf(ChatLoader()) }
     var reloadChatThread by remember { mutableStateOf(false) }
 
     var background by remember {
@@ -244,15 +244,15 @@ fun main() = application {
                         Screen.Characters -> {
                             CharacterList(
                                 modifier = Modifier.fillMaxWidth(0.5F).weight(1F),
-                                characters.list,
+                                list = characters.list,
                                 onCharacterClick = { char ->
                                     headerText = char.jsonData.name
                                     characters.selected = char
-                                    characters.list.forEach { if (char.fileName != it.fileName) it.unloadImage() }
-                                    characters.selected?.loadImage()
                                     chats.load(char)
                                     chats.selectIfNotSelected(char)
                                     screen = Screen.Chat
+                                    characters.list.forEach { if (char.fileName != it.fileName) it.unloadImage() }
+                                    characters.selected?.loadImage()
                                 },
                                 onNewCharacter = {
                                     openWindow(OpenWindow.CreateCharacter)
