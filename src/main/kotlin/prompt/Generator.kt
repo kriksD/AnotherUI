@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import settings
 import showsImageString
 import user
-import java.lang.Long.max
+import kotlin.math.max
 
 class Generator(
     val chat: Chat,
@@ -39,6 +39,8 @@ class Generator(
         private set
     var isGeneratingUserMessage by mutableStateOf(false)
 
+    var firstMessageIndex = 0
+
     suspend fun generateNewMessage(
         userMessage: String? = null,
         userImage: ImageBitmap? = null,
@@ -53,13 +55,16 @@ class Generator(
             chat.save()
         }
 
-        val prompt = PromptBuilder()
+        val promptBuilder = PromptBuilder()
             .pattern(settings.promptSettings.pattern)
             .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
             .type(settings.promptSettings.type)
-            .build()
+            .firstMessageIndex(if (settings.promptSettings.reincludeErasedMessages) 0 else firstMessageIndex)
+
+        val prompt = promptBuilder.build()
+        promptBuilder.meta?.firstMessageIndex?.let { firstMessageIndex = max(it, firstMessageIndex) }
 
         val message = chat.addMessage("", character.jsonData.name, false)
 
@@ -112,6 +117,7 @@ class Generator(
             .character(character)
             .chat(chat)
             .type(settings.promptSettings.type)
+            .firstMessageIndex(if (settings.promptSettings.reincludeErasedMessages) 0 else firstMessageIndex)
             .forUser()
             .complete(userMessage.isNotBlank())
 
@@ -127,6 +133,7 @@ class Generator(
         }
 
         val prompt = promptBuilder.build()
+        promptBuilder.meta?.firstMessageIndex?.let { firstMessageIndex = max(it, firstMessageIndex) }
 
         val result = prompt?.let { KoboldAIClient.generate(it, character) } ?: run {
             isGenerating = false
@@ -148,14 +155,17 @@ class Generator(
         generatingSwipeIndex = message.swipeId.value
         val oldContent = message.content
 
-        val prompt = PromptBuilder()
+        val promptBuilder = PromptBuilder()
             .pattern(settings.promptSettings.pattern)
             .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
             .type(settings.promptSettings.type)
+            .firstMessageIndex(if (settings.promptSettings.reincludeErasedMessages) 0 else firstMessageIndex)
             .complete()
-            .build()
+
+        val prompt = promptBuilder.build()
+        promptBuilder.meta?.firstMessageIndex?.let { firstMessageIndex = max(it, firstMessageIndex) }
 
         if (settings.tokenStreaming) {
             launch {
@@ -203,14 +213,17 @@ class Generator(
         generatingSwipeIndex = message.swipeId.value
         val oldContent = message.content
 
-        val prompt = PromptBuilder()
+        val promptBuilder = PromptBuilder()
             .pattern(settings.promptSettings.pattern)
             .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
             .type(settings.promptSettings.type)
+            .firstMessageIndex(if (settings.promptSettings.reincludeErasedMessages) 0 else firstMessageIndex)
             .regenerate()
-            .build()
+
+        val prompt = promptBuilder.build()
+        promptBuilder.meta?.firstMessageIndex?.let { firstMessageIndex = max(it, firstMessageIndex) }
 
         if (settings.tokenStreaming) {
             message.updateSwipe(generatingSwipeIndex, "")
@@ -258,14 +271,17 @@ class Generator(
         message.swipeId.value = message.swipes.lastIndex
         generatingSwipeIndex = message.swipeId.value
 
-        val prompt = PromptBuilder()
+        val promptBuilder = PromptBuilder()
             .pattern(settings.promptSettings.pattern)
             .systemPrompt(settings.promptSettings.systemPrompt)
             .character(character)
             .chat(chat)
             .type(settings.promptSettings.type)
+            .firstMessageIndex(if (settings.promptSettings.reincludeErasedMessages) 0 else firstMessageIndex)
             .regenerate()
-            .build()
+
+        val prompt = promptBuilder.build()
+        promptBuilder.meta?.firstMessageIndex?.let { firstMessageIndex = max(it, firstMessageIndex) }
 
         if (settings.tokenStreaming) {
             message.updateSwipe(generatingSwipeIndex, "")

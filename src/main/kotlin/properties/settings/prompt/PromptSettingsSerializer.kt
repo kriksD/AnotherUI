@@ -20,6 +20,7 @@ class PromptSettingsSerializer : KSerializer<PromptSettings> {
         element<String>("user_instruct")
         element<String>("model_instruct")
         element<String>("stop_sequence")
+        element<Boolean>("reinclude_erased_messages")
     }
 
     override fun deserialize(decoder: Decoder): PromptSettings = decoder.decodeStructure(descriptor) {
@@ -35,6 +36,7 @@ class PromptSettingsSerializer : KSerializer<PromptSettings> {
                 4 -> promptSettings.userInstruct = decodeStringElement(descriptor, 4)
                 5 -> promptSettings.modelInstruct = decodeStringElement(descriptor, 5)
                 6 -> promptSettings.stopSequence = decodeStringElement(descriptor, 6)
+                7 -> promptSettings.reincludeErasedMessages = decodeBooleanElement(descriptor, 7)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -50,5 +52,6 @@ class PromptSettingsSerializer : KSerializer<PromptSettings> {
         encodeStringElement(descriptor, 4, value.userInstruct)
         encodeStringElement(descriptor, 5, value.modelInstruct)
         encodeStringElement(descriptor, 6, value.stopSequence)
+        encodeBooleanElement(descriptor, 7, value.reincludeErasedMessages)
     }
 }

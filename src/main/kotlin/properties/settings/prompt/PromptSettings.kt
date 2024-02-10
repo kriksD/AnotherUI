@@ -23,6 +23,7 @@ class PromptSettings(
     userInstruct: String = "<|user|>{{prompt}}",
     modelInstruct: String = "<|model|>{{prompt}}",
     stopSequence: String = "<|user|>,<|model|>",
+    reincludeErasedMessages: Boolean = true,
 ) {
     var type: PromptType by mutableStateOf(type)
     var pattern: String by mutableStateOf(pattern)
@@ -31,6 +32,7 @@ class PromptSettings(
     var userInstruct: String by mutableStateOf(userInstruct)
     var modelInstruct: String by mutableStateOf(modelInstruct)
     var stopSequence: String by mutableStateOf(stopSequence)
+    var reincludeErasedMessages: Boolean by mutableStateOf(reincludeErasedMessages)
 
     fun copy(): PromptSettings {
         return PromptSettings(
@@ -41,6 +43,7 @@ class PromptSettings(
             userInstruct,
             modelInstruct,
             stopSequence,
+            reincludeErasedMessages,
         )
     }
 

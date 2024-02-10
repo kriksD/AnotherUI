@@ -26,6 +26,9 @@ class PromptBuilder {
         {{messageExample}}
         {{chat}}
     """.trimIndent()
+    private var firstMessageIndex: Int = 0
+
+    var meta: PromptBuilderMeta? = null
 
     fun type(type: PromptType): PromptBuilder {
         this.type = type
@@ -69,6 +72,11 @@ class PromptBuilder {
 
     fun pattern(pattern: String): PromptBuilder {
         this.pattern = pattern
+        return this
+    }
+
+    fun firstMessageIndex(index: Int): PromptBuilder {
+        this.firstMessageIndex = index
         return this
     }
 
@@ -166,14 +174,17 @@ class PromptBuilder {
         var messagesPrompt = ""
         val lastIndex = if (regenerate) mergedMessages.lastIndex - 1 else mergedMessages.lastIndex
 
-        for (messageIndex in lastIndex downTo 0) {
+        for (messageIndex in lastIndex downTo firstMessageIndex) {
             val message = mergedMessages[messageIndex]
 
             val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null
 
             tokensLeft -= messageTokenCount
-            if (tokensLeft < 0) break
+            if (tokensLeft < 0) {
+                meta = PromptBuilderMeta(messageIndex + 1)
+                break
+            }
 
             val instructMessage = if (messageIndex == lastIndex && complete) {
                 message.lastStringInstruct.format(character)
@@ -250,14 +261,17 @@ class PromptBuilder {
         var messagesPrompt = ""
         val lastIndex = if (regenerate) mergedMessages.lastIndex - 1 else mergedMessages.lastIndex
 
-        for (messageIndex in lastIndex downTo 0) {
+        for (messageIndex in lastIndex downTo firstMessageIndex) {
             val message = mergedMessages[messageIndex]
 
             val messageTokenCount = KoboldAIClient.countTokens(message.content)
             if (messageTokenCount == -1) return null
 
             tokensLeft -= messageTokenCount
-            if (tokensLeft < 0) break
+            if (tokensLeft < 0) {
+                meta = PromptBuilderMeta(messageIndex + 1)
+                break
+            }
 
             messagesPrompt = "${message.string.format(character)}\n$messagesPrompt"
         }

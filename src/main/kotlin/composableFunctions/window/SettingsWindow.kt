@@ -178,7 +178,7 @@ private fun ScreenControls(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(biggerPadding)
     ) {
-        SettingsScreen.values().forEach {
+        SettingsScreen.entries.forEach {
             if (it != SettingsScreen.Character || isCharacter) {
                 ScreenButton(
                     it,
@@ -707,9 +707,15 @@ private fun DraggableSamplerLine(
 @Composable
 private fun Prompt() {
     CheckboxText(
-        "instruct",
+        "Instruct",
         settings.promptSettings.type == PromptType.Instruct,
         onChange = { settings.promptSettings.type = if (it) PromptType.Instruct else PromptType.Chat },
+    )
+
+    CheckboxText(
+        "Reinclude erased messages",
+        settings.promptSettings.reincludeErasedMessages,
+        onChange = { settings.promptSettings.reincludeErasedMessages = it },
     )
 
     TextFieldWithTokens(
