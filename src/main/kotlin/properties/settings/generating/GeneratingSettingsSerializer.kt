@@ -14,7 +14,7 @@ import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
 
 class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("chat.GeneratingSettings") {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("GeneratingSettings") {
         element<Int>("max_context_length")
         element<Int>("max_length")
         element<Float>("rep_pen")
@@ -30,6 +30,7 @@ class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
         element<List<Int>>("sampler_order")
         element<Int>("seed")
         element<Float>("dynatemp_range")
+        element<Float>("smoothing_factor")
     }
 
     override fun deserialize(decoder: Decoder): GeneratingSettings = decoder.decodeStructure(descriptor) {
@@ -53,6 +54,7 @@ class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
                 12 -> generatingSettings.samplerOrder = decodeSerializableElement(descriptor, 12, ListSerializer(Int.serializer())).toMutableStateList()
                 13 -> generatingSettings.seed = decodeIntElement(descriptor, 13)
                 14 -> generatingSettings.dynatempRange = decodeFloatElement(descriptor, 14)
+                15 -> generatingSettings.smoothingFactor = decodeFloatElement(descriptor, 15)
                 else -> throw SerializationException("Unexpected index $index")
             }
         }
@@ -76,5 +78,6 @@ class GeneratingSettingsSerializer : KSerializer<GeneratingSettings> {
         encodeSerializableElement(descriptor, 12, ListSerializer(Int.serializer()), value.samplerOrder)
         encodeIntElement(descriptor, 13, value.seed)
         encodeFloatElement(descriptor, 14, value.dynatempRange)
+        encodeFloatElement(descriptor, 15, value.smoothingFactor)
     }
 }

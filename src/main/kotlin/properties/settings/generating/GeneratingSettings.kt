@@ -22,6 +22,7 @@ class GeneratingSettings(
     topP: Float = 0.9F,
     minP: Float = 0.1F,
     typical: Float = 1F,
+    smoothingFactor: Float = 0.0F,
     samplerOrder: SnapshotStateList<Int> = mutableStateListOf(/*6, 0, 1, 2, 3, 4, 5*/ 6, 0, 1, 3, 4, 2, 5),
     seed: Int = -1,
 ) {
@@ -38,6 +39,7 @@ class GeneratingSettings(
     var topP: Float by mutableStateOf(topP)
     var minP: Float by mutableStateOf(minP)
     var typical: Float by mutableStateOf(typical)
+    var smoothingFactor: Float by mutableStateOf(smoothingFactor)
     var samplerOrder: SnapshotStateList<Int> by mutableStateOf(samplerOrder)
     var seed: Int by mutableStateOf(seed)
 
@@ -54,6 +56,7 @@ class GeneratingSettings(
     val topPValueRange get() = 0.0F..1.0F
     val minPValueRange get() = 0.0F..1.0F
     val typicalValueRange get() = 0.0F..1.0F
+    val smoothingFactorValueRange get() = 0.0F..10.0F
 
     fun copy(): GeneratingSettings {
         return GeneratingSettings(
@@ -70,6 +73,7 @@ class GeneratingSettings(
             topP,
             minP,
             typical,
+            smoothingFactor,
             samplerOrder,
             seed,
         )

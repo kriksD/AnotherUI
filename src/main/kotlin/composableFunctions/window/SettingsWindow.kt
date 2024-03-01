@@ -484,6 +484,21 @@ private fun Generating() {
             horizontalArrangement = Arrangement.spacedBy(padding)
         ) {
             DescriptionSlider(
+                name = "Smoothing Factor",
+                value = settings.generating.smoothingFactor,
+                onValueChange = { settings.generating.smoothingFactor = it },
+                onValueChangeFinished = { settings.generating.smoothingFactor = it },
+                valueRange = settings.generating.smoothingFactorValueRange,
+                modifier = Modifier.weight(1F),
+            )
+
+            Spacer(modifier = Modifier.weight(1F))
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(padding)
+        ) {
+            DescriptionSlider(
                 name = "Repetition Penalty",
                 value = settings.generating.repPen,
                 onValueChange = { settings.generating.repPen = it },

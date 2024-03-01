@@ -33,6 +33,7 @@ data class Prompt(
     val min_p: Float,
     val typical: Float,
     val dynatemp_range: Float,
+    val smoothing_factor: Float,
     val sampler_order: List<Int>,
     val use_default_badwordsids: Boolean,
     val seed: Int,

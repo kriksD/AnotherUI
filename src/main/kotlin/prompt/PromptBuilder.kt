@@ -106,6 +106,7 @@ class PromptBuilder {
             top_p = settings.generating.topP,
             min_p = settings.generating.minP,
             typical = settings.generating.typical,
+            smoothing_factor = settings.generating.smoothingFactor,
             dynatemp_range = settings.generating.dynatempRange,
             sampler_order = settings.generating.samplerOrder,
             use_default_badwordsids = false,

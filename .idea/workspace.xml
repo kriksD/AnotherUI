@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Added reincludeErasedMessages option to the PromptSettings.kt">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Moved .format() to the end of building prompt to cover all instances of {{char}} and {{user}}">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/chat/ChatLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/Prompt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/Prompt.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettings.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,8 +274,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.AnotherUI [createDistributable]" />
         <item itemvalue="Gradle.PresetsTest" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset deleting" />
         <item itemvalue="Gradle.GeneratingPresetsTest.test generating setting preset saving" />
@@ -379,14 +379,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Little fix">
-      <option name="closed" value="true" />
-      <created>1702046501738</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1702046501738</updated>
     </task>
     <task id="LOCAL-00048" summary="Fix for koboldcpp 1.52.1">
       <option name="closed" value="true" />
@@ -684,7 +676,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707567138650</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="Moved .format() to the end of building prompt to cover all instances of {{char}} and {{user}}">
+      <option name="closed" value="true" />
+      <created>1709325101239</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1709325101239</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -714,7 +714,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fix in LineGame.kt" />
     <MESSAGE value="Changed minimum size of the field in the games from 8 to 4. Fixed a bug in LandGame.kt" />
     <MESSAGE value="Fixed a bug in PairGame.kt" />
     <MESSAGE value="Reworked image loading for characters. Removed list view option for CharactersList.kt" />
@@ -739,7 +738,8 @@
     <MESSAGE value="Small improvements for markdown rendering. Fix of characters JSON from Chub.ai" />
     <MESSAGE value="Attempt to fix the increase in RAM usage" />
     <MESSAGE value="Added reincludeErasedMessages option to the PromptSettings.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added reincludeErasedMessages option to the PromptSettings.kt" />
+    <MESSAGE value="Moved .format() to the end of building prompt to cover all instances of {{char}} and {{user}}" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved .format() to the end of building prompt to cover all instances of {{char}} and {{user}}" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
