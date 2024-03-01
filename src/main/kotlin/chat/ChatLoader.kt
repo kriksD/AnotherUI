@@ -2,6 +2,7 @@ package chat
 
 import androidx.compose.runtime.*
 import character.ACharacter
+import client.format
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import java.io.File
@@ -50,7 +51,7 @@ class ChatLoader {
                     false,
                     dateCreate,
                     mutableStateOf(0),
-                    (listOf(character.jsonData.firstMessage) + character.jsonData.alternateGreetings).toMutableStateList(),
+                    (listOf(character.jsonData.firstMessage) + character.jsonData.alternateGreetings).map { it.format(character) }.toMutableStateList(),
                 )
             ),
         )

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import character.*
 import chat.ChatLoader
+import client.format
 import client.kobold.KoboldAIClient
 import client.stablediffusion.StableDiffusionWebUIClient
 import composableFunctions.AppearDisappearAnimation
@@ -124,7 +125,7 @@ fun main() = application {
                             val firstMessage = selected.messages.first()
 
                             if (!firstMessage.isUser) {
-                                firstMessage.updateSwipe(0, char.jsonData.firstMessage)
+                                firstMessage.updateSwipe(0, char.jsonData.firstMessage.format(char))
                                 selected.save()
                             }
                         }
