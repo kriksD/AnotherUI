@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -147,7 +146,10 @@ fun ChatThread(
                                 .onPointerEvent(PointerEventType.Enter) {
                                     deletingIndex = index
                                 }
-                                .onPointerEvent(PointerEventType.Release, PointerEventPass.Initial) {  // deleting clicks managing
+                                .onPointerEvent(
+                                    PointerEventType.Release,
+                                    PointerEventPass.Initial
+                                ) {  // deleting clicks managing
                                     when (it.button) {
                                         PointerButton.Secondary -> {
                                             isDeleting = false
@@ -835,61 +837,59 @@ private fun MessageContent(
                     onValueChange = onChange,
                 )
             } else {
-                SelectionContainer {
-                    Column(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        val parser = Parser.builder().build()
-                        val mainMessage = text.substringBeforeLast(showsImageString)
-                        val root = parser.parse(mainMessage) as Document
-                        MDDocument(root)
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    val parser = Parser.builder().build()
+                    val mainMessage = text.substringBeforeLast(showsImageString)
+                    val root = parser.parse(mainMessage) as Document
+                    MDDocument(root)
 
-                        /*val mainMessage = text.substringBeforeLast(showsImageString)
-                        Markdown(
-                            mainMessage,
-                            colors = markdownColor(
-                                text = colorText,
-                                codeText = colorCode,
-                                codeBackground = colorCodeBackground,
-                                inlineCodeBackground = colorCodeBackground,
-                                dividerColor = colorText,
+                    /*val mainMessage = text.substringBeforeLast(showsImageString)
+                    Markdown(
+                        mainMessage,
+                        colors = markdownColor(
+                            text = colorText,
+                            codeText = colorCode,
+                            codeBackground = colorCodeBackground,
+                            inlineCodeBackground = colorCodeBackground,
+                            dividerColor = colorText,
+                        ),
+                        typography = markdownTypography(
+                            text = TextStyle(
+                                fontSize = normalText,
                             ),
-                            typography = markdownTypography(
-                                text = TextStyle(
-                                    fontSize = normalText,
-                                ),
-                                paragraph = TextStyle(
-                                    fontSize = normalText,
-                                ),
-                                code = TextStyle(
-                                    fontSize = normalText,
-                                    fontFamily = FontFamily.Monospace,
-                                ),
-                                quote = TextStyle(
-                                    fontSize = normalText,
-                                ),
-                                ordered = TextStyle(
-                                    fontSize = normalText,
-                                ),
-                                bullet = TextStyle(
-                                    fontSize = normalText,
-                                ),
-                                list = TextStyle(
-                                    fontSize = normalText,
-                                ),
+                            paragraph = TextStyle(
+                                fontSize = normalText,
                             ),
-                        )*/
+                            code = TextStyle(
+                                fontSize = normalText,
+                                fontFamily = FontFamily.Monospace,
+                            ),
+                            quote = TextStyle(
+                                fontSize = normalText,
+                            ),
+                            ordered = TextStyle(
+                                fontSize = normalText,
+                            ),
+                            bullet = TextStyle(
+                                fontSize = normalText,
+                            ),
+                            list = TextStyle(
+                                fontSize = normalText,
+                            ),
+                        ),
+                    )*/
 
-                        val imageMessageIndex = text.indexOf(showsImageString)
-                        if (imageMessageIndex != -1) {
-                            val imageMessage = text.substring(imageMessageIndex)
-                            Text(
-                                imageMessage.replace("*", ""),
-                                color = colorTextSecond,
-                                fontSize = smallText,
-                                fontStyle = FontStyle.Italic,
-                            )
-                        }
+                    val imageMessageIndex = text.indexOf(showsImageString)
+                    if (imageMessageIndex != -1) {
+                        val imageMessage = text.substring(imageMessageIndex)
+                        Text(
+                            imageMessage.replace("*", ""),
+                            color = colorTextSecond,
+                            fontSize = smallText,
+                            fontStyle = FontStyle.Italic,
+                        )
                     }
                 }
             }
