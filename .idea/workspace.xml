@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Moved .format() to the end of building prompt to cover all instances of {{char}} and {{user}}">
+    <list default="true" id="b76b4c63-6196-486a-baec-1e73dc2d2669" name="Changes" comment="Removed SelectionContainer from messages because of IllegalArgumentException: Another selectable with the id [...] has already subscribed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/Prompt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/Prompt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/prompt/PromptBuilder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/properties/settings/generating/GeneratingSettings.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +71,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;kriksD&quot;
+  }
+}</component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
       <filtered-out-file-type name="LOCAL_BRANCH" />
@@ -82,6 +85,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/kriksD/AnotherUI.git&quot;,
+    &quot;accountId&quot;: &quot;7f1a6cb2-ec90-4cf3-918a-9e26232adb06&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 6
@@ -120,6 +129,11 @@
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2678161&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;project.kotlinCompiler&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;kotlin-gradle-user-dirs&quot;: [
+      &quot;C:\\Users\\longi\\.gradle&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -282,15 +296,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
-        <option value="jdk-17.0.9-corretto-17.0.9-e1d2075fd9a7-f66d43ae" />
-        <option value="jdk-18.0.2-corretto-18.0.2-e1d2075fd9a7-1a4b3494" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\longi\AppData\Roaming\Subversion</configuration>
@@ -379,22 +384,6 @@
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
       <updated>1687462614284</updated>
-    </task>
-    <task id="LOCAL-00048" summary="Fix for koboldcpp 1.52.1">
-      <option name="closed" value="true" />
-      <created>1702678842276</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1702678842276</updated>
-    </task>
-    <task id="LOCAL-00049" summary="Small fixes with string formatting">
-      <option name="closed" value="true" />
-      <created>1702683213016</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1702683213016</updated>
     </task>
     <task id="LOCAL-00050" summary="Small changes to the LandGame">
       <option name="closed" value="true" />
@@ -684,7 +673,23 @@
       <option name="project" value="LOCAL" />
       <updated>1709325101239</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="Added smoothing factor to the settings">
+      <option name="closed" value="true" />
+      <created>1709326109514</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1709326109514</updated>
+    </task>
+    <task id="LOCAL-00087" summary="Removed SelectionContainer from messages because of IllegalArgumentException: Another selectable with the id [...] has already subscribed">
+      <option name="closed" value="true" />
+      <created>1709340464221</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1709340464221</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -714,8 +719,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Changed minimum size of the field in the games from 8 to 4. Fixed a bug in LandGame.kt" />
-    <MESSAGE value="Fixed a bug in PairGame.kt" />
     <MESSAGE value="Reworked image loading for characters. Removed list view option for CharactersList.kt" />
     <MESSAGE value="Fix of image loading" />
     <MESSAGE value="Remade generating settings into two columns instead of three" />
@@ -739,7 +742,9 @@
     <MESSAGE value="Attempt to fix the increase in RAM usage" />
     <MESSAGE value="Added reincludeErasedMessages option to the PromptSettings.kt" />
     <MESSAGE value="Moved .format() to the end of building prompt to cover all instances of {{char}} and {{user}}" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved .format() to the end of building prompt to cover all instances of {{char}} and {{user}}" />
+    <MESSAGE value="Added smoothing factor to the settings" />
+    <MESSAGE value="Removed SelectionContainer from messages because of IllegalArgumentException: Another selectable with the id [...] has already subscribed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed SelectionContainer from messages because of IllegalArgumentException: Another selectable with the id [...] has already subscribed" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

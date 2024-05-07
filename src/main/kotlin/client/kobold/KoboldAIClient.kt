@@ -24,6 +24,8 @@ object KoboldAIClient {
         install(HttpTimeout)
     }
 
+    private val json = Json { ignoreUnknownKeys = true }
+
     private val onConnectionChange = mutableMapOf<String, (Boolean) -> Unit>()
     var connectionStatus = false
         private set(value) {
@@ -52,7 +54,7 @@ object KoboldAIClient {
             connectionStatus = result.status.value in 200..299
 
             @Serializable data class Result(val result: String)
-            val modelName = Json.decodeFromString<Result>(result.body())
+            val modelName = json.decodeFromString<Result>(result.body())
             KoboldAIClient.modelName = modelName.result
 
             if (KoboldAIClient.modelName == "ReadOnly") {
@@ -75,11 +77,10 @@ object KoboldAIClient {
         try {
             val result = client.post("${createLink(extra = true)}/tokencount") {
                 contentType(ContentType.Application.Json)
-                setBody(Json.encodeToString(Body(text)))
+                setBody(json.encodeToString(Body(text)))
             }
             connectionStatus = result.status.value in 200..299
 
-            val json = Json { ignoreUnknownKeys = true }
             val count = json.decodeFromString<Result>(result.body())
             return count.value
 
@@ -118,7 +119,7 @@ object KoboldAIClient {
         return try {
             val result = client.post("${createLink()}/generate") {
                 contentType(ContentType.Application.Json)
-                setBody(Json.encodeToString(prompt))
+                setBody(json.encodeToString(prompt))
                 timeout {
                     requestTimeoutMillis = 1_800_000
                     socketTimeoutMillis = 1_800_000
@@ -126,7 +127,7 @@ object KoboldAIClient {
             }
             connectionStatus = result.status.value != 404
 
-            Json.decodeFromString<PromptResult>(result.body()).results.firstOrNull()?.text
+            json.decodeFromString<PromptResult>(result.body()).results.firstOrNull()?.text
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -141,7 +142,7 @@ object KoboldAIClient {
             }
             connectionStatus = result.status.value != 404
 
-            Json.decodeFromString<PromptResult>(result.body()).results.firstOrNull()?.text
+            json.decodeFromString<PromptResult>(result.body()).results.firstOrNull()?.text
 
         } catch (e: Exception) {
             e.printStackTrace()
